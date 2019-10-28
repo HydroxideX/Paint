@@ -41,6 +41,7 @@ public class Circle implements Shape  {
     }
 
     public void draw(Graphics canvas) {
+        canvas.setColor(color);
         canvas.drawOval(position.x,position.y,200,200);
     }
 

@@ -25,6 +25,12 @@
             <artifactId>fxgraphics2d</artifactId>
             <version>1.8</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 
