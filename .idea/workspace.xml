@@ -2,25 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4a36b63-2bc9-4f0b-bf4f-2e67ea07c56a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Paint-1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/Paint.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/DrawingEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/DrawingEngine.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Shape.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Shape.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/DummyShape.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/DummyShape.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/ReflectionHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/ReflectionHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/TestRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/TestRunner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/draw/IntegrationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/draw/IntegrationTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/draw/SanityTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/draw/SanityTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/draw/SmokeTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/draw/SmokeTest.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -166,6 +154,14 @@
       <updated>1572290469705</updated>
       <workItem from="1572290473815" duration="846000" />
     </task>
+    <task id="LOCAL-00001" summary="el push el mateen">
+      <created>1572293265160</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1572293265160</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -200,6 +196,8 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
+    <MESSAGE value="el push el mateen" />
+    <option name="LAST_COMMIT_MESSAGE" value="el push el mateen" />
   </component>
   <component name="masterDetails">
     <states>

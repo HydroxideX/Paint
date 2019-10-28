@@ -1,11 +1,12 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Circle implements Shape  {
     Point position;
-    Map<String, Double> properties;
+    Map<String, Double> properties=new HashMap<String, Double>();
     Color color;
     Color fillColor;
     public void setPosition(Point position) {
@@ -41,8 +42,10 @@ public class Circle implements Shape  {
     }
 
     public void draw(Graphics canvas) {
-        canvas.setColor(color);
-        canvas.drawOval(position.x,position.y,200,200);
+        canvas.setColor(getFillColor());
+        canvas.fillOval(getPosition().x,getPosition().y,getProperties().get("radius").intValue(),getProperties().get("radius").intValue());
+        canvas.setColor(getColor());
+        canvas.drawOval(getPosition().x,getPosition().y,getProperties().get("radius").intValue(),getProperties().get("radius").intValue());
     }
 
     public Object clone() throws CloneNotSupportedException {

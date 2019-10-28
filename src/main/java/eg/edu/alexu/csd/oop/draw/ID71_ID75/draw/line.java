@@ -41,7 +41,6 @@ public class line implements Shape {
     }
 
     public void draw(Graphics canvas) {
-
     }
 
     public Object clone() throws CloneNotSupportedException {

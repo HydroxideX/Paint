@@ -17,6 +17,8 @@ import org.jfree.fx.FXGraphics2D;
 import org.jfree.*;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Paint extends Application{
 
@@ -27,13 +29,16 @@ public class Paint extends Application{
     public void start(Stage primaryStage) throws Exception {
         Group root = new Group();
         Canvas canvas = new Canvas(500,550);
-        GraphicsContext gc=canvas.getGraphicsContext2D();
-        FXGraphics2D name = new FXGraphics2D(gc);
+        FXGraphics2D name = new FXGraphics2D(canvas.getGraphicsContext2D());
         Circle c= new Circle();
         c.setPosition(new Point(200,200));
-        c.setColor(Color.red);
+        c.setColor(Color.black);
+        c.setFillColor(Color.red);
+        Map<String,Double> m=new HashMap<String ,Double>();
+        m=c.getProperties();
+        m.put("radius", new Double(300));
+        c.setProperties(m);
         c.draw(name);
-
         root.getChildren().add(canvas);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
