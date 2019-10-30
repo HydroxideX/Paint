@@ -53,7 +53,7 @@ public class Triangle implements Shape  {
         canvas.setColor(getFillColor());
         canvas.fillPolygon(x,y,3);
         canvas.setColor(getColor());
-        canvas.fillPolygon(x,y,3);
+        canvas.drawPolygon(x,y,3);
     }
 
     public Object clone() throws CloneNotSupportedException {

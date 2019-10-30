@@ -43,9 +43,9 @@ public class Circle implements Shape  {
 
     public void draw(Graphics canvas) {
         canvas.setColor(getFillColor());
-        canvas.fillOval(getPosition().x,getPosition().y,getProperties().get("radius").intValue(),getProperties().get("radius").intValue());
+        canvas.fillOval(getPosition().x,getPosition().y,getProperties().get("diameter").intValue(),getProperties().get("diameter").intValue());
         canvas.setColor(getColor());
-        canvas.drawOval(getPosition().x,getPosition().y,getProperties().get("radius").intValue(),getProperties().get("radius").intValue());
+        canvas.drawOval(getPosition().x,getPosition().y,getProperties().get("diameter").intValue(),getProperties().get("diameter").intValue());
     }
 
     public Object clone() throws CloneNotSupportedException {

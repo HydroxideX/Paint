@@ -43,16 +43,17 @@ public class Ellipse implements Shape  {
 
     public void draw(Graphics canvas) {
         canvas.setColor(getFillColor());
-        canvas.fillOval(getPosition().x,getPosition().y,getProperties().get("width").intValue(),getProperties().get("height").intValue());
+        canvas.fillOval(getPosition().x,getPosition().y,getProperties().get("length").intValue(),getProperties().get("width").intValue());
         canvas.setColor(getColor());
-        canvas.drawOval(getPosition().x,getPosition().y,getProperties().get("width").intValue(),getProperties().get("height").intValue());
+        canvas.drawOval(getPosition().x,getPosition().y,getProperties().get("length").intValue(),getProperties().get("width").intValue());
     }
 
     public Object clone() throws CloneNotSupportedException {
-        Ellipse c=new Ellipse();
+        Ellipse c = new Ellipse();
         c.setProperties(getProperties());
         c.setPosition(getPosition());
         c.setColor(getColor());
         c.setFillColor(getFillColor());
-        return c;    }
+        return c;
+    }
 }

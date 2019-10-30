@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,6 +19,7 @@ import org.jfree.fx.FXGraphics2D;
 
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.DataOutput;
 import java.io.FileInputStream;
 import java.util.HashMap;
@@ -74,29 +76,10 @@ public class Paint extends Application{
         GraphicsContext gc = canvas.getGraphicsContext2D();
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
-        Engine engine = new Engine();
-        Circle c = new Circle();
-        Map <String,Double> m = new HashMap<String,Double>();
-        m.put("radius", Double.valueOf(100));
-        c.setPosition(new Point(0,0));
-        c.setFillColor(Color.BLUE);
-        c.setColor(Color.BLUE);
-        c.setProperties(m);
-        engine.addShape(c);
-        engine.refresh(graphics);
-        Square x = new Square();
-        x.setColor(Color.red);
-        x.setFillColor(Color.WHITE);
-        x.setPosition(new Point(0,0));
-        //m.clear();
-        m.put("length",Double.valueOf(100));
-        x.setProperties(m);
-        engine.addShape(x);
-        engine.refresh(graphics);
+
+
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
     }
-    Shape[] arrayOfShapes = new Shape[100000];
-    int index = 0;
 }
