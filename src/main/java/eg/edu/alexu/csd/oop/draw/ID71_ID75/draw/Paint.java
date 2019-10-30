@@ -75,6 +75,7 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
+        triangle.setOnAction(e->current="triangle");
         line.setOnAction(e->{
             current = "line";
         });
@@ -113,12 +114,26 @@ public class Paint extends Application{
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
         AtomicReference<Point> p = new AtomicReference<>(new Point());
+        AtomicReference<Point> t2 = new AtomicReference<>(new Point());
+        t2.set(new Point(-1,-1));
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
+        canvas.setOnMouseClicked(e->{
+            if(current=="triangle")
+            {
+                if(t2.get().x==-1)
+                p.set(new Point((int) e.getX(), (int) e.getY()));
+            }
+        });
         canvas.setOnMousePressed(e->{
             switch (current) {
                 case "select":{
+                    break;
+                }
+                case "triangle":{
+                    if(t2.get().x==-1)
+                    t2.set(new Point((int) e.getX(), (int) e.getY()));
                     break;
                 }
                 default:{
@@ -186,7 +201,24 @@ public class Paint extends Application{
                 }
                 case "circle":{
                     break;
-                } default:{
+                }
+                case "triangle":{
+                    Triangle r=new Triangle();
+                    r.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", (double) t2.get().x);
+                    length.put("y2", (double) t2.get().y);
+                    length.put("x3",  e.getX());
+                    length.put("y3",  e.getY());
+                    r.setFillColor(getColor(colorPicker2.getValue()));
+                    r.setColor(getColor(colorPicker.getValue()));
+                    r.setProperties(length);
+                    engine.addShape(r);
+                    engine.refresh(graphics);
+                    engine.removeShape(r);
+                    break;
+                }
+                default:{
                     break;
                 }
             }
@@ -245,7 +277,25 @@ public class Paint extends Application{
                 }
                 case "circle":{
                     break;
-                } default:{
+                }
+
+                case "triangle": {
+                    Triangle r = new Triangle();
+                    r.setPosition(p.get());
+                    Map<String, Double> length = new HashMap<String, Double>();
+                    length.put("x2", (double) t2.get().x);
+                    length.put("y2", (double) t2.get().y);
+                    length.put("x3", e.getX());
+                    length.put("y3", e.getY());
+                    r.setFillColor(getColor(colorPicker2.getValue()));
+                    r.setColor(getColor(colorPicker.getValue()));
+                    r.setProperties(length);
+                    engine.addShape(r);
+                    engine.refresh(graphics);
+                    t2.set(new Point(-1,-1));
+                    break;
+                }
+                default:{
                     break;
                 }
             }
