@@ -16,7 +16,7 @@ public class Engine implements DrawingEngine{
     int size = 100000;
     Shape[] arrayOfShapes = new Shape[size];
     int index = 0;
-
+    int index2 = 0;
     @Override
     public void refresh(Graphics canvas) {
         canvas.setColor(Color.WHITE);
@@ -28,6 +28,7 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void addShape(Shape shape) {
+        index2 = index;
         arrayOfShapes[index] = shape;
         index++;
     }
@@ -50,7 +51,7 @@ public class Engine implements DrawingEngine{
         if(removed) index--;
     }
 
-    public void RemoveLastShape(Shape shape){
+    public void RemoveLastShape(){
         index--;
     }
 

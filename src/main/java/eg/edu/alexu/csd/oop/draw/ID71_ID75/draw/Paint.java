@@ -132,27 +132,14 @@ public class Paint extends Application{
             switch (current){
                 case "line":{
                     line l = new line();
-                    l.setPosition(p);
+                    getLineValues(l,p,colorPicker);
                     Map<String,Double> secondPoint = new HashMap<String, Double>();
                     secondPoint.put("x2",Double.valueOf(e.getX()));
                     secondPoint.put("y2",Double.valueOf(e.getY()));
                     l.setProperties(secondPoint);
-                    Color v = colorPicker.getValue();
-                    int r = (int)v.getRed();
-                    int b = (int)v.getBlue();
-                    int g = (int)v.getGreen();
-                    int o = (int)v.getOpacity();
-                    java.awt.Color nw = new java.awt.Color(r,g,b,o);
-                    l.setFillColor(nw);
-                    l.setColor(nw);
                     engine.addShape(l);
                     engine.refresh(graphics);
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                    engine.RemoveLastShape(l);
+                    engine.RemoveLastShape();
                 }
                 case "square":{
                     break;
@@ -170,5 +157,45 @@ public class Paint extends Application{
                 }
             }
         });
+        canvas.setOnMouseReleased(e->{
+            switch (current){
+                case "line":{
+                    line l = new line();
+                    getLineValues(l,p,colorPicker);
+                    Map<String,Double> secondPoint = new HashMap<String, Double>();
+                    secondPoint.put("x2",Double.valueOf(e.getX()));
+                    secondPoint.put("y2",Double.valueOf(e.getY()));
+                    l.setProperties(secondPoint);
+                    engine.addShape(l);
+                    engine.refresh(graphics);
+                }
+                case "square":{
+                    break;
+                }
+                case "rectangle": {
+                    break;
+                }
+                case "ellipse":{
+                    break;
+                }
+                case "circle":{
+                    break;
+                } default:{
+                    break;
+                }
+            }
+        });
+    }
+
+    void getLineValues(line l,Point p,ColorPicker colorPicker){
+        l.setPosition(p);
+        Color v = colorPicker.getValue();
+        float r = (float)v.getRed();
+        float b = (float)v.getBlue();
+        float g = (float)v.getGreen();
+        float o = (float)v.getOpacity();
+        java.awt.Color nw = new java.awt.Color(r,g,b,o);
+        l.setFillColor(nw);
+        l.setColor(nw);
     }
 }
