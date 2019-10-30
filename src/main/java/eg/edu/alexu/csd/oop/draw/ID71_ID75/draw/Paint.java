@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -64,8 +65,9 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
+        ColorPicker colorPicker=new ColorPicker();
 
-        shapes.getChildren().addAll(line,Circle,ellipse,rectangle,square,triangle);
+        shapes.getChildren().addAll(line,Circle,ellipse,rectangle,square,triangle,colorPicker);
 
         Canvas canvas = new Canvas(650,700);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
