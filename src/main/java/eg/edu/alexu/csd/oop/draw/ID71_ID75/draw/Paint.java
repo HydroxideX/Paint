@@ -81,6 +81,7 @@ public class Paint extends Application{
         rectangle.setOnAction(e->{
             current = "rectangle";
         });
+        ellipse.setOnAction(e->current="ellipse");
 
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -170,6 +171,17 @@ public class Paint extends Application{
                     break;
                 }
                 case "ellipse":{
+                    Ellipse r = new Ellipse();
+                    r.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
+                    r.setFillColor(getColor(colorPicker2.getValue()));
+                    r.setColor(getColor(colorPicker.getValue()));
+                    r.setProperties(length);
+                    engine.addShape(r);
+                    engine.refresh(graphics);
+                    engine.removeShape(r);
                     break;
                 }
                 case "circle":{
@@ -219,6 +231,16 @@ public class Paint extends Application{
                     break;
                 }
                 case "ellipse":{
+                    Ellipse r = new Ellipse();
+                    r.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
+                    r.setFillColor(getColor(colorPicker2.getValue()));
+                    r.setColor(getColor(colorPicker.getValue()));
+                    r.setProperties(length);
+                    engine.addShape(r);
+                    engine.refresh(graphics);
                     break;
                 }
                 case "circle":{

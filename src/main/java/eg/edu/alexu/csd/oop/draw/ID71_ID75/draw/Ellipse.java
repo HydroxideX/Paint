@@ -42,10 +42,14 @@ public class Ellipse implements Shape  {
     }
 
     public void draw(Graphics canvas) {
+        Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
+        Point p3 = Correct(position,p1);
+        Double l = Double.valueOf(Math.abs(p1.x-position.x));
+        Double w = Double.valueOf(Math.abs(p1.y-position.y));
         canvas.setColor(getFillColor());
-        canvas.fillOval(getPosition().x,getPosition().y,getProperties().get("length").intValue(),getProperties().get("width").intValue());
+        canvas.fillOval(p3.x,p3.y,l.intValue(),w.intValue());
         canvas.setColor(getColor());
-        canvas.drawOval(getPosition().x,getPosition().y,getProperties().get("length").intValue(),getProperties().get("width").intValue());
+        canvas.drawOval(p3.x,p3.y,l.intValue(),w.intValue());
     }
 
     public Object clone() throws CloneNotSupportedException {
@@ -55,5 +59,16 @@ public class Ellipse implements Shape  {
         c.setColor(getColor());
         c.setFillColor(getFillColor());
         return c;
+    }
+
+    Point Correct(Point p1,Point p2){
+        Point p3 = new Point();
+        p3.x = min(p1.x,p2.x);
+        p3.y = min(p1.y,p2.y);
+        return p3;
+    }
+    int min(int a,int b){
+        if(a<b) return a;
+        return b;
     }
 }
