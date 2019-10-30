@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
