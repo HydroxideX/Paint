@@ -91,8 +91,13 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn12.png"));
         Button delete =new Button();
         delete.setGraphic(new ImageView(image));
-        shapes.getChildren().addAll(line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
-        Canvas canvas = new Canvas(650,700);
+        Button select=new Button();
+        image = new Image(new FileInputStream("Resources/mouse.png"));
+        select.setGraphic(new ImageView(image));
+        select.setMaxHeight(29);
+
+        shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
+        Canvas canvas = new Canvas(1000,600);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         can.setStyle("-fx-background-color: WHITE");
