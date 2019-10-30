@@ -135,6 +135,7 @@ public class Paint extends Application{
                     engine.addShape(l);
                     engine.refresh(graphics);
                     engine.RemoveLastShape();
+                    break;
                 }
                 case "square":{
                     Square s = new Square();
@@ -178,14 +179,17 @@ public class Paint extends Application{
                     l.setProperties(secondPoint);
                     engine.addShape(l);
                     engine.refresh(graphics);
+                    break;
                 }
                 case "square":{
                     Square s = new Square();
                     Point p2 = new Point((int)e.getX(),(int)e.getY());
-                    Correct(p.get(),p2);
-                    s.setPosition(p.get());
+                    Point p1 = new Point();
+                    p1 = p.get();
+                    Correct(p1,p2);
+                    s.setPosition(p1);
                     Map<String,Double> length = new HashMap<String, Double>();
-                    Double j = max(Double.valueOf(e.getX()),Double.valueOf(e.getY()));
+                    Double j = max(Double.valueOf(Math.abs(p1.x-p2.x)),Double.valueOf(Math.abs(p1.y-p2.y)));
                     length.put("length",j);
                     s.setFillColor(getColor(colorPicker2.getValue()));
                     s.setColor(getColor(colorPicker.getValue()));
