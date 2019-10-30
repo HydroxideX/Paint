@@ -116,8 +116,6 @@ public class Paint extends Application{
                 }
                 default:{
                     p.set(new Point((int) e.getX(), (int) e.getY()));
-                   /* p.x = (int)e.getX();
-                    p.y = (int)e.getY();*/
                     break;
                 }
             }
@@ -137,6 +135,9 @@ public class Paint extends Application{
                     engine.RemoveLastShape();
                 }
                 case "square":{
+                    Square s = new Square();
+                    Point p2 = new Point((int)e.getX(),(int)e.getY());
+                    Correct(p.get(),p2);
                     break;
                 }
                 case "rectangle": {
@@ -180,6 +181,29 @@ public class Paint extends Application{
                 }
             }
         });
+    }
+
+    void Correct(Point p1,Point p2){
+        Point p3 = new Point();
+        if(p1.x <= p2.x && p1.y <= p2.y) return;
+        if(p1.x >= p2.x && p2.y <= p1.y) {
+            p3.x = p1.x;
+            p3.y = p1.y;
+            p1.x = p2.x;
+            p1.y = p2.y;
+            p2.x = p3.x;
+            p2.y = p3.y;
+        }
+        if(p1.x >= p2.x && p2.y >= p1.y) {
+            p3.x = p1.x;
+            p1.x = p2.x;
+            p2.x = p3.x;
+        }
+        if(p1.x <= p2.x && p2.y <= p1.y) {
+            p3.y = p1.y;
+            p1.y = p2.y;
+            p2.y = p3.y;
+        }
     }
 
     void getLineValues(line l,Point p,ColorPicker colorPicker){
