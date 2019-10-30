@@ -2,50 +2,80 @@ package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.Scene;
 
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
-
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
-public class Paint extends Application{
+public class Paint extends Application implements DrawingEngine{
 
     public static void main(String[] args){
         launch(args);
     }
     public void start(Stage primaryStage) throws Exception {
-        VBox root = new VBox();
-        HBox menu=new HBox();
-        HBox shapes=new HBox();
-        HBox can=new HBox();
-
-        ChoiceBox addedShapes=new ChoiceBox();
-        Button save=new Button("Save");
-        Button load=new Button("load");
-        Button undo=new Button("Undo");
-        Button redo=new Button("Redo");
-
-        menu.getChildren().addAll(addedShapes,save,load,undo,redo);
-
-
-
+        Group root = new Group();
         Canvas canvas = new Canvas(650,700);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
-        can.getChildren().add(canvas);
-        root.getChildren().addAll(menu,shapes,can);
+        root.getChildren().add(canvas);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
     }
     Shape[] arrayOfShapes = new Shape[100000];
     int index = 0;
 
+    @Override
+    public void refresh(Graphics canvas) {
+        canvas.dispose();
+        canvas
+    }
 
+    @Override
+    public void addShape(Shape shape) {
+
+    }
+
+    @Override
+    public void removeShape(Shape shape) {
+
+    }
+
+    @Override
+    public void updateShape(Shape oldShape, Shape newShape) {
+
+    }
+
+    @Override
+    public Shape[] getShapes() {
+        return new Shape[0];
+    }
+
+    @Override
+    public List<Class<? extends Shape>> getSupportedShapes() {
+        return null;
+    }
+
+    @Override
+    public void undo() {
+
+    }
+
+    @Override
+    public void redo() {
+
+    }
+
+    @Override
+    public void save(String path) {
+
+    }
+
+    @Override
+    public void load(String path) {
+
+    }
 }
