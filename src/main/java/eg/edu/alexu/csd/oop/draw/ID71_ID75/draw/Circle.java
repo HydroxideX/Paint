@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Circle implements Shape  {
     private Point position;
-    private Map<String, Double> properties=new HashMap<String, Double>();
+    private Map<String, Double> properties= new HashMap<>();
     private Color color;
     private Color fillColor;
     public void setPosition(Point position) {

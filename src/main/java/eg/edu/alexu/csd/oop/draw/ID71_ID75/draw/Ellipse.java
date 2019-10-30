@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Ellipse implements Shape  {
-    Point position;
-    Map<String, Double> properties=new HashMap<String, Double>();
-    Color color;
-    Color fillColor;
+    private Point position;
+    private Map<String, Double> properties= new HashMap<>();
+    private Color color;
+    private Color fillColor;
     public void setPosition(Point position) {
         this.position=position;
     }

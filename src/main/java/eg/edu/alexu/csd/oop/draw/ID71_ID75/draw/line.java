@@ -1,14 +1,13 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 
-import javax.sound.sampled.Line;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class line implements Shape {
-    Point position;
-    Map<String, Double> properties=new HashMap<String, Double>();
-    Color color;
+    private Point position;
+    private Map<String, Double> properties= new HashMap<>();
+    private Color color;
     public void setPosition(Point position) {
         this.position = position;
     }
