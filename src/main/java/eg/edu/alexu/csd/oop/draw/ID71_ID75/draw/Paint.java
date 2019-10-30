@@ -9,9 +9,10 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
-public class Paint extends Application{
+public class Paint extends Application implements DrawingEngine{
 
     public static void main(String[] args){
         launch(args);
@@ -84,5 +85,55 @@ public class Paint extends Application{
         root.getChildren().add(canvas);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
+    }
+
+    @Override
+    public void refresh(Graphics canvas) {
+
+    }
+
+    @Override
+    public void addShape(Shape shape) {
+
+    }
+
+    @Override
+    public void removeShape(Shape shape) {
+
+    }
+
+    @Override
+    public void updateShape(Shape oldShape, Shape newShape) {
+
+    }
+
+    @Override
+    public Shape[] getShapes() {
+        return new Shape[0];
+    }
+
+    @Override
+    public List<Class<? extends Shape>> getSupportedShapes() {
+        return null;
+    }
+
+    @Override
+    public void undo() {
+
+    }
+
+    @Override
+    public void redo() {
+
+    }
+
+    @Override
+    public void save(String path) {
+
+    }
+
+    @Override
+    public void load(String path) {
+
     }
 }

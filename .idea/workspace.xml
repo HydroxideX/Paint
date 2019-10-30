@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4a36b63-2bc9-4f0b-bf4f-2e67ea07c56a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Ellipse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Ellipse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Rectangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Square.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Triangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +64,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Paint">
+  <component name="RunManager" selected="JUnit.IntegrationTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Paint" />
@@ -133,10 +130,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IntegrationTest" />
         <item itemvalue="Application.Paint" />
         <item itemvalue="Application.test" />
         <item itemvalue="JUnit.IntegrationTest (1)" />
-        <item itemvalue="JUnit.IntegrationTest" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -184,17 +181,6 @@
     <option name="localTasksCounter" value="5" />
     <servers />
   </component>
-  <component name="TestHistory">
-    <history-entry file="IntegrationTest - 2019.10.28 at 21h 23m 23s.xml">
-      <configuration name="IntegrationTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntegrationTest - 2019.10.28 at 21h 25m 55s.xml">
-      <configuration name="IntegrationTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntegrationTest - 2019.10.28 at 21h 27m 15s.xml">
-      <configuration name="IntegrationTest" configurationId="JUnit" />
-    </history-entry>
-  </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="846000" />
   </component>
@@ -223,6 +209,17 @@
     <MESSAGE value="shapes done" />
     <MESSAGE value="clones done" />
     <option name="LAST_COMMIT_MESSAGE" value="clones done" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/test/draw/IntegrationTest.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="masterDetails">
     <states>
