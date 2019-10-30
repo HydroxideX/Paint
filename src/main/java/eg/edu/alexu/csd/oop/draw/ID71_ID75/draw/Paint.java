@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Paint extends Application{
-
+    String current = "";
     public static void main(String[] args){
         launch(args);
     }
@@ -95,6 +95,9 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/mouse.png"));
         select.setGraphic(new ImageView(image));
         select.setMaxHeight(29);
+        select.setPrefHeight(29);
+        select.setMinHeight(29);
+
 
         shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
         Canvas canvas = new Canvas(1000,600);
@@ -103,7 +106,78 @@ public class Paint extends Application{
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
 
-
+        canvas.setOnMousePressed(e->{
+            switch (current){
+                case "line":{
+                    break;
+                }
+                case "triangle":{
+                    break;
+                }
+                case "square":{
+                    break;
+                }
+                case "rectangle":{
+                    break;
+                }
+                case "ellipse":{
+                    break;
+                }
+                case "circle":{
+                    break;
+                } default:{
+                    break;
+                }
+            }
+        });
+        canvas.setOnMouseDragged(e->{
+            switch (current){
+                case "line":{
+                    break;
+                }
+                case "triangle":{
+                    break;
+                }
+                case "square":{
+                    break;
+                }
+                case "rectangle":{
+                    break;
+                }
+                case "ellipse":{
+                    break;
+                }
+                case "circle":{
+                    break;
+                } default:{
+                    break;
+                }
+            }
+        });
+        canvas.setOnMouseReleased(e->{
+            switch (current){
+                case "line":{
+                    break;
+                }
+                case "triangle":{
+                    break;
+                }
+                case "square":{
+                    break;
+                }
+                case "rectangle":{
+                    break;
+                }
+                case "ellipse":{
+                    break;
+                }
+                case "circle":{
+                    break;
+                } default:{
+                    break;
+                }
+            }
+        });
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
