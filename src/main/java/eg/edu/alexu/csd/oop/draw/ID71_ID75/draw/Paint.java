@@ -78,6 +78,9 @@ public class Paint extends Application{
         line.setOnAction(e->{
             current = "line";
         });
+        rectangle.setOnAction(e->{
+            current = "rectangle";
+        });
 
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -153,6 +156,17 @@ public class Paint extends Application{
                     break;
                 }
                 case "rectangle": {
+                    Rectangle r = new Rectangle();
+                    r.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
+                    r.setFillColor(getColor(colorPicker2.getValue()));
+                    r.setColor(getColor(colorPicker.getValue()));
+                    r.setProperties(length);
+                    engine.addShape(r);
+                    engine.refresh(graphics);
+                    engine.removeShape(r);
                     break;
                 }
                 case "ellipse":{
@@ -189,10 +203,19 @@ public class Paint extends Application{
                     s.setProperties(length);
                     engine.addShape(s);
                     engine.refresh(graphics);
-                    engine.RemoveLastShape();
                     break;
                 }
                 case "rectangle": {
+                    Rectangle r = new Rectangle();
+                    r.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
+                    r.setFillColor(getColor(colorPicker2.getValue()));
+                    r.setColor(getColor(colorPicker.getValue()));
+                    r.setProperties(length);
+                    engine.addShape(r);
+                    engine.refresh(graphics);
                     break;
                 }
                 case "ellipse":{

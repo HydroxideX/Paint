@@ -46,7 +46,7 @@ public class Square implements Shape  {
         Point p2 = new Point();
         p2.x = position.x;
         p2.y = position.y;
-        Correct(p1,p2);
+        Correct(p2,p1);
         Double j = max(Double.valueOf(Math.abs(p1.x-p2.x)),Double.valueOf(Math.abs(p1.y-p2.y)));
         canvas.setColor(getFillColor());
         canvas.fillRect(p1.x,p1.y,j.intValue(),j.intValue());

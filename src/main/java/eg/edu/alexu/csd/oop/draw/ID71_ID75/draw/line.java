@@ -40,7 +40,7 @@ public class line implements Shape {
         return getColor();
     }
 
-    public void draw(Graphics canvas) {
+    public void draw (Graphics canvas) {
         canvas.setColor(getFillColor());
         canvas.drawLine(getPosition().x,getPosition().y,getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
     }
