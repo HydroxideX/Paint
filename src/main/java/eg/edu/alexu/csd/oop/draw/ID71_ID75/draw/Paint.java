@@ -97,7 +97,9 @@ public class Paint extends Application{
         select.setMaxHeight(29);
         select.setPrefHeight(29);
         select.setMinHeight(29);
-
+        square.setOnAction(e->{
+            current = "square";
+        });
         Engine engine = new Engine();
         shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
         Canvas canvas = new Canvas(1000,600);
@@ -137,7 +139,19 @@ public class Paint extends Application{
                 case "square":{
                     Square s = new Square();
                     Point p2 = new Point((int)e.getX(),(int)e.getY());
-                    Correct(p.get(),p2);
+                    Point p1 = new Point();
+                    p1 = p.get();
+                    Correct(p1,p2);
+                    s.setPosition(p1);
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    Double j = max(Double.valueOf(Math.abs(p1.x-p2.x)),Double.valueOf(Math.abs(p1.y-p2.y)));
+                    length.put("length",j);
+                    s.setFillColor(getColor(colorPicker2.getValue()));
+                    s.setColor(getColor(colorPicker.getValue()));
+                    s.setProperties(length);
+                    engine.addShape(s);
+                    engine.refresh(graphics);
+                    engine.RemoveLastShape();
                     break;
                 }
                 case "rectangle": {
@@ -166,6 +180,18 @@ public class Paint extends Application{
                     engine.refresh(graphics);
                 }
                 case "square":{
+                    Square s = new Square();
+                    Point p2 = new Point((int)e.getX(),(int)e.getY());
+                    Correct(p.get(),p2);
+                    s.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    Double j = max(Double.valueOf(e.getX()),Double.valueOf(e.getY()));
+                    length.put("length",j);
+                    s.setFillColor(getColor(colorPicker2.getValue()));
+                    s.setColor(getColor(colorPicker.getValue()));
+                    s.setProperties(length);
+                    engine.addShape(s);
+                    engine.refresh(graphics);
                     break;
                 }
                 case "rectangle": {
@@ -183,6 +209,10 @@ public class Paint extends Application{
         });
     }
 
+    Double max(Double v,Double r){
+        if(v >= r) return v;
+        return r;
+    }
     void Correct(Point p1,Point p2){
         Point p3 = new Point();
         if(p1.x <= p2.x && p1.y <= p2.y) return;
@@ -209,12 +239,13 @@ public class Paint extends Application{
     void getLineValues(line l,Point p,ColorPicker colorPicker){
         l.setPosition(p);
         Color v = colorPicker.getValue();
+        l.setColor(getColor(v));
+    }
+    java.awt.Color getColor(Color v){
         float r = (float)v.getRed();
         float b = (float)v.getBlue();
         float g = (float)v.getGreen();
         float o = (float)v.getOpacity();
-        java.awt.Color nw = new java.awt.Color(r,g,b,o);
-        l.setFillColor(nw);
-        l.setColor(nw);
+        return new java.awt.Color(r,g,b,o);
     }
 }
