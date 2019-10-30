@@ -18,10 +18,10 @@ import org.jfree.fx.FXGraphics2D;
 
 
 import java.awt.*;
-import java.awt.geom.Arc2D;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Paint extends Application{
@@ -82,6 +82,9 @@ public class Paint extends Application{
         rectangle.setOnAction(e->{
             current = "rectangle";
         });
+        Circle.setOnAction(e->{
+            current = "circle";
+        });
         ellipse.setOnAction(e->current="ellipse");
 
         Label Border=new Label(" Color: ");
@@ -115,25 +118,23 @@ public class Paint extends Application{
         can.getChildren().add(canvas);
         AtomicReference<Point> p = new AtomicReference<>(new Point());
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
-        t2.set(new Point(-1,-1));
+        AtomicInteger ct1 = new AtomicInteger();
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
-        canvas.setOnMouseClicked(e->{
-            if(current=="triangle")
-            {
-                if(t2.get().x==-1)
-                p.set(new Point((int) e.getX(), (int) e.getY()));
-            }
-        });
+
         canvas.setOnMousePressed(e->{
             switch (current) {
                 case "select":{
                     break;
                 }
                 case "triangle":{
-                    if(t2.get().x==-1)
-                    t2.set(new Point((int) e.getX(), (int) e.getY()));
+                    if(ct1.get() == 1) {
+                        t2.set(new Point((int) e.getX(), (int) e.getY()));
+                    } else {
+                        p.set(new Point((int) e.getX(), (int) e.getY()));
+                    }
+                    ct1.getAndIncrement();
                     break;
                 }
                 default:{
@@ -200,9 +201,21 @@ public class Paint extends Application{
                     break;
                 }
                 case "circle":{
+                    Circle c = new Circle();
+                    c.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
+                    c.setFillColor(getColor(colorPicker2.getValue()));
+                    c.setColor(getColor(colorPicker.getValue()));
+                    c.setProperties(length);
+                    engine.addShape(c);
+                    engine.refresh(graphics);
+                    engine.RemoveLastShape();
                     break;
                 }
                 case "triangle":{
+                    if(ct1.get() != 2) break;
                     Triangle r=new Triangle();
                     r.setPosition(p.get());
                     Map<String,Double> length = new HashMap<String, Double>();
@@ -280,6 +293,7 @@ public class Paint extends Application{
                 }
 
                 case "triangle": {
+                    if(ct1.get() != 2) break;
                     Triangle r = new Triangle();
                     r.setPosition(p.get());
                     Map<String, Double> length = new HashMap<String, Double>();
@@ -292,7 +306,7 @@ public class Paint extends Application{
                     r.setProperties(length);
                     engine.addShape(r);
                     engine.refresh(graphics);
-                    t2.set(new Point(-1,-1));
+                    ct1.set(0);
                     break;
                 }
                 default:{

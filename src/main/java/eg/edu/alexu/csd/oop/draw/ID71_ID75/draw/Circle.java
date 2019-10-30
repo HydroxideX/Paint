@@ -42,10 +42,27 @@ public class Circle implements Shape  {
     }
 
     public void draw(Graphics canvas) {
+        Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
+        Point p3 = Correct(position,p1);
+        Double l,w,mn;
+        if(p3.x == position.x && p3.y == position.y) {
+            l = Double.valueOf(Math.abs(p1.x - position.x));
+            w = Double.valueOf(Math.abs(p1.y - position.y));
+            mn = Double.valueOf(max(l.intValue(),w.intValue()));
+        }
+        else if(p3.x == position.x) {
+            mn = Double.valueOf(position.y-p3.y);
+        } else if (p3.y == position.y){
+            mn = Double.valueOf(position.x-p3.x);
+        } else {
+            if(position.x-p3.x < position.y-p3.y) p3.x = position.y - position.x + p3.y;
+            if(position.x-p3.x >position.y-p3.y) p3.x = position.x - position.y + p3.y;
+            mn = Double.valueOf(position.x-p3.x);
+        }
         canvas.setColor(getFillColor());
-        canvas.fillOval(getPosition().x,getPosition().y,getProperties().get("diameter").intValue(),getProperties().get("diameter").intValue());
+        canvas.fillOval(p3.x,p3.y,mn.intValue(),mn.intValue());
         canvas.setColor(getColor());
-        canvas.drawOval(getPosition().x,getPosition().y,getProperties().get("diameter").intValue(),getProperties().get("diameter").intValue());
+        canvas.drawOval(p3.x,p3.y,mn.intValue(),mn.intValue());
     }
 
     public Object clone() throws CloneNotSupportedException {
@@ -55,5 +72,19 @@ public class Circle implements Shape  {
         c.setColor(getColor());
         c.setFillColor(getFillColor());
         return c;
+    }
+    Point Correct(Point p1,Point p2){
+        Point p3 = new Point();
+        p3.x = min(p1.x,p2.x);
+        p3.y = min(p1.y,p2.y);
+        return p3;
+    }
+    int min(int a,int b){
+        if(a<b) return a;
+        return b;
+    }
+    int max(int a,int b){
+        if(a<b) return b;
+        return b;
     }
 }

@@ -44,9 +44,21 @@ public class Square implements Shape  {
     public void draw(Graphics canvas) {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
         Point p3 = Correct(position,p1);
-        Double l = Double.valueOf(Math.abs(p1.x-position.x));
-        Double w = Double.valueOf(Math.abs(p1.y-position.y));
-        Double mn = Double.valueOf(max(l.intValue(),w.intValue()));
+        Double l,w,mn;
+        if(p3.x == position.x && p3.y == position.y) {
+            l = Double.valueOf(Math.abs(p1.x - position.x));
+            w = Double.valueOf(Math.abs(p1.y - position.y));
+            mn = Double.valueOf(max(l.intValue(),w.intValue()));
+        }
+        else if(p3.x == position.x) {
+            mn = Double.valueOf(position.y-p3.y);
+        } else if (p3.y == position.y){
+            mn = Double.valueOf(position.x-p3.x);
+        } else {
+            if(position.x-p3.x < position.y-p3.y) p3.x = position.y - position.x + p3.y;
+            if(position.x-p3.x >position.y-p3.y) p3.x = position.x - position.y + p3.y;
+            mn = Double.valueOf(position.x-p3.x);
+        }
         canvas.setColor(getFillColor());
         canvas.fillRect(p3.x,p3.y,mn.intValue(),mn.intValue());
         canvas.setColor(getColor());
