@@ -44,8 +44,8 @@ public class Rectangle implements Shape  {
     public void draw(Graphics canvas) {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
         Point p3 = Correct(position,p1);
-        Double l = Double.valueOf(p1.x-position.x);
-        Double w = Double.valueOf(p1.y-position.y);
+        Double l = Double.valueOf(Math.abs(p1.x-position.x));
+        Double w = Double.valueOf(Math.abs(p1.y-position.y));
         canvas.setColor(getFillColor());
         canvas.fillRect(p3.x,p3.y,l.intValue(),w.intValue());
         canvas.setColor(getColor());
@@ -69,9 +69,5 @@ public class Rectangle implements Shape  {
     int min(int a,int b){
         if(a<b) return a;
         return b;
-    }
-    Double max(Double v,Double r){
-        if(v >= r) return v;
-        return r;
     }
 }
