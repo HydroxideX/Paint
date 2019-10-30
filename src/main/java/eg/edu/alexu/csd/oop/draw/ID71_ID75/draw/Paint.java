@@ -5,8 +5,10 @@ import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -14,6 +16,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.Scene;
 
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
@@ -33,6 +36,7 @@ public class Paint extends Application{
     }
     public void start(Stage primaryStage) throws Exception {
         VBox root = new VBox();
+        root.setSpacing(20);
         HBox menu=new HBox();
         HBox shapes=new HBox();
         HBox can=new HBox();
@@ -69,8 +73,24 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
+        VBox colors=new VBox();
+        HBox a=new HBox();
+        HBox b=new HBox();
+
+        Label Border=new Label("Color:");
+        Border.setFont(new Font("Arial", 15));
+        Label Fill=new Label("Fill:    ");
+        Fill.setFont(new Font("Arial", 15));
+        colors.setSpacing(10);
         ColorPicker colorPicker=new ColorPicker();
-        shapes.getChildren().addAll(line,Circle,ellipse,rectangle,square,triangle,colorPicker);
+        ColorPicker colorPicker2=new ColorPicker();
+        a.getChildren().addAll(Border,colorPicker);
+        b.getChildren().addAll(Fill,colorPicker2);
+        colors.getChildren().addAll(a,b);
+        image = new Image(new FileInputStream("Resources/btn12.png"));
+        Button delete =new Button();
+        delete.setGraphic(new ImageView(image));
+        shapes.getChildren().addAll(line,Circle,ellipse,rectangle,square,triangle,colors,delete);
         Canvas canvas = new Canvas(650,700);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         GraphicsContext gc = canvas.getGraphicsContext2D();
