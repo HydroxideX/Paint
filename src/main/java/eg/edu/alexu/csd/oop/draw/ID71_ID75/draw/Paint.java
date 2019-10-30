@@ -11,11 +11,9 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.scene.Scene;
 
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
@@ -36,10 +34,12 @@ public class Paint extends Application{
     }
     public void start(Stage primaryStage) throws Exception {
         VBox root = new VBox();
-        root.setSpacing(20);
+        root.setSpacing(5);
         HBox menu=new HBox();
         HBox shapes=new HBox();
         HBox can=new HBox();
+        menu.setSpacing(3);
+        shapes.setSpacing(3);
         Image image = new Image(new FileInputStream("Resources/btn13.png"));
         ChoiceBox addedShapes=new ChoiceBox();
         addedShapes.setValue("Default");
@@ -54,6 +54,10 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn9.png"));
         Button redo=new Button();
         redo.setGraphic(new ImageView(image));
+        undo.setMinHeight(31);
+        redo.setMinHeight(31);
+        addedShapes.setMinHeight(31);
+        addedShapes.setMinWidth(200);
         menu.getChildren().addAll(addedShapes,save,load,undo,redo);
         Button line =new Button();
         image = new Image(new FileInputStream("Resources/btn1.png"));
@@ -73,24 +77,21 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
-        VBox colors=new VBox();
-        HBox a=new HBox();
-        HBox b=new HBox();
 
-        Label Border=new Label("Color:");
-        Border.setFont(new Font("Arial", 15));
-        Label Fill=new Label("Fill:    ");
-        Fill.setFont(new Font("Arial", 15));
-        colors.setSpacing(10);
+
+        Label Border=new Label(" Color: ");
+        Border.setFont(new Font("Arial", 20));
+        Border.setCenterShape(true);
+        Label Fill=new Label(" Fill: ");
+        Fill.setFont(new Font("Arial", 20));
         ColorPicker colorPicker=new ColorPicker();
         ColorPicker colorPicker2=new ColorPicker();
-        a.getChildren().addAll(Border,colorPicker);
-        b.getChildren().addAll(Fill,colorPicker2);
-        colors.getChildren().addAll(a,b);
+        colorPicker.setMinHeight(29);
+        colorPicker2.setMinHeight(29);
         image = new Image(new FileInputStream("Resources/btn12.png"));
         Button delete =new Button();
         delete.setGraphic(new ImageView(image));
-        shapes.getChildren().addAll(line,Circle,ellipse,rectangle,square,triangle,colors,delete);
+        shapes.getChildren().addAll(line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
         Canvas canvas = new Canvas(650,700);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         GraphicsContext gc = canvas.getGraphicsContext2D();
