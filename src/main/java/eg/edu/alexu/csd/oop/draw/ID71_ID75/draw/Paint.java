@@ -18,6 +18,7 @@ import org.jfree.fx.FXGraphics2D;
 
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -139,14 +140,10 @@ public class Paint extends Application{
                 }
                 case "square":{
                     Square s = new Square();
-                    Point p2 = new Point((int)e.getX(),(int)e.getY());
-                    Point p1 = new Point();
-                    p1 = p.get();
-                    Correct(p1,p2);
-                    s.setPosition(p1);
+                    s.setPosition(p.get());
                     Map<String,Double> length = new HashMap<String, Double>();
-                    Double j = max(Double.valueOf(Math.abs(p1.x-p2.x)),Double.valueOf(Math.abs(p1.y-p2.y)));
-                    length.put("length",j);
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
                     s.setFillColor(getColor(colorPicker2.getValue()));
                     s.setColor(getColor(colorPicker.getValue()));
                     s.setProperties(length);
@@ -183,19 +180,16 @@ public class Paint extends Application{
                 }
                 case "square":{
                     Square s = new Square();
-                    Point p2 = new Point((int)e.getX(),(int)e.getY());
-                    Point p1 = new Point();
-                    p1 = p.get();
-                    Correct(p1,p2);
-                    s.setPosition(p1);
+                    s.setPosition(p.get());
                     Map<String,Double> length = new HashMap<String, Double>();
-                    Double j = max(Double.valueOf(Math.abs(p1.x-p2.x)),Double.valueOf(Math.abs(p1.y-p2.y)));
-                    length.put("length",j);
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
                     s.setFillColor(getColor(colorPicker2.getValue()));
                     s.setColor(getColor(colorPicker.getValue()));
                     s.setProperties(length);
                     engine.addShape(s);
                     engine.refresh(graphics);
+                    engine.RemoveLastShape();
                     break;
                 }
                 case "rectangle": {
@@ -211,33 +205,6 @@ public class Paint extends Application{
                 }
             }
         });
-    }
-
-    Double max(Double v,Double r){
-        if(v >= r) return v;
-        return r;
-    }
-    void Correct(Point p1,Point p2){
-        Point p3 = new Point();
-        if(p1.x <= p2.x && p1.y <= p2.y) return;
-        else if(p1.x >= p2.x && p2.y <= p1.y) {
-            p3.x = p1.x;
-            p3.y = p1.y;
-            p1.x = p2.x;
-            p1.y = p2.y;
-            p2.x = p3.x;
-            p2.y = p3.y;
-        }
-        else if(p1.x >= p2.x && p2.y >= p1.y) {
-            p3.x = p1.x;
-            p1.x = p2.x;
-            p2.x = p3.x;
-        }
-        else if(p1.x <= p2.x && p2.y <= p1.y) {
-            p3.y = p1.y;
-            p1.y = p2.y;
-            p2.y = p3.y;
-        }
     }
 
     void getLineValues(line l,Point p,ColorPicker colorPicker){
