@@ -289,6 +289,16 @@ public class Paint extends Application{
                     break;
                 }
                 case "circle":{
+                    Circle c = new Circle();
+                    c.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
+                    c.setFillColor(getColor(colorPicker2.getValue()));
+                    c.setColor(getColor(colorPicker.getValue()));
+                    c.setProperties(length);
+                    engine.addShape(c);
+                    engine.refresh(graphics);
                     break;
                 }
 
