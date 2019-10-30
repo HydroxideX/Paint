@@ -17,7 +17,6 @@ public class Paint extends Application implements DrawingEngine{
     public static void main(String[] args){
         launch(args);
     }
-    @Override
     public void start(Stage primaryStage) throws Exception {
         Group root = new Group();
         Canvas canvas = new Canvas(650,700);
@@ -26,7 +25,8 @@ public class Paint extends Application implements DrawingEngine{
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
     }
-
+    Shape[] arrayOfShapes = new Shape[100000];
+    int index = 0;
     @Override
     public void refresh(Graphics canvas) {
 
