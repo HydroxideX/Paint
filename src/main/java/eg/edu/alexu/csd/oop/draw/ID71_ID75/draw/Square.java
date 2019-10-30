@@ -46,7 +46,7 @@ public class Square implements Shape  {
         Point p3 = Correct(position,p1);
         Double l = Double.valueOf(Math.abs(p1.x-position.x));
         Double w = Double.valueOf(Math.abs(p1.y-position.y));
-        Double mn = Double.valueOf(min(l.intValue(),w.intValue()));
+        Double mn = Double.valueOf(max(l.intValue(),w.intValue()));
         canvas.setColor(getFillColor());
         canvas.fillRect(p3.x,p3.y,mn.intValue(),mn.intValue());
         canvas.setColor(getColor());
@@ -70,6 +70,10 @@ public class Square implements Shape  {
     }
     int min(int a,int b){
         if(a<b) return a;
+        return b;
+    }
+    int max(int a,int b){
+        if(a<b) return b;
         return b;
     }
 }
