@@ -19,7 +19,8 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void refresh(Graphics canvas) {
-        canvas.dispose();
+        canvas.setColor(Color.WHITE);
+        canvas.fillRect(0,0,600,700);
         for(int i = 0;i<index;i++){
             arrayOfShapes[i].draw(canvas);
         }
