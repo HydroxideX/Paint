@@ -56,7 +56,7 @@ public class Paint extends Application{
         redo.setMinHeight(31);
         addedShapes.setMinHeight(31);
         addedShapes.setMinWidth(200);
-        menu.getChildren().addAll(addedShapes,save,load,undo,redo);
+        
         Button line =new Button();
         image = new Image(new FileInputStream("Resources/btn1.png"));
         line.setGraphic(new ImageView(image));
@@ -76,15 +76,9 @@ public class Paint extends Application{
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
         triangle.setOnAction(e->current="triangle");
-        line.setOnAction(e->{
-            current = "line";
-        });
-        rectangle.setOnAction(e->{
-            current = "rectangle";
-        });
-        Circle.setOnAction(e->{
-            current = "circle";
-        });
+        line.setOnAction(e-> current = "line");
+        rectangle.setOnAction(e-> current = "rectangle");
+        Circle.setOnAction(e-> current = "circle");
         ellipse.setOnAction(e->current="ellipse");
 
         Label Border=new Label(" Color: ");
@@ -94,7 +88,6 @@ public class Paint extends Application{
         Fill.setFont(new Font("Arial", 20));
         ColorPicker colorPicker=new ColorPicker();
         ColorPicker colorPicker2=new ColorPicker();
-
         colorPicker.setMinHeight(29);
         colorPicker2.setMinHeight(29);
         image = new Image(new FileInputStream("Resources/btn12.png"));
@@ -106,26 +99,38 @@ public class Paint extends Application{
         select.setMaxHeight(29);
         select.setPrefHeight(29);
         select.setMinHeight(29);
-        square.setOnAction(e->{
-            current = "square";
-        });
-        Engine engine = new Engine();
+        menu.getChildren().addAll(addedShapes,save,load,undo,redo);
         shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
         Canvas canvas = new Canvas(1000,600);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
-        AtomicReference<Point> p = new AtomicReference<>(new Point());
-        AtomicReference<Point> t2 = new AtomicReference<>(new Point());
-        AtomicInteger ct1 = new AtomicInteger();
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
 
+        AtomicReference<Point> p = new AtomicReference<>(new Point());
+        AtomicReference<Point> t2 = new AtomicReference<>(new Point());
+        AtomicInteger ct1 = new AtomicInteger();
+
+        Engine engine = new Engine();
+        undo.setOnAction(e->{
+            engine.undo();
+            engine.refresh(graphics);
+        });
+        redo.setOnAction(e->{
+            engine.redo();
+            engine.refresh(graphics);
+        });
+        select.setOnAction(e->{
+            current = "select";
+        });
+
         canvas.setOnMousePressed(e->{
             switch (current) {
                 case "select":{
+                    checkOnShapes()
                     break;
                 }
                 case "triangle":{
@@ -289,6 +294,16 @@ public class Paint extends Application{
                     break;
                 }
                 case "circle":{
+                    Circle c = new Circle();
+                    c.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<String, Double>();
+                    length.put("x2", Double.valueOf(e.getX()));
+                    length.put("y2",Double.valueOf(e.getY()));
+                    c.setFillColor(getColor(colorPicker2.getValue()));
+                    c.setColor(getColor(colorPicker.getValue()));
+                    c.setProperties(length);
+                    engine.addShape(c);
+                    engine.refresh(graphics);
                     break;
                 }
 

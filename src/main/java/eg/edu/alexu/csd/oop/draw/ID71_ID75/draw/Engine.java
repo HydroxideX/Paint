@@ -16,7 +16,12 @@ public class Engine implements DrawingEngine{
     int size = 100000;
     Shape[] arrayOfShapes = new Shape[size];
     int index = 0;
+    int maxIndex = 0;
     int index2 = 0;
+    int max(int a,int b){
+        if(a>b) return a;
+        return b;
+    }
     @Override
     public void refresh(Graphics canvas) {
         canvas.setColor(Color.WHITE);
@@ -24,6 +29,7 @@ public class Engine implements DrawingEngine{
         for(int i = 0;i<index;i++){
             arrayOfShapes[i].draw(canvas);
         }
+        maxIndex = max(index,maxIndex);
     }
 
     @Override
@@ -31,6 +37,7 @@ public class Engine implements DrawingEngine{
         index2 = index;
         arrayOfShapes[index] = shape;
         index++;
+        maxIndex = index;
     }
 
     boolean removed = false;
@@ -49,6 +56,7 @@ public class Engine implements DrawingEngine{
             }
         }
         if(removed) index--;
+        maxIndex = index;
     }
 
     public void RemoveLastShape(){
@@ -57,7 +65,7 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void updateShape(Shape oldShape, Shape newShape) {
-        for(int i = 0;i<size;i++) {
+        for(int i = 0;i<index;i++) {
             if (arrayOfShapes[i] == oldShape) {
                 arrayOfShapes[i] = newShape;
             }
@@ -80,14 +88,13 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void undo() {
+        if(index>0)
         index--;
     }
 
     @Override
     public void redo() {
-        if(arrayOfShapes[index] != null){
-            index++;
-        }
+        if(index < maxIndex) index++;
     }
 
     @Override
