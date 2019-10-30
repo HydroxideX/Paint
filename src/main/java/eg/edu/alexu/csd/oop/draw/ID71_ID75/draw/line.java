@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 
+import javax.sound.sampled.Line;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +47,11 @@ public class line implements Shape {
     }
 
     public Object clone() throws CloneNotSupportedException {
-        return null;
+        line c=new line();
+        c.setProperties(getProperties());
+        c.setPosition(getPosition());
+        c.setColor(getColor());
+        c.setFillColor(getFillColor());
+        return c;
     }
 }

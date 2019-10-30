@@ -49,6 +49,10 @@ public class Ellipse implements Shape  {
     }
 
     public Object clone() throws CloneNotSupportedException {
-        return null;
-    }
+        Ellipse c=new Ellipse();
+        c.setProperties(getProperties());
+        c.setPosition(getPosition());
+        c.setColor(getColor());
+        c.setFillColor(getFillColor());
+        return c;    }
 }

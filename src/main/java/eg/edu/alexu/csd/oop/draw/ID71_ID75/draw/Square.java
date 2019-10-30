@@ -49,6 +49,11 @@ public class Square implements Shape  {
     }
 
     public Object clone() throws CloneNotSupportedException {
-        return null;
+        Square c=new Square();
+        c.setProperties(getProperties());
+        c.setPosition(getPosition());
+        c.setColor(getColor());
+        c.setFillColor(getFillColor());
+        return c;
     }
 }

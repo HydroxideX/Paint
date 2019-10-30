@@ -1,24 +1,14 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import javafx.application.Application;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.*;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Paint extends Application{
@@ -35,10 +25,10 @@ public class Paint extends Application{
         Circle c= new Circle();
         line l=new line();
         l.setPosition(new Point(100,100));
-        Map<String,Double> m=new HashMap<String ,Double>();
+        Map<String,Double> m;
         m=l.getProperties();
-        m.put("x2",new Double(500));
-        m.put("y2",new Double(500));
+        m.put("x2", 500d);
+        m.put("y2", 500d);
         l.setProperties(m);
         l.draw(name);
         c.setPosition(new Point(200,200));
@@ -46,15 +36,17 @@ public class Paint extends Application{
         c.setFillColor(Color.red);
 
         m=c.getProperties();
-        m.put("radius", new Double(300));
+        m.put("radius", 300d);
         c.setProperties(m);
-        c.draw(name);
+       // c.draw(name);
+        Circle x= (Circle) c.clone();
+        x.draw(name);
 
         Rectangle r=new Rectangle();
         r.setPosition(new Point(50,50));
         m=r.getProperties();
-        m.put("width",new Double(100));
-        m.put("height",new Double(200));
+        m.put("width", 100d);
+        m.put("height", 200d);
         r.setProperties(m);
         r.setColor(Color.yellow);
         r.setFillColor(Color.green);
@@ -63,7 +55,7 @@ public class Paint extends Application{
         Square s=new Square();
         s.setPosition(new Point(250,250));
         m=s.getProperties();
-        m.put("length",new Double(100));
+        m.put("length", 100d);
         s.setProperties(m);
         s.setColor(Color.black);
         s.setFillColor(Color.blue);

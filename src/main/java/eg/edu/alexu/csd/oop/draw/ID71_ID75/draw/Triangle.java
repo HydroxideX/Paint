@@ -57,6 +57,10 @@ public class Triangle implements Shape  {
     }
 
     public Object clone() throws CloneNotSupportedException {
-        return null;
-    }
+        Triangle c=new Triangle();
+        c.setProperties(getProperties());
+        c.setPosition(getPosition());
+        c.setColor(getColor());
+        c.setFillColor(getFillColor());
+        return c;    }
 }

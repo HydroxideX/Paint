@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Circle implements Shape  {
-    Point position;
-    Map<String, Double> properties=new HashMap<String, Double>();
-    Color color;
-    Color fillColor;
+    private Point position;
+    private Map<String, Double> properties=new HashMap<String, Double>();
+    private Color color;
+    private Color fillColor;
     public void setPosition(Point position) {
         this.position=position;
     }
@@ -49,6 +49,11 @@ public class Circle implements Shape  {
     }
 
     public Object clone() throws CloneNotSupportedException {
-        return null;
+        Circle c=new Circle();
+        c.setProperties(getProperties());
+        c.setPosition(getPosition());
+        c.setColor(getColor());
+        c.setFillColor(getFillColor());
+        return c;
     }
 }

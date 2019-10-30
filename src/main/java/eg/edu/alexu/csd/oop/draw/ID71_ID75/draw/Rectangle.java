@@ -49,6 +49,11 @@ public class Rectangle implements Shape  {
     }
 
     public Object clone() throws CloneNotSupportedException {
-        return null;
+        Rectangle c=new Rectangle();
+        c.setProperties(getProperties());
+        c.setPosition(getPosition());
+        c.setColor(getColor());
+        c.setFillColor(getFillColor());
+        return c;
     }
 }
