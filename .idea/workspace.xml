@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4a36b63-2bc9-4f0b-bf4f-2e67ea07c56a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Ellipse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Rectangle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Square.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Triangle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Circle.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/line.class" afterDir="false" />
     </list>
@@ -161,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572293265160</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fill circle">
+      <created>1572295891973</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1572295891973</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -186,7 +195,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -197,7 +208,19 @@
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
     <MESSAGE value="el push el mateen" />
-    <option name="LAST_COMMIT_MESSAGE" value="el push el mateen" />
+    <MESSAGE value="fill circle" />
+    <option name="LAST_COMMIT_MESSAGE" value="fill circle" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/Paint.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="masterDetails">
     <states>

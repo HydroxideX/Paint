@@ -4,12 +4,13 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class line implements Shape {
+public class Square implements Shape  {
     Point position;
     Map<String, Double> properties=new HashMap<String, Double>();
     Color color;
+    Color fillColor;
     public void setPosition(Point position) {
-        this.position = position;
+        this.position=position;
     }
 
     public Point getPosition() {
@@ -17,7 +18,7 @@ public class line implements Shape {
     }
 
     public void setProperties(Map<String, Double> properties) {
-        this.properties = properties;
+        this.properties=properties;
     }
 
     public Map<String, Double> getProperties() {
@@ -25,7 +26,7 @@ public class line implements Shape {
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        this.color=color;
     }
 
     public Color getColor() {
@@ -33,16 +34,18 @@ public class line implements Shape {
     }
 
     public void setFillColor(Color color) {
-        this.color = color;
+        this.fillColor=color;
     }
 
     public Color getFillColor() {
-        return getColor();
+        return fillColor;
     }
 
     public void draw(Graphics canvas) {
         canvas.setColor(getFillColor());
-        canvas.drawLine(getPosition().x,getPosition().y,getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
+        canvas.fillRect(getPosition().x,getPosition().y,getProperties().get("length").intValue(),getProperties().get("length").intValue());
+        canvas.setColor(getColor());
+        canvas.drawRect(getPosition().x,getPosition().y,getProperties().get("length").intValue(),getProperties().get("length").intValue());
     }
 
     public Object clone() throws CloneNotSupportedException {
