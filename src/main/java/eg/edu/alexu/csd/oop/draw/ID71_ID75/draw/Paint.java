@@ -27,6 +27,7 @@ public class Paint extends Application implements DrawingEngine{
     }
     Shape[] arrayOfShapes = new Shape[100000];
     int index = 0;
+
     @Override
     public void refresh(Graphics canvas) {
 
