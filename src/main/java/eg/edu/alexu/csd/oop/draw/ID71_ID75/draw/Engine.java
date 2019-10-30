@@ -36,7 +36,7 @@ public class Engine implements DrawingEngine{
     @Override
     public void removeShape(Shape shape) {
         removed = false;
-        for(int i = 0;i<index;i++){
+        for (int i = 0;i<index;i++){
             if(arrayOfShapes[i] == shape){
                 removed = true;
                 for(int j = i+1;j<size;j++){
@@ -48,6 +48,10 @@ public class Engine implements DrawingEngine{
             }
         }
         if(removed) index--;
+    }
+
+    public void RemoveLastShape(Shape shape){
+        index--;
     }
 
     @Override

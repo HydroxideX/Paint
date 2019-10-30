@@ -145,9 +145,14 @@ public class Paint extends Application{
                     java.awt.Color nw = new java.awt.Color(r,g,b,o);
                     l.setFillColor(nw);
                     l.setColor(nw);
-                    engine.removeShape(l);
                     engine.addShape(l);
                     engine.refresh(graphics);
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    engine.RemoveLastShape(l);
                 }
                 case "square":{
                     break;
