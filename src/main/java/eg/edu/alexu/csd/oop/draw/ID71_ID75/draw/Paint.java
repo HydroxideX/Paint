@@ -30,7 +30,8 @@ public class Paint extends Application implements DrawingEngine{
 
     @Override
     public void refresh(Graphics canvas) {
-
+        canvas.dispose();
+        canvas
     }
 
     @Override
