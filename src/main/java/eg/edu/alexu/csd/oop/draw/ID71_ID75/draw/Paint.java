@@ -14,9 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.Scene;
 
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+import sun.awt.resources.awt;
 
 
 import java.awt.*;
@@ -29,6 +31,7 @@ import java.util.Map;
 
 public class Paint extends Application{
     String current = "";
+
     public static void main(String[] args){
         launch(args);
     }
@@ -77,7 +80,9 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
-
+        line.setOnAction(e->{
+            current = "line";
+        });
 
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -86,6 +91,7 @@ public class Paint extends Application{
         Fill.setFont(new Font("Arial", 20));
         ColorPicker colorPicker=new ColorPicker();
         ColorPicker colorPicker2=new ColorPicker();
+
         colorPicker.setMinHeight(29);
         colorPicker2.setMinHeight(29);
         image = new Image(new FileInputStream("Resources/btn12.png"));
@@ -98,88 +104,66 @@ public class Paint extends Application{
         select.setPrefHeight(29);
         select.setMinHeight(29);
 
-
+        Engine engine = new Engine();
         shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
         Canvas canvas = new Canvas(1000,600);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
-
-        canvas.setOnMousePressed(e->{
-            switch (current){
-                case "line":{
-                    break;
-                }
-                case "triangle":{
-                    break;
-                }
-                case "square":{
-                    break;
-                }
-                case "rectangle":{
-                    break;
-                }
-                case "ellipse":{
-                    break;
-                }
-                case "circle":{
-                    break;
-                } default:{
-                    break;
-                }
-            }
-        });
-        canvas.setOnMouseDragged(e->{
-            switch (current){
-                case "line":{
-                    break;
-                }
-                case "triangle":{
-                    break;
-                }
-                case "square":{
-                    break;
-                }
-                case "rectangle":{
-                    break;
-                }
-                case "ellipse":{
-                    break;
-                }
-                case "circle":{
-                    break;
-                } default:{
-                    break;
-                }
-            }
-        });
-        canvas.setOnMouseReleased(e->{
-            switch (current){
-                case "line":{
-                    break;
-                }
-                case "triangle":{
-                    break;
-                }
-                case "square":{
-                    break;
-                }
-                case "rectangle":{
-                    break;
-                }
-                case "ellipse":{
-                    break;
-                }
-                case "circle":{
-                    break;
-                } default:{
-                    break;
-                }
-            }
-        });
+        Point p = new Point();
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
+        canvas.setOnMousePressed(e->{
+            switch (current) {
+                case "select":{
+                    break;
+                }
+                default:{
+                    p.x = (int)e.getX();
+                    p.y = (int)e.getY();
+                    break;
+                }
+            }
+        });
+
+        canvas.setOnMouseDragged(e->{
+            switch (current){
+                case "line":{
+                    line l = new line();
+                    l.setPosition(p);
+                    Map<String,Double> secondPoint = new HashMap<String, Double>();
+                    secondPoint.put("x2",Double.valueOf(e.getX()));
+                    secondPoint.put("y2",Double.valueOf(e.getY()));
+                    l.setProperties(secondPoint);
+                    Color v = colorPicker.getValue();
+                    int r = (int)v.getRed();
+                    int b = (int)v.getBlue();
+                    int g = (int)v.getGreen();
+                    int o = (int)v.getOpacity();
+                    java.awt.Color nw = new java.awt.Color(r,g,b,o);
+                    l.setFillColor(nw);
+                    l.setColor(nw);
+                    engine.removeShape(l);
+                    engine.addShape(l);
+                    engine.refresh(graphics);
+                }
+                case "square":{
+                    break;
+                }
+                case "rectangle": {
+                    break;
+                }
+                case "ellipse":{
+                    break;
+                }
+                case "circle":{
+                    break;
+                } default:{
+                    break;
+                }
+            }
+        });
     }
 }

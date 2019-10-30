@@ -32,10 +32,13 @@ public class Engine implements DrawingEngine{
         index++;
     }
 
+    boolean removed = false;
     @Override
     public void removeShape(Shape shape) {
-        for(int i = 0;i<size;i++){
+        removed = false;
+        for(int i = 0;i<index;i++){
             if(arrayOfShapes[i] == shape){
+                removed = true;
                 for(int j = i+1;j<size;j++){
                     if(arrayOfShapes[j-1]== null) break;
                     arrayOfShapes[j-1] = arrayOfShapes[j];
@@ -44,7 +47,7 @@ public class Engine implements DrawingEngine{
                 break;
             }
         }
-        index--;
+        if(removed) index--;
     }
 
     @Override
