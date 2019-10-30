@@ -1,11 +1,8 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -18,16 +15,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
-import sun.awt.resources.awt;
 
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.io.DataOutput;
 import java.io.FileInputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Paint extends Application{
     String current = "";
@@ -111,7 +105,7 @@ public class Paint extends Application{
         GraphicsContext gc = canvas.getGraphicsContext2D();
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
-        Point p = new Point();
+        AtomicReference<Point> p = new AtomicReference<>(new Point());
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
@@ -121,8 +115,9 @@ public class Paint extends Application{
                     break;
                 }
                 default:{
-                    p.x = (int)e.getX();
-                    p.y = (int)e.getY();
+                    p.set(new Point((int) e.getX(), (int) e.getY()));
+                   /* p.x = (int)e.getX();
+                    p.y = (int)e.getY();*/
                     break;
                 }
             }
@@ -132,7 +127,7 @@ public class Paint extends Application{
             switch (current){
                 case "line":{
                     line l = new line();
-                    getLineValues(l,p,colorPicker);
+                    getLineValues(l, p.get(),colorPicker);
                     Map<String,Double> secondPoint = new HashMap<String, Double>();
                     secondPoint.put("x2",Double.valueOf(e.getX()));
                     secondPoint.put("y2",Double.valueOf(e.getY()));
@@ -161,7 +156,7 @@ public class Paint extends Application{
             switch (current){
                 case "line":{
                     line l = new line();
-                    getLineValues(l,p,colorPicker);
+                    getLineValues(l, p.get(),colorPicker);
                     Map<String,Double> secondPoint = new HashMap<String, Double>();
                     secondPoint.put("x2",Double.valueOf(e.getX()));
                     secondPoint.put("y2",Double.valueOf(e.getY()));
