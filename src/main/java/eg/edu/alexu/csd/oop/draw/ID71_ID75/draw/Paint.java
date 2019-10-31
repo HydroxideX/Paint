@@ -76,6 +76,8 @@ public class Paint extends Application{
         triangle.setGraphic(new ImageView(image));
         Button select=new Button();
         Button customShape=new Button("Custom");
+        Button resize=new Button("Resize");
+
         triangle.setOnAction(e->{
             current="triangle";
             triangle.setDisable(true);
@@ -86,6 +88,7 @@ public class Paint extends Application{
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
+            resize.setDisable(false);
         });
         line.setOnAction(e->{
             current = "line";
@@ -97,6 +100,7 @@ public class Paint extends Application{
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
+            resize.setDisable(false);
         });
         rectangle.setOnAction(e->{
             current = "rectangle";
@@ -108,6 +112,7 @@ public class Paint extends Application{
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
+            resize.setDisable(false);
         });
         Circle.setOnAction(e-> {
             current = "circle";
@@ -119,6 +124,7 @@ public class Paint extends Application{
             Circle.setDisable(true);
             select.setDisable(false);
             customShape.setDisable(false);
+            resize.setDisable(false);
         });
         ellipse.setOnAction(e->{
             current="ellipse";
@@ -130,6 +136,7 @@ public class Paint extends Application{
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
+            resize.setDisable(false);
         });
         square.setOnAction(e->{
             current="square";
@@ -141,6 +148,7 @@ public class Paint extends Application{
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
+            resize.setDisable(false);
         });
         select.setOnAction(e-> {
             current = "select";
@@ -152,6 +160,19 @@ public class Paint extends Application{
             Circle.setDisable(false);
             select.setDisable(true);
             customShape.setDisable(false);
+            resize.setDisable(false);
+        });
+        resize.setOnAction(e->{
+            current="resize";
+            triangle.setDisable(false);
+            line.setDisable(false);
+            ellipse.setDisable(false);
+            square.setDisable(false);
+            rectangle.setDisable(false);
+            Circle.setDisable(false);
+            select.setDisable(false);
+            customShape.setDisable(false);
+            resize.setDisable(true);
         });
 
         Label Border=new Label(" Color: ");
@@ -171,8 +192,6 @@ public class Paint extends Application{
         select.setMaxHeight(29);
         select.setPrefHeight(29);
         select.setMinHeight(29);
-        Button resize=new Button("Resize");
-        resize.setOnAction(e->current="resize");
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
         menu.getChildren().addAll(addedShapes,save,load,undo,redo);
