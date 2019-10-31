@@ -8,6 +8,8 @@ public class line implements Shape {
     private Point position;
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
+
+
     public void setPosition(Point position) {
         this.position = position;
     }
@@ -18,7 +20,7 @@ public class line implements Shape {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties = properties;
-        this.properties.put("line",1d);
+        this.properties.put("type",1d);
     }
 
     public Map<String, Double> getProperties() {

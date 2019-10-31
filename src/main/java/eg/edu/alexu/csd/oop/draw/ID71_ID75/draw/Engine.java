@@ -13,14 +13,12 @@ import javax.swing.JPanel;
 
 
 public class Engine implements DrawingEngine{
-    int size = 100000;
-    Shape[] arrayOfShapes = new Shape[size];
-    int index = 0;
-    int maxIndex = 0;
-    int index2 = 0;
-    int max(int a,int b){
-        if(a>b) return a;
-        return b;
+    private int size = 100000;
+    private Shape[] arrayOfShapes = new Shape[size];
+    private int index = 0;
+    private int maxIndex = 0;
+    private int max(int a, int b){
+        return Math.max(a, b);
     }
     @Override
     public void refresh(Graphics canvas) {
@@ -34,13 +32,12 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void addShape(Shape shape) {
-        index2 = index;
         arrayOfShapes[index] = shape;
         index++;
         maxIndex = index;
     }
 
-    boolean removed = false;
+    private boolean removed = false;
     @Override
     public void removeShape(Shape shape) {
         removed = false;
@@ -59,7 +56,7 @@ public class Engine implements DrawingEngine{
         maxIndex = index;
     }
 
-    public void RemoveLastShape(){
+    void RemoveLastShape(){
         index--;
     }
 
@@ -75,9 +72,7 @@ public class Engine implements DrawingEngine{
     @Override
     public Shape[] getShapes() {
         Shape[] currentShapes = new Shape[size];
-        for(int i = 0;i<index;i++){
-            currentShapes[i] = arrayOfShapes[i];
-        }
+        if (index >= 0) System.arraycopy(arrayOfShapes, 0, currentShapes, 0, index);
         return currentShapes;
     }
 
@@ -97,29 +92,23 @@ public class Engine implements DrawingEngine{
         if(index < maxIndex) index++;
     }
 
-    int gcd(int a,int b){
+    private int gcd(int a, int b){
         if(a == 0) return b;
         return gcd(b%a,a);
     }
-    double[] pointsToLine(Point p1, Point p2){
+    private double[] pointsToLine(Point p1, Point p2){
         double[] ar = new double[3];
-        int value = gcd(p1.y-p2.y,p2.x-p1.x);
-        ar[0] =(p1.y - p2.y)/value;
-        ar[1] = (p2.x-p1.x)/value;
-        ar[2] = (double) (p1.x*(p2.y-p1.y)-p1.y*(p2.x-p1.x))/(double)value;
-        if(ar[0] < 0){
-            ar[1] = -1 * ar[1];
-            ar[0] = ar[0] * -1;
-            ar[2] = -1 * ar[2];
-        }
+        ar[0]=(double)(p2.y-p1.y)/(p2.x-p1.x);
+        ar[1]=1;
+        ar[2]=(p1.y-ar[0]*p1.x);
         return ar;
     }
     //from GeeksforGeeks//
-    static double area(int x1, int y1, int x2, int y2, int x3, int y3)
+    private static double area(int x1, int y1, int x2, int y2, int x3, int y3)
     {
         return Math.abs((x1*(y2-y3) + x2*(y3-y1)+x3*(y1-y2))/2.0);
     }
-    static boolean isInside(int x1, int y1, int x2, int y2, int x3, int y3, int x, int y)
+    private static boolean isInside(int x1, int y1, int x2, int y2, int x3, int y3, int x, int y)
     {
         double A = area (x1, y1, x2, y2, x3, y3);
         double A1 = area (x, y, x2, y2, x3, y3);
@@ -130,15 +119,15 @@ public class Engine implements DrawingEngine{
     /////endofPartThatWasCopied//
     Shape checkOnShapes(int x, int y){
         for(int i = index-1 ;i>=0;i--){
-            if(arrayOfShapes[i].getProperties().get("line").intValue()==1){
+            if(arrayOfShapes[i].getProperties().get("type").intValue()==1){
                 Point p1 = new Point(arrayOfShapes[i].getPosition());
                 Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
                         arrayOfShapes[i].getProperties().get("y2").intValue());
                 double[] ar = pointsToLine(p1,p2);
-                if(Math.abs(ar[0]*x+ar[1]*y+ar[2]) < 20){
+                if(Math.abs(-ar[0]*x+ar[1]*y-ar[2]) < 20){
                     return arrayOfShapes[i];
                 }
-            }else if(arrayOfShapes[i].getProperties().get("square")==1d ||
+            }else if(arrayOfShapes[i].getProperties().get("type")==2d ||
                     arrayOfShapes[i].getProperties().get("circle")==1d ||
                     arrayOfShapes[i].getProperties().get("ellipse")==1d ||
                     arrayOfShapes[i].getProperties().get("rectangle")==1d){

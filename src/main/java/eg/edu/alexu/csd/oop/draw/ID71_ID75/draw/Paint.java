@@ -130,6 +130,7 @@ public class Paint extends Application{
         delete.setOnAction(e->{
             if(current == "select" && newShape[0] != null){
                 engine.removeShape(newShape[0]);
+                engine.refresh(graphics);
                 newShape[0] = null;
                 ct2.set(0);
                 current = "";
@@ -143,8 +144,7 @@ public class Paint extends Application{
                 case "select":{
                     newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
                     if(newShape[0] != null){
-                        p.get().x = (int)e.getX();
-                        p.get().y = (int)e.getY();
+                        p.set(new Point((int)e.getX(),(int)e.getY()));
                     }
                     break;
                 }
@@ -180,7 +180,7 @@ public class Paint extends Application{
                         } else {
                             l = new Square();
                         }
-                        copyShape(l,newShape[0]);
+                        //copyShape(l,newShape[0]);
                         Map<String,Double> secondPoint = newShape[0].getProperties();
                         secondPoint.put("x2",Double.valueOf(e.getX()));
                         secondPoint.put("y2",Double.valueOf(e.getY()));
@@ -196,11 +196,11 @@ public class Paint extends Application{
                     break;
                 }
                 case "select":{
-                    if(newShape[0] != null && newShape[0].getProperties().get("triangle")==1d){
+                    if(newShape[0] != null){
                         Shape l;
-                        if(newShape[0].getProperties().get("line")==1d){
+                        if(newShape[0].getProperties().get("type")==1d){
                             l = new line();
-                        } else if(newShape[0].getProperties().get("circle")==1d){
+                        } else if(newShape[0].getProperties().get("type")==2d){
                             l = new Circle();
                         } else if(newShape[0].getProperties().get("rectangle")==1d){
                             l = new Rectangle();
@@ -209,15 +209,19 @@ public class Paint extends Application{
                         } else {
                             l = new Square();
                         }
-                        copyShape(l,newShape[0]);
-                        Map<String,Double> secondPoint = newShape[0].getProperties();
-                        Point p3 = new Point();
-                        int diffx = Double.valueOf(newShape[0].getProperties().get("x2")).intValue() - newShape[0].getPosition().x;
-                        int diffy = Double.valueOf(newShape[0].getProperties().get("y2")).intValue() - newShape[0].getPosition().y;
-                        p3.x = (int)e.getX();
-                        p3.y = (int)e.getY();
-                        secondPoint.put("x2",Double.valueOf(e.getX())+diffx);
-                        secondPoint.put("y2",Double.valueOf(e.getY())+diffy);
+                        try {
+                            l=(Shape)newShape[0].clone();
+                        } catch (CloneNotSupportedException ex) {
+                            ex.printStackTrace();
+                        }
+                        int diffX=(int)e.getX()- p.get().x;
+                        int diffY=(int)e.getY()- p.get().y;
+                        p.set(new Point((int)e.getX(),(int)e.getY()));
+                        l.setPosition(new Point(l.getPosition().x+diffX,l.getPosition().y+diffY));
+                        Map<String,Double> secondPoint = l.getProperties();
+                        secondPoint=l.getProperties();
+                        secondPoint.put("x2",l.getProperties().get("x2")+diffX);
+                        secondPoint.put("y2",l.getProperties().get("y2")+diffY);
                         l.setProperties(secondPoint);
                         engine.addShape(l);
                         engine.refresh(graphics);
@@ -384,7 +388,6 @@ public class Paint extends Application{
                     engine.refresh(graphics);
                     break;
                 }
-
                 case "triangle": {
                     if(ct1.get() != 2) break;
                     Triangle r = new Triangle();
@@ -409,23 +412,16 @@ public class Paint extends Application{
         });
     }
 
-    void getLineValues(line l,Point p,ColorPicker colorPicker){
+    private void getLineValues(line l, Point p, ColorPicker colorPicker){
         l.setPosition(p);
         Color v = colorPicker.getValue();
         l.setColor(getColor(v));
     }
-    java.awt.Color getColor(Color v){
+    private java.awt.Color getColor(Color v){
         float r = (float)v.getRed();
         float b = (float)v.getBlue();
         float g = (float)v.getGreen();
         float o = (float)v.getOpacity();
         return new java.awt.Color(r,g,b,o);
-    }
-
-    void copyShape(Shape s1,Shape s2){
-        s1.setProperties(s2.getProperties());
-        s1.setColor(s2.getColor());
-        s1.setPosition(s2.getPosition());
-        s1.setFillColor(s2.getFillColor());
     }
 }
