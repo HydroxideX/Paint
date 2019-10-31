@@ -19,6 +19,7 @@ public class Rectangle implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
+        this.properties.put("rectangle",1d);
     }
 
     public Map<String, Double> getProperties() {

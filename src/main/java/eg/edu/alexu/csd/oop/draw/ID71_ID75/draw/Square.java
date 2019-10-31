@@ -19,6 +19,7 @@ public class Square implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
+        this.properties.put("square",1d);
     }
 
     public Map<String, Double> getProperties() {

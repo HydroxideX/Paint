@@ -18,6 +18,7 @@ public class line implements Shape {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties = properties;
+        this.properties.put("line",1d);
     }
 
     public Map<String, Double> getProperties() {
