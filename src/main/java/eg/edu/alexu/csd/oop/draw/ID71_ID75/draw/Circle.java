@@ -75,17 +75,16 @@ public class Circle implements Shape  {
         c.setFillColor(getFillColor());
         return c;
     }
-    Point Correct(Point p1,Point p2){
+    private Point Correct(Point p1, Point p2){
         Point p3 = new Point();
         p3.x = min(p1.x,p2.x);
         p3.y = min(p1.y,p2.y);
         return p3;
     }
-    int min(int a,int b){
-        if(a<b) return a;
-        return b;
+    private int min(int a, int b){
+        return Math.min(a, b);
     }
-    int max(int a,int b){
+    private int max(int a, int b){
         if(a<b) return b;
         return b;
     }
