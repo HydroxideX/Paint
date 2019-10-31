@@ -183,9 +183,11 @@ public class Paint extends Application{
         AtomicReference<Shape> loader = new AtomicReference<>();
         loadClass.setOnAction(e->{
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
-                current=selectedFile.getName();
-                current=current.substring(0,current.length()-6);
-                addedShapes.getItems().add(current);
+                if(selectedFile != null) {
+                    current = selectedFile.getName();
+                    current = current.substring(0, current.length() - 6);
+                    addedShapes.getItems().add(current);
+                }
         });
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -416,10 +418,10 @@ public class Paint extends Application{
                     ClassLoader classLoader =ClassLoader.getSystemClassLoader();
                     try {
                         String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
-                        Class cl=classLoader.loadClass(pack+"."+addedShapes.getValue().toString());
+                        Class cl=classLoader.loadClass(pack+"." + addedShapes.getValue().toString());
                         loader.set((Shape) cl.newInstance());
                     } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
-                        ex.printStackTrace();
+                        break;
                     }
                     Shape l = null;
                     Shape x=loader.get();
@@ -440,6 +442,7 @@ public class Paint extends Application{
                     engine.addShape(l);
                     engine.refresh(graphics);
                     engine.RemoveLastShape();
+                    newShape[0] = l;
                     break;
                 }
                 default:{
@@ -462,6 +465,7 @@ public class Paint extends Application{
                     engine.addShape(l);
                     engine.refresh(graphics);
                     engine.RemoveLastShape();
+                    newShape[0] = l;
                     break;
                 }
             }
@@ -493,44 +497,8 @@ public class Paint extends Application{
                     ct1.set(0);
                     break;
                 }
-                case "load": {
-                    Shape l = null;
-                    Shape x=loader.get();
-                    try {
-                        l=x.getClass().newInstance();
-                    } catch (InstantiationException | IllegalAccessException ex) {
-                        ex.printStackTrace();
-                    }
-                    l.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",1d);
-                    l.setFillColor(getColor(colorPicker2.getValue()));
-                    l.setColor(getColor(colorPicker.getValue()));
-                    l.setProperties(length);
-                    engine.addShape(l);
-                    engine.refresh(graphics);
-                    break;
-                }
                 default:{
-                    Shape l=null;
-                    String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
-                    try {
-                        Class cl=Class.forName(pack+"."+current);
-                        l=(Shape)cl.newInstance();
-                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
-                        ex.printStackTrace();
-                    }
-                    l.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",1d);
-                    l.setFillColor(getColor(colorPicker2.getValue()));
-                    l.setColor(getColor(colorPicker.getValue()));
-                    l.setProperties(length);
-                    engine.addShape(l);
+                    engine.addShape(newShape[0]);
                     engine.refresh(graphics);
                     break;
                 }
@@ -538,11 +506,6 @@ public class Paint extends Application{
         });
     }
 
-    private void getlineValues(line l, Point p, ColorPicker colorPicker){
-        l.setPosition(p);
-        Color v = colorPicker.getValue();
-        l.setColor(getColor(v));
-    }
     private java.awt.Color getColor(Color v){
         float r = (float)v.getRed();
         float b = (float)v.getBlue();
