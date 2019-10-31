@@ -145,6 +145,7 @@ public class Paint extends Application{
                     newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
                     if(newShape[0] != null){
                         p.set(new Point((int)e.getX(),(int)e.getY()));
+                        ct2.getAndIncrement();
                     }
                     break;
                 }
@@ -216,19 +217,18 @@ public class Paint extends Application{
                         }
                         int diffX=(int)e.getX()- p.get().x;
                         int diffY=(int)e.getY()- p.get().y;
-                        p.set(new Point((int)e.getX(),(int)e.getY()));
                         l.setPosition(new Point(l.getPosition().x+diffX,l.getPosition().y+diffY));
-                        Map<String,Double> secondPoint = l.getProperties();
-                        secondPoint=l.getProperties();
+                        Map<String,Double> secondPoint = new HashMap<String, Double>(l.getProperties());
+                        Double j = Double.valueOf(l.getProperties().get("x2").intValue()+ diffX);
                         secondPoint.put("x2",l.getProperties().get("x2")+diffX);
                         secondPoint.put("y2",l.getProperties().get("y2")+diffY);
                         l.setProperties(secondPoint);
-                        engine.addShape(l);
+                        engine.updateShape(newShape[0],l);
                         engine.refresh(graphics);
-                        engine.RemoveLastShape();
-                        if(ct2.get() == 1){
-                            ct2.getAndIncrement();
-                            engine.removeShape(newShape[0]);
+                        try {
+                            newShape[0] = (Shape)l.clone();
+                        } catch (CloneNotSupportedException ex) {
+                            ex.printStackTrace();
                         }
                     }
                     break;

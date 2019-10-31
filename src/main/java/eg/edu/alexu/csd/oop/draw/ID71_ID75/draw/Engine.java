@@ -92,10 +92,6 @@ public class Engine implements DrawingEngine{
         if(index < maxIndex) index++;
     }
 
-    private int gcd(int a, int b){
-        if(a == 0) return b;
-        return gcd(b%a,a);
-    }
     private double[] pointsToLine(Point p1, Point p2){
         double[] ar = new double[3];
         ar[0]=(double)(p2.y-p1.y)/(p2.x-p1.x);
@@ -103,6 +99,7 @@ public class Engine implements DrawingEngine{
         ar[2]=(p1.y-ar[0]*p1.x);
         return ar;
     }
+
     //from GeeksforGeeks//
     private static double area(int x1, int y1, int x2, int y2, int x3, int y3)
     {
