@@ -185,14 +185,7 @@ public class Paint extends Application{
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
                 current=selectedFile.getName();
                 current=current.substring(0,current.length()-6);
-                ClassLoader classLoader =ClassLoader.getSystemClassLoader();
-            try {
-                String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
-                Class cl=classLoader.loadClass(pack+"."+current);
-                loader.set((Shape) cl.newInstance());
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
-                ex.printStackTrace();
-            }
+                addedShapes.getItems().add(current);
         });
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -420,6 +413,14 @@ public class Paint extends Application{
                     break;
                 }
                 case "load":{
+                    ClassLoader classLoader =ClassLoader.getSystemClassLoader();
+                    try {
+                        String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                        Class cl=classLoader.loadClass(pack+"."+addedShapes.getValue().toString());
+                        loader.set((Shape) cl.newInstance());
+                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+                        ex.printStackTrace();
+                    }
                     Shape l = null;
                     Shape x=loader.get();
                     try {
