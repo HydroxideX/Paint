@@ -31,6 +31,7 @@ public class Paint extends Application{
     public static void main(String[] args){
         launch(args);
     }
+
     public void start(Stage primaryStage) throws Exception {
         VBox root = new VBox();
         root.setSpacing(5);
@@ -182,6 +183,7 @@ public class Paint extends Application{
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.java"));
         AtomicReference<Shape> loader = new AtomicReference<>();
+
         loadClass.setOnAction(e->{
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
                 if(selectedFile != null) {
@@ -191,6 +193,7 @@ public class Paint extends Application{
                     addedShapes.setValue(current);
                 }
         });
+
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
         Border.setCenterShape(true);
@@ -247,6 +250,14 @@ public class Paint extends Application{
         redo.setOnAction(e->{
             engine.redo();
             engine.refresh(graphics);
+        });
+        FileChooser fileChooser2 = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save", "*.json", "*.xml"));
+        save.setOnAction(e->{
+            File selectedFile = fileChooser2.showOpenDialog(primaryStage);
+            if(selectedFile != null) {
+                engine.save(selectedFile.getPath());
+            }
         });
         delete.setOnAction(e->{
             if(current.equals("select") && newShape[0] != null){

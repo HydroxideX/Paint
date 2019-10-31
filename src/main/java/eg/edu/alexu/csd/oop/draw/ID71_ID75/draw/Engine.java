@@ -1,6 +1,11 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 
+import org.json.simple.JSONObject;
+
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -144,11 +149,41 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void save(String path) {
+        int i = path.length()-1;
+        for(;path.charAt(i) != '.';i--){
+            continue;
+        }
+        String extension = path.substring(i+1,path.length());
+        if(extension == ".xml"){
 
+        } else if (extension.equals("json")) {
+            File file = new File(path);
+            try {
+                FileWriter file2 = new FileWriter(file);
+                for(i = 0;i<index;i++){
+                    JSONObject obj = new JSONObject();
+                    obj.put(arrayOfShapes[i].getClass().getName(), arrayOfShapes[i]);
+                    file2.write(obj.toString());
+                    file2.write("\n");
+                    file2.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void load(String path) {
+        int i = path.length();
+        for(;path.charAt(i) != '.';i--){
+            continue;
+        }
+        String extension = path.substring(i,path.length());
+        if(extension == "xml"){
 
+        } else if (extension == "json"){
+
+        }
     }
 }
