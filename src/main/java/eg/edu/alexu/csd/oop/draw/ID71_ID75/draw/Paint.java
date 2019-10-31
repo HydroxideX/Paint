@@ -159,8 +159,8 @@ public class Paint extends Application{
         Border.setCenterShape(true);
         Label Fill=new Label(" Fill: ");
         Fill.setFont(new Font("Arial", 20));
-        ColorPicker colorPicker=new ColorPicker();
-        ColorPicker colorPicker2=new ColorPicker();
+        ColorPicker colorPicker=new ColorPicker(Color.BLACK);
+        ColorPicker colorPicker2=new ColorPicker(Color.WHITE);
         colorPicker.setMinHeight(29);
         colorPicker2.setMinHeight(29);
         image = new Image(new FileInputStream("Resources/btn12.png"));
@@ -435,8 +435,10 @@ public class Paint extends Application{
         canvas.setOnMouseReleased(e->{
             switch (current){
                 case "select":{
+                    if(newShape[0]!=null) {
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
+                    }
                         break;
                 }
                 case "line":{
