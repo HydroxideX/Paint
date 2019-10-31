@@ -145,6 +145,7 @@ public class Paint extends Application{
                     newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
                     if(newShape[0] != null){
                         p.set(new Point((int)e.getX(),(int)e.getY()));
+                        engine.removeShape(newShape[0]);
                         ct2.getAndIncrement();
                     }
                     break;
@@ -223,8 +224,9 @@ public class Paint extends Application{
                         secondPoint.put("x2",l.getProperties().get("x2")+diffX);
                         secondPoint.put("y2",l.getProperties().get("y2")+diffY);
                         l.setProperties(secondPoint);
-                        engine.updateShape(newShape[0],l);
+                        engine.addShape(l);
                         engine.refresh(graphics);
+                        engine.RemoveLastShape();
                         try {
                             newShape[0] = (Shape)l.clone();
                         } catch (CloneNotSupportedException ex) {
