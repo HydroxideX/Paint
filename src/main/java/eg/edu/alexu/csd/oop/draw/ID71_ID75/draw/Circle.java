@@ -51,15 +51,43 @@ public class Circle implements Shape  {
             l = Double.valueOf(Math.abs(p1.x - position.x));
             w = Double.valueOf(Math.abs(p1.y - position.y));
             mn = Double.valueOf(max(l.intValue(),w.intValue()));
+            if(properties.get("released")==1d){
+                Double j = Double.valueOf(mn.intValue() + p3.x);
+                properties.put("x2",j);
+                j = Double.valueOf(mn.intValue() + p3.y);
+                properties.put("y2",j);
+                properties.put("released",0d);
+            }
         }
         else if(p3.x == position.x) {
             mn = Double.valueOf(position.y-p3.y);
+            if(properties.get("released")==1d){
+                Double j = Double.valueOf(p3.x - mn.intValue());
+                properties.put("x2",j);
+                j = Double.valueOf(mn.intValue() + p3.y);
+                properties.put("y2",j);
+                properties.put("released",0d);
+            }
         } else if (p3.y == position.y){
             mn = Double.valueOf(position.x-p3.x);
+            if(properties.get("released")==1d){
+                Double j = Double.valueOf(p3.x + mn.intValue());
+                properties.put("x2",j);
+                j = Double.valueOf(p3.y - mn.intValue());
+                properties.put("y2",j);
+                properties.put("released",0d);
+            }
         } else {
             if(position.x-p3.x < position.y-p3.y) p3.x = position.y - position.x + p3.y;
             if(position.x-p3.x >position.y-p3.y) p3.x = position.x - position.y + p3.y;
             mn = Double.valueOf(position.x-p3.x);
+            if(properties.get("released")==1d){
+                Double j = Double.valueOf(p3.x - mn.intValue());
+                properties.put("x2",j);
+                j = Double.valueOf(p3.y - mn.intValue());
+                properties.put("y2",j);
+                properties.put("released",0d);
+            }
         }
         canvas.setColor(getFillColor());
         canvas.fillOval(p3.x,p3.y,mn.intValue(),mn.intValue());

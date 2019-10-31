@@ -348,6 +348,7 @@ public class Paint extends Application{
                     Map<String,Double> secondPoint = new HashMap<>();
                     secondPoint.put("x2", e.getX());
                     secondPoint.put("y2", e.getY());
+                    secondPoint.put("released",0d);
                     l.setProperties(secondPoint);
                     engine.addShape(l);
                     engine.refresh(graphics);
@@ -360,6 +361,7 @@ public class Paint extends Application{
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
                     length.put("y2", e.getY());
+                    length.put("released",0d);
                     s.setFillColor(getColor(colorPicker2.getValue()));
                     s.setColor(getColor(colorPicker.getValue()));
                     s.setProperties(length);
@@ -374,6 +376,7 @@ public class Paint extends Application{
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
                     length.put("y2", e.getY());
+                    length.put("released",0d);
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
@@ -388,6 +391,7 @@ public class Paint extends Application{
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
                     length.put("y2", e.getY());
+                    length.put("released",0d);
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
@@ -402,6 +406,7 @@ public class Paint extends Application{
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
                     length.put("y2", e.getY());
+                    length.put("released",0d);
                     c.setFillColor(getColor(colorPicker2.getValue()));
                     c.setColor(getColor(colorPicker.getValue()));
                     c.setProperties(length);
@@ -419,6 +424,7 @@ public class Paint extends Application{
                     length.put("y2", (double) t2.get().y);
                     length.put("x3",  e.getX());
                     length.put("y3",  e.getY());
+                    length.put("released",0d);
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
@@ -458,6 +464,7 @@ public class Paint extends Application{
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
                     length.put("y2", e.getY());
+                    length.put("released",1d);
                     s.setFillColor(getColor(colorPicker2.getValue()));
                     s.setColor(getColor(colorPicker.getValue()));
                     s.setProperties(length);
@@ -497,6 +504,7 @@ public class Paint extends Application{
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
                     length.put("y2", e.getY());
+                    length.put("released",1d);
                     c.setFillColor(getColor(colorPicker2.getValue()));
                     c.setColor(getColor(colorPicker.getValue()));
                     c.setProperties(length);
