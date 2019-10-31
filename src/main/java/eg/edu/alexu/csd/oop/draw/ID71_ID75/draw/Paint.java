@@ -248,31 +248,64 @@ public class Paint extends Application{
         canvas.setOnMouseDragged(e->{
             switch (current){
                 case "resize":{
-                    if(newShape[0] != null && newShape[0].getProperties().get("triangle")==1d){
+                    if(newShape[0] != null){
                         Shape l;
-                        if(newShape[0].getProperties().get("line")==1d){
+                        if(newShape[0].getProperties().get("type")==1d){
                             l = new line();
-                        } else if(newShape[0].getProperties().get("circle")==1d){
+                        } else if(newShape[0].getProperties().get("type")==2d){
                             l = new Circle();
-                        } else if(newShape[0].getProperties().get("rectangle")==1d){
+                        } else if(newShape[0].getProperties().get("type")==3d){
                             l = new Rectangle();
-                        } else if(newShape[0].getProperties().get("ellipse")==1d){
+                        } else if(newShape[0].getProperties().get("type")==4d){
                             l = new Ellipse();
+                        } else if(newShape[0].getProperties().get("type")==6d) {
+                            l = new Triangle();
+                            try {
+                                l=(Shape)newShape[0].clone();
+                            } catch (CloneNotSupportedException ex) {
+                                ex.printStackTrace();
+                            }
+                            int diffX=(int)e.getX()- p.get().x;
+                            int diffY=(int)e.getY()- p.get().y;
+                            Map<String,Double> secondPoint = new HashMap<>(l.getProperties());
+                            secondPoint.put("x3",l.getProperties().get("x3")+diffX);
+                            secondPoint.put("y3",l.getProperties().get("y3")+diffY);
+                            l.setProperties(secondPoint);
+                            engine.addShape(l);
+                            engine.refresh(graphics);
+                            engine.RemoveLastShape();
+                            try {
+                                newShape[0] = (Shape)l.clone();
+                            } catch (CloneNotSupportedException ex) {
+                                ex.printStackTrace();
+                            }
+                            p.get().x = (int)e.getX();
+                            p.get().y = (int)e.getY();
+                            break;
                         } else {
                             l = new Square();
                         }
-                        //copyShape(l,newShape[0]);
-                        Map<String,Double> secondPoint = newShape[0].getProperties();
-                        secondPoint.put("x2", e.getX());
-                        secondPoint.put("y2", e.getY());
+                        try {
+                            l=(Shape)newShape[0].clone();
+                        } catch (CloneNotSupportedException ex) {
+                            ex.printStackTrace();
+                        }
+                        int diffX=(int)e.getX()- p.get().x;
+                        int diffY=(int)e.getY()- p.get().y;
+                        Map<String,Double> secondPoint = new HashMap<>(l.getProperties());
+                        secondPoint.put("x2",l.getProperties().get("x2")+diffX);
+                        secondPoint.put("y2",l.getProperties().get("y2")+diffY);
                         l.setProperties(secondPoint);
                         engine.addShape(l);
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
-                        if(ct2.get() == 1){
-                            ct2.getAndIncrement();
-                            engine.removeShape(newShape[0]);
+                        try {
+                            newShape[0] = (Shape)l.clone();
+                        } catch (CloneNotSupportedException ex) {
+                            ex.printStackTrace();
                         }
+                        p.get().x = (int)e.getX();
+                        p.get().y = (int)e.getY();
                     }
                     break;
                 }
@@ -440,6 +473,13 @@ public class Paint extends Application{
         });
         canvas.setOnMouseReleased(e->{
             switch (current){
+                case "resize":{
+                    if(newShape[0]!=null) {
+                        engine.addShape(newShape[0]);
+                        engine.refresh(graphics);
+                    }
+                    break;
+                }
                 case "select":{
                     if(newShape[0]!=null) {
                         engine.addShape(newShape[0]);
