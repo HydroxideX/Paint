@@ -1,7 +1,6 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
@@ -21,12 +20,11 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Paint extends Application{
-    String current = "";
+    private String current = "";
 
     public static void main(String[] args){
         launch(args);
@@ -106,7 +104,6 @@ public class Paint extends Application{
         shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete,resize);
         Canvas canvas = new Canvas(1000,600);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
-        GraphicsContext gc = canvas.getGraphicsContext2D();
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
         root.getChildren().addAll(menu,shapes,can);
@@ -116,7 +113,6 @@ public class Paint extends Application{
         AtomicReference<Point> p = new AtomicReference<>(new Point());
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
         AtomicInteger ct1 = new AtomicInteger();
-        AtomicBoolean selected = new AtomicBoolean(false);
 
         Engine engine = new Engine();
         Shape[] newShape = new Shape[1];
@@ -130,7 +126,7 @@ public class Paint extends Application{
             engine.refresh(graphics);
         });
         delete.setOnAction(e->{
-            if(current == "select" && newShape[0] != null){
+            if(current.equals("select") && newShape[0] != null){
                 engine.removeShape(newShape[0]);
                 engine.refresh(graphics);
                 newShape[0] = null;
@@ -138,9 +134,7 @@ public class Paint extends Application{
                 current = "";
             }
         });
-        select.setOnAction(e->{
-            current = "select";
-        });
+        select.setOnAction(e-> current = "select");
         canvas.setOnMousePressed(e->{
             switch (current) {
                 case "select":{
@@ -186,8 +180,8 @@ public class Paint extends Application{
                         }
                         //copyShape(l,newShape[0]);
                         Map<String,Double> secondPoint = newShape[0].getProperties();
-                        secondPoint.put("x2",Double.valueOf(e.getX()));
-                        secondPoint.put("y2",Double.valueOf(e.getY()));
+                        secondPoint.put("x2", e.getX());
+                        secondPoint.put("y2", e.getY());
                         l.setProperties(secondPoint);
                         engine.addShape(l);
                         engine.refresh(graphics);
@@ -220,7 +214,7 @@ public class Paint extends Application{
                             int diffX=(int)e.getX()- p.get().x;
                             int diffY=(int)e.getY()- p.get().y;
                             l.setPosition(new Point(l.getPosition().x+diffX,l.getPosition().y+diffY));
-                            Map<String,Double> secondPoint = new HashMap<String, Double>(l.getProperties());
+                            Map<String,Double> secondPoint = new HashMap<>(l.getProperties());
                             secondPoint.put("x2",l.getProperties().get("x2")+diffX);
                             secondPoint.put("y2",l.getProperties().get("y2")+diffY);
                             secondPoint.put("x3",l.getProperties().get("x3")+diffX);
@@ -248,7 +242,7 @@ public class Paint extends Application{
                         int diffX=(int)e.getX()- p.get().x;
                         int diffY=(int)e.getY()- p.get().y;
                         l.setPosition(new Point(l.getPosition().x+diffX,l.getPosition().y+diffY));
-                        Map<String,Double> secondPoint = new HashMap<String, Double>(l.getProperties());
+                        Map<String,Double> secondPoint = new HashMap<>(l.getProperties());
                         secondPoint.put("x2",l.getProperties().get("x2")+diffX);
                         secondPoint.put("y2",l.getProperties().get("y2")+diffY);
                         l.setProperties(secondPoint);
@@ -268,9 +262,9 @@ public class Paint extends Application{
                 case "line":{
                     line l = new line();
                     getLineValues(l, p.get(),colorPicker);
-                    Map<String,Double> secondPoint = new HashMap<String, Double>();
-                    secondPoint.put("x2",Double.valueOf(e.getX()));
-                    secondPoint.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> secondPoint = new HashMap<>();
+                    secondPoint.put("x2", e.getX());
+                    secondPoint.put("y2", e.getY());
                     l.setProperties(secondPoint);
                     engine.addShape(l);
                     engine.refresh(graphics);
@@ -280,9 +274,9 @@ public class Paint extends Application{
                 case "square":{
                     Square s = new Square();
                     s.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     s.setFillColor(getColor(colorPicker2.getValue()));
                     s.setColor(getColor(colorPicker.getValue()));
                     s.setProperties(length);
@@ -294,9 +288,9 @@ public class Paint extends Application{
                 case "rectangle": {
                     Rectangle r = new Rectangle();
                     r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
@@ -308,9 +302,9 @@ public class Paint extends Application{
                 case "ellipse":{
                     Ellipse r = new Ellipse();
                     r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
@@ -322,9 +316,9 @@ public class Paint extends Application{
                 case "circle":{
                     Circle c = new Circle();
                     c.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     c.setFillColor(getColor(colorPicker2.getValue()));
                     c.setColor(getColor(colorPicker.getValue()));
                     c.setProperties(length);
@@ -337,7 +331,7 @@ public class Paint extends Application{
                     if(ct1.get() != 2) break;
                     Triangle r=new Triangle();
                     r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
+                    Map<String,Double> length = new HashMap<>();
                     length.put("x2", (double) t2.get().x);
                     length.put("y2", (double) t2.get().y);
                     length.put("x3",  e.getX());
@@ -365,9 +359,9 @@ public class Paint extends Application{
                 case "line":{
                     line l = new line();
                     getLineValues(l, p.get(),colorPicker);
-                    Map<String,Double> secondPoint = new HashMap<String, Double>();
-                    secondPoint.put("x2",Double.valueOf(e.getX()));
-                    secondPoint.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> secondPoint = new HashMap<>();
+                    secondPoint.put("x2", e.getX());
+                    secondPoint.put("y2", e.getY());
                     l.setProperties(secondPoint);
                     engine.addShape(l);
                     engine.refresh(graphics);
@@ -376,9 +370,9 @@ public class Paint extends Application{
                 case "square":{
                     Square s = new Square();
                     s.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     s.setFillColor(getColor(colorPicker2.getValue()));
                     s.setColor(getColor(colorPicker.getValue()));
                     s.setProperties(length);
@@ -389,9 +383,9 @@ public class Paint extends Application{
                 case "rectangle": {
                     Rectangle r = new Rectangle();
                     r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
@@ -402,9 +396,9 @@ public class Paint extends Application{
                 case "ellipse":{
                     Ellipse r = new Ellipse();
                     r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
@@ -415,9 +409,9 @@ public class Paint extends Application{
                 case "circle":{
                     Circle c = new Circle();
                     c.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<String, Double>();
-                    length.put("x2", Double.valueOf(e.getX()));
-                    length.put("y2",Double.valueOf(e.getY()));
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
                     c.setFillColor(getColor(colorPicker2.getValue()));
                     c.setColor(getColor(colorPicker.getValue()));
                     c.setProperties(length);
@@ -429,7 +423,7 @@ public class Paint extends Application{
                     if(ct1.get() != 2) break;
                     Triangle r = new Triangle();
                     r.setPosition(p.get());
-                    Map<String, Double> length = new HashMap<String, Double>();
+                    Map<String, Double> length = new HashMap<>();
                     length.put("x2", (double) t2.get().x);
                     length.put("y2", (double) t2.get().y);
                     length.put("x3", e.getX());

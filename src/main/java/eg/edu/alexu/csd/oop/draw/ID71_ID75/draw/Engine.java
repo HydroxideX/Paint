@@ -1,15 +1,9 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 
 import java.awt.*;
-import java.awt.Paint;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Random;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 
 public class Engine implements DrawingEngine{
@@ -37,10 +31,9 @@ public class Engine implements DrawingEngine{
         maxIndex = index;
     }
 
-    private boolean removed = false;
     @Override
     public void removeShape(Shape shape) {
-        removed = false;
+        boolean removed = false;
         for (int i = 0;i<index;i++){
             if(arrayOfShapes[i] == shape){
                 removed = true;
@@ -144,8 +137,6 @@ public class Engine implements DrawingEngine{
                         x,y)){
                     return arrayOfShapes[i];
                 }
-            } else {
-                continue;
             }
         }
         return null;
