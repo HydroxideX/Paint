@@ -180,9 +180,17 @@ public class Paint extends Application{
         });
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.java"));
-
+        AtomicReference<Object> loader = null;
         loadClass.setOnAction(e->{
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
+                current=selectedFile.getName();
+                ClassLoader classLoader =ClassLoader.getSystemClassLoader();
+            try {
+                Class cl=classLoader.loadClass(current);
+                loader.set(cl.newInstance());
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+                ex.printStackTrace();
+            }
         });
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -270,16 +278,8 @@ public class Paint extends Application{
             switch (current){
                 case "resize":{
                     if(newShape[0] != null){
-                        Shape l;
-                        if(newShape[0].getProperties().get("type")==1d){
-                            l = new line();
-                        } else if(newShape[0].getProperties().get("type")==2d){
-                            l = new Circle();
-                        } else if(newShape[0].getProperties().get("type")==3d){
-                            l = new Rectangle();
-                        } else if(newShape[0].getProperties().get("type")==4d){
-                            l = new Ellipse();
-                        } else if(newShape[0].getProperties().get("type")==6d) {
+                        Shape l = null;
+                        if(newShape[0].getProperties().get("type")==6d) {
                             l = new Triangle();
                             try {
                                 l=(Shape)newShape[0].clone();
@@ -303,8 +303,13 @@ public class Paint extends Application{
                             p.get().x = (int)e.getX();
                             p.get().y = (int)e.getY();
                             break;
-                        } else {
-                            l = new Square();
+                        }
+                        else {
+                            try {
+                                l = newShape[0].getClass().newInstance();
+                            } catch (InstantiationException | IllegalAccessException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                         try {
                             l=(Shape)newShape[0].clone();
@@ -332,16 +337,8 @@ public class Paint extends Application{
                 }
                 case "select":{
                     if(newShape[0] != null){
-                        Shape l;
-                        if(newShape[0].getProperties().get("type")==1d){
-                            l = new line();
-                        } else if(newShape[0].getProperties().get("type")==2d){
-                            l = new Circle();
-                        } else if(newShape[0].getProperties().get("type")==3d){
-                            l = new Rectangle();
-                        } else if(newShape[0].getProperties().get("type")==4d){
-                            l = new Ellipse();
-                        } else if(newShape[0].getProperties().get("type")==6d) {
+                        Shape l = null;
+                        if(newShape[0].getProperties().get("type")==6d) {
                             l = new Triangle();
                             try {
                                 l=(Shape)newShape[0].clone();
@@ -368,8 +365,13 @@ public class Paint extends Application{
                             p.get().x = (int)e.getX();
                             p.get().y = (int)e.getY();
                             break;
-                        } else {
-                            l = new Square();
+                        }
+                       else {
+                            try {
+                                l = newShape[0].getClass().newInstance();
+                            } catch (InstantiationException | IllegalAccessException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                         try {
                             l=(Shape)newShape[0].clone();
