@@ -19,6 +19,7 @@ public class Triangle implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
+        this.properties.put("triangle",1d);
     }
 
     public Map<String, Double> getProperties() {

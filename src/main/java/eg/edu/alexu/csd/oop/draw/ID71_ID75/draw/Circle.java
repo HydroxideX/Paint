@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Circle implements Shape  {
     private Point position;
-    private Map<String, Double> properties= new HashMap<>();
+    public Map<String, Double> properties= new HashMap<>();
     private Color color;
     private Color fillColor;
     public void setPosition(Point position) {
@@ -19,6 +19,7 @@ public class Circle implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
+        this.properties.put("circle",1d);
     }
 
     public Map<String, Double> getProperties() {
@@ -45,6 +46,7 @@ public class Circle implements Shape  {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
         Point p3 = Correct(position,p1);
         Double l,w,mn;
+
         if(p3.x == position.x && p3.y == position.y) {
             l = Double.valueOf(Math.abs(p1.x - position.x));
             w = Double.valueOf(Math.abs(p1.y - position.y));

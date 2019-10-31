@@ -21,6 +21,7 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -56,7 +57,7 @@ public class Paint extends Application{
         redo.setMinHeight(31);
         addedShapes.setMinHeight(31);
         addedShapes.setMinWidth(200);
-        menu.getChildren().addAll(addedShapes,save,load,undo,redo);
+
         Button line =new Button();
         image = new Image(new FileInputStream("Resources/btn1.png"));
         line.setGraphic(new ImageView(image));
@@ -76,17 +77,11 @@ public class Paint extends Application{
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
         triangle.setOnAction(e->current="triangle");
-        line.setOnAction(e->{
-            current = "line";
-        });
-        rectangle.setOnAction(e->{
-            current = "rectangle";
-        });
-        Circle.setOnAction(e->{
-            current = "circle";
-        });
+        line.setOnAction(e-> current = "line");
+        rectangle.setOnAction(e-> current = "rectangle");
+        Circle.setOnAction(e-> current = "circle");
         ellipse.setOnAction(e->current="ellipse");
-
+        square.setOnAction(e->current="square");
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
         Border.setCenterShape(true);
@@ -94,7 +89,6 @@ public class Paint extends Application{
         Fill.setFont(new Font("Arial", 20));
         ColorPicker colorPicker=new ColorPicker();
         ColorPicker colorPicker2=new ColorPicker();
-
         colorPicker.setMinHeight(29);
         colorPicker2.setMinHeight(29);
         image = new Image(new FileInputStream("Resources/btn12.png"));
@@ -106,26 +100,52 @@ public class Paint extends Application{
         select.setMaxHeight(29);
         select.setPrefHeight(29);
         select.setMinHeight(29);
-        square.setOnAction(e->{
-            current = "square";
-        });
-        Engine engine = new Engine();
+        menu.getChildren().addAll(addedShapes,save,load,undo,redo);
         shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
         Canvas canvas = new Canvas(1000,600);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         can.setStyle("-fx-background-color: WHITE");
         can.getChildren().add(canvas);
-        AtomicReference<Point> p = new AtomicReference<>(new Point());
-        AtomicReference<Point> t2 = new AtomicReference<>(new Point());
-        AtomicInteger ct1 = new AtomicInteger();
         root.getChildren().addAll(menu,shapes,can);
         primaryStage.setScene(new Scene(root,Region.USE_PREF_SIZE,Region.USE_PREF_SIZE));
         primaryStage.show();
 
+        AtomicReference<Point> p = new AtomicReference<>(new Point());
+        AtomicReference<Point> t2 = new AtomicReference<>(new Point());
+        AtomicInteger ct1 = new AtomicInteger();
+        AtomicBoolean selected = new AtomicBoolean(false);
+
+        Engine engine = new Engine();
+        Shape[] newShape = new Shape[1];
+        AtomicInteger ct2 = new AtomicInteger();
+        undo.setOnAction(e->{
+            engine.undo();
+            engine.refresh(graphics);
+        });
+        redo.setOnAction(e->{
+            engine.redo();
+            engine.refresh(graphics);
+        });
+        delete.setOnAction(e->{
+            if(current == "select" && newShape[0] != null){
+                engine.removeShape(newShape[0]);
+                newShape[0] = null;
+                ct2.set(0);
+                current = "";
+            }
+        });
+        select.setOnAction(e->{
+            current = "select";
+        });
         canvas.setOnMousePressed(e->{
             switch (current) {
                 case "select":{
+                    newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
+                    if(newShape[0] != null){
+                        p.get().x = (int)e.getX();
+                        p.get().y = (int)e.getY();
+                    }
                     break;
                 }
                 case "triangle":{
@@ -146,6 +166,69 @@ public class Paint extends Application{
 
         canvas.setOnMouseDragged(e->{
             switch (current){
+                case "resize":{
+                    if(newShape[0] != null && newShape[0].getProperties().get("triangle")==1d){
+                        Shape l;
+                        if(newShape[0].getProperties().get("line")==1d){
+                            l = new line();
+                        } else if(newShape[0].getProperties().get("circle")==1d){
+                            l = new Circle();
+                        } else if(newShape[0].getProperties().get("rectangle")==1d){
+                            l = new Rectangle();
+                        } else if(newShape[0].getProperties().get("ellipse")==1d){
+                            l = new Ellipse();
+                        } else {
+                            l = new Square();
+                        }
+                        copyShape(l,newShape[0]);
+                        Map<String,Double> secondPoint = newShape[0].getProperties();
+                        secondPoint.put("x2",Double.valueOf(e.getX()));
+                        secondPoint.put("y2",Double.valueOf(e.getY()));
+                        l.setProperties(secondPoint);
+                        engine.addShape(l);
+                        engine.refresh(graphics);
+                        engine.RemoveLastShape();
+                        if(ct2.get() == 1){
+                            ct2.getAndIncrement();
+                            engine.removeShape(newShape[0]);
+                        }
+                    }
+                    break;
+                }
+                case "select":{
+                    if(newShape[0] != null && newShape[0].getProperties().get("triangle")==1d){
+                        Shape l;
+                        if(newShape[0].getProperties().get("line")==1d){
+                            l = new line();
+                        } else if(newShape[0].getProperties().get("circle")==1d){
+                            l = new Circle();
+                        } else if(newShape[0].getProperties().get("rectangle")==1d){
+                            l = new Rectangle();
+                        } else if(newShape[0].getProperties().get("ellipse")==1d){
+                            l = new Ellipse();
+                        } else {
+                            l = new Square();
+                        }
+                        copyShape(l,newShape[0]);
+                        Map<String,Double> secondPoint = newShape[0].getProperties();
+                        Point p3 = new Point();
+                        int diffx = Double.valueOf(newShape[0].getProperties().get("x2")).intValue() - newShape[0].getPosition().x;
+                        int diffy = Double.valueOf(newShape[0].getProperties().get("y2")).intValue() - newShape[0].getPosition().y;
+                        p3.x = (int)e.getX();
+                        p3.y = (int)e.getY();
+                        secondPoint.put("x2",Double.valueOf(e.getX())+diffx);
+                        secondPoint.put("y2",Double.valueOf(e.getY())+diffy);
+                        l.setProperties(secondPoint);
+                        engine.addShape(l);
+                        engine.refresh(graphics);
+                        engine.RemoveLastShape();
+                        if(ct2.get() == 1){
+                            ct2.getAndIncrement();
+                            engine.removeShape(newShape[0]);
+                        }
+                    }
+                    break;
+                }
                 case "line":{
                     line l = new line();
                     getLineValues(l, p.get(),colorPicker);
@@ -337,5 +420,12 @@ public class Paint extends Application{
         float g = (float)v.getGreen();
         float o = (float)v.getOpacity();
         return new java.awt.Color(r,g,b,o);
+    }
+
+    void copyShape(Shape s1,Shape s2){
+        s1.setProperties(s2.getProperties());
+        s1.setColor(s2.getColor());
+        s1.setPosition(s2.getPosition());
+        s1.setFillColor(s2.getFillColor());
     }
 }
