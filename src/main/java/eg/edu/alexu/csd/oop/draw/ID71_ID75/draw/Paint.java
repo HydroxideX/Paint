@@ -420,8 +420,14 @@ public class Paint extends Application{
                     break;
                 }
                 case "load":{
-                    Shape l=null;
-                    l= loader.get();
+                    Shape l = null;
+                    Shape x=loader.get();
+                    try {
+                        l=x.getClass().newInstance();
+                    } catch (InstantiationException | IllegalAccessException ex) {
+                        ex.printStackTrace();
+                    }
+                    l.setPosition(p.get());
                     l.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
@@ -487,8 +493,13 @@ public class Paint extends Application{
                     break;
                 }
                 case "load": {
-                    Shape l=null;
-                    l=loader.get();
+                    Shape l = null;
+                    Shape x=loader.get();
+                    try {
+                        l=x.getClass().newInstance();
+                    } catch (InstantiationException | IllegalAccessException ex) {
+                        ex.printStackTrace();
+                    }
                     l.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
                     length.put("x2", e.getX());
