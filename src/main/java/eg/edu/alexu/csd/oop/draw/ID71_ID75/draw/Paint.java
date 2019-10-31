@@ -74,12 +74,86 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Button triangle =new Button();
         triangle.setGraphic(new ImageView(image));
-        triangle.setOnAction(e->current="triangle");
-        line.setOnAction(e-> current = "line");
-        rectangle.setOnAction(e-> current = "rectangle");
-        Circle.setOnAction(e-> current = "circle");
-        ellipse.setOnAction(e->current="ellipse");
-        square.setOnAction(e->current="square");
+        Button select=new Button();
+        Button customShape=new Button("Custom");
+        triangle.setOnAction(e->{
+            current="triangle";
+            triangle.setDisable(true);
+            line.setDisable(false);
+            ellipse.setDisable(false);
+            square.setDisable(false);
+            rectangle.setDisable(false);
+            Circle.setDisable(false);
+            select.setDisable(false);
+            customShape.setDisable(false);
+        });
+        line.setOnAction(e->{
+            current = "line";
+            triangle.setDisable(false);
+            line.setDisable(true);
+            ellipse.setDisable(false);
+            square.setDisable(false);
+            rectangle.setDisable(false);
+            Circle.setDisable(false);
+            select.setDisable(false);
+            customShape.setDisable(false);
+        });
+        rectangle.setOnAction(e->{
+            current = "rectangle";
+            triangle.setDisable(false);
+            line.setDisable(false);
+            ellipse.setDisable(false);
+            square.setDisable(false);
+            rectangle.setDisable(true);
+            Circle.setDisable(false);
+            select.setDisable(false);
+            customShape.setDisable(false);
+        });
+        Circle.setOnAction(e-> {
+            current = "circle";
+            triangle.setDisable(false);
+            line.setDisable(false);
+            ellipse.setDisable(false);
+            square.setDisable(false);
+            rectangle.setDisable(false);
+            Circle.setDisable(true);
+            select.setDisable(false);
+            customShape.setDisable(false);
+        });
+        ellipse.setOnAction(e->{
+            current="ellipse";
+            triangle.setDisable(false);
+            line.setDisable(false);
+            ellipse.setDisable(true);
+            square.setDisable(false);
+            rectangle.setDisable(false);
+            Circle.setDisable(false);
+            select.setDisable(false);
+            customShape.setDisable(false);
+        });
+        square.setOnAction(e->{
+            current="square";
+            triangle.setDisable(false);
+            line.setDisable(false);
+            ellipse.setDisable(false);
+            square.setDisable(true);
+            rectangle.setDisable(false);
+            Circle.setDisable(false);
+            select.setDisable(false);
+            customShape.setDisable(false);
+        });
+        select.setOnAction(e-> {
+            current = "select";
+            triangle.setDisable(false);
+            line.setDisable(false);
+            ellipse.setDisable(false);
+            square.setDisable(false);
+            rectangle.setDisable(false);
+            Circle.setDisable(false);
+            select.setDisable(true);
+            customShape.setDisable(false);
+        });
+
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
         Border.setCenterShape(true);
@@ -92,14 +166,12 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn12.png"));
         Button delete =new Button();
         delete.setGraphic(new ImageView(image));
-        Button select=new Button();
         image = new Image(new FileInputStream("Resources/mouse.png"));
         select.setGraphic(new ImageView(image));
         select.setMaxHeight(29);
         select.setPrefHeight(29);
         select.setMinHeight(29);
         Button resize=new Button("Resize");
-        Button customShape=new Button("Custom");
         resize.setOnAction(e->current="resize");
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
@@ -135,9 +207,9 @@ public class Paint extends Application{
                 newShape[0] = null;
                 ct2.set(0);
                 current = "";
+                select.setDisable(false);
             }
         });
-        select.setOnAction(e-> current = "select");
         canvas.setOnMousePressed(e->{
             switch (current) {
                 case "select":{
