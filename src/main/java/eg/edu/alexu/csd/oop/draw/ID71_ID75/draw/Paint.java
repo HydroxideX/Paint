@@ -202,9 +202,9 @@ public class Paint extends Application{
                             l = new line();
                         } else if(newShape[0].getProperties().get("type")==2d){
                             l = new Circle();
-                        } else if(newShape[0].getProperties().get("rectangle")==1d){
+                        } else if(newShape[0].getProperties().get("type")==3d){
                             l = new Rectangle();
-                        } else if(newShape[0].getProperties().get("ellipse")==1d){
+                        } else if(newShape[0].getProperties().get("type")==4d){
                             l = new Ellipse();
                         } else {
                             l = new Square();

@@ -128,9 +128,9 @@ public class Engine implements DrawingEngine{
                     return arrayOfShapes[i];
                 }
             }else if(arrayOfShapes[i].getProperties().get("type")==2d ||
-                    arrayOfShapes[i].getProperties().get("circle")==1d ||
-                    arrayOfShapes[i].getProperties().get("ellipse")==1d ||
-                    arrayOfShapes[i].getProperties().get("rectangle")==1d){
+                    arrayOfShapes[i].getProperties().get("type")==3d ||
+                    arrayOfShapes[i].getProperties().get("type")==4d ||
+                    arrayOfShapes[i].getProperties().get("type")==5d){
                 Point p1 = new Point(arrayOfShapes[i].getPosition());
                 Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
                         arrayOfShapes[i].getProperties().get("y2").intValue());
@@ -140,10 +140,10 @@ public class Engine implements DrawingEngine{
                         ||(x<=p1.x && y >= p1.y && y <= p2.y && x >= p2.x)){
                     return arrayOfShapes[i];
                 }
-            } else if(arrayOfShapes[i].getProperties().get("triangle") == 1d) {
+            } else if(arrayOfShapes[i].getProperties().get("type") == 6d) {
                 if(isInside(arrayOfShapes[i].getPosition().x,arrayOfShapes[i].getPosition().y,
                         arrayOfShapes[i].getProperties().get("x2").intValue(),arrayOfShapes[i].getProperties().get("y2").intValue(),
-                        arrayOfShapes[i].getProperties().get("x3").intValue(),arrayOfShapes[i].getProperties().get("y2").intValue(),
+                        arrayOfShapes[i].getProperties().get("x3").intValue(),arrayOfShapes[i].getProperties().get("y3").intValue(),
                         x,y)){
                     return arrayOfShapes[i];
                 }

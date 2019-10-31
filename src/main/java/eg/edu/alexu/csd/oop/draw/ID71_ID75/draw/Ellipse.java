@@ -19,7 +19,7 @@ public class Ellipse implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
-        this.properties.put("ellipse",1d);
+        this.properties.put("type",4d);
     }
 
     public Map<String, Double> getProperties() {
@@ -45,8 +45,8 @@ public class Ellipse implements Shape  {
     public void draw(Graphics canvas) {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
         Point p3 = Correct(position,p1);
-        Double l = Double.valueOf(Math.abs(p1.x-position.x));
-        Double w = Double.valueOf(Math.abs(p1.y-position.y));
+        Double l = (double) Math.abs(p1.x - position.x);
+        Double w = (double) Math.abs(p1.y - position.y);
         canvas.setColor(getFillColor());
         canvas.fillOval(p3.x,p3.y,l.intValue(),w.intValue());
         canvas.setColor(getColor());
