@@ -101,6 +101,8 @@ public class Paint extends Application{
         Button resize=new Button("Resize");
         Button customShape=new Button("Custom");
         resize.setOnAction(e->current="resize");
+        resize.setMinHeight(29);
+        customShape.setMinHeight(29);
         menu.getChildren().addAll(addedShapes,save,load,undo,redo);
         shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,customShape,Border,colorPicker,Fill,colorPicker2,delete,resize);
         Canvas canvas = new Canvas(1000,600);
@@ -139,6 +141,14 @@ public class Paint extends Application{
         canvas.setOnMousePressed(e->{
             switch (current) {
                 case "select":{
+                    newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
+                    if(newShape[0] != null){
+                        p.set(new Point((int)e.getX(),(int)e.getY()));
+                        engine.removeShape(newShape[0]);
+                        ct2.getAndIncrement();
+                    }
+                    break;
+                } case "resize":{
                     newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
                     if(newShape[0] != null){
                         p.set(new Point((int)e.getX(),(int)e.getY()));
