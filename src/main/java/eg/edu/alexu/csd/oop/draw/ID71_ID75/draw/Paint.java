@@ -180,15 +180,16 @@ public class Paint extends Application{
         });
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.java"));
-        AtomicReference<Object> loader = null;
+        AtomicReference<Shape> loader = new AtomicReference<>();
         loadClass.setOnAction(e->{
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
                 current=selectedFile.getName();
+                current=current.substring(0,current.length()-6);
                 ClassLoader classLoader =ClassLoader.getSystemClassLoader();
             try {
-
-                Class cl=classLoader.loadClass("eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Circle");
-                loader.set(cl.newInstance());
+                String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                Class cl=classLoader.loadClass(pack+"."+current);
+                loader.set((Shape) cl.newInstance());
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
                 ex.printStackTrace();
             }
@@ -212,6 +213,7 @@ public class Paint extends Application{
         select.setMinHeight(29);
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
+        customShape.setOnAction(e->current="load");
         menu.getChildren().addAll(addedShapes,save,load,undo,redo,loadClass);
         shapes.getChildren().addAll(select,line,Circle,Ellipse,Rectangle,Square,Triangle,customShape,Border,colorPicker,Fill,colorPicker2,delete,resize);
         Canvas canvas = new Canvas(1000,600);
@@ -417,6 +419,22 @@ public class Paint extends Application{
                     engine.removeShape(r);
                     break;
                 }
+                case "load":{
+                    Shape l=null;
+                    l= loader.get();
+                    l.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
+                    length.put("released",0d);
+                    l.setFillColor(getColor(colorPicker2.getValue()));
+                    l.setColor(getColor(colorPicker.getValue()));
+                    l.setProperties(length);
+                    engine.addShape(l);
+                    engine.refresh(graphics);
+                    engine.RemoveLastShape();
+                    break;
+                }
                 default:{
                     Shape l=null;
                     String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
@@ -466,6 +484,21 @@ public class Paint extends Application{
                     engine.addShape(r);
                     engine.refresh(graphics);
                     ct1.set(0);
+                    break;
+                }
+                case "load": {
+                    Shape l=null;
+                    l=loader.get();
+                    l.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
+                    length.put("released",1d);
+                    l.setFillColor(getColor(colorPicker2.getValue()));
+                    l.setColor(getColor(colorPicker.getValue()));
+                    l.setProperties(length);
+                    engine.addShape(l);
+                    engine.refresh(graphics);
                     break;
                 }
                 default:{
