@@ -12,11 +12,13 @@ import javafx.scene.Scene;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
 
 import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -176,7 +178,12 @@ public class Paint extends Application{
             customShape.setDisable(false);
             resize.setDisable(true);
         });
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.java"));
 
+        loadClass.setOnAction(e->{
+                File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        });
         Label Border=new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
         Border.setCenterShape(true);
@@ -233,15 +240,8 @@ public class Paint extends Application{
         });
         canvas.setOnMousePressed(e->{
             switch (current) {
-                case "select":{
-                    newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
-                    if(newShape[0] != null){
-                        p.set(new Point((int)e.getX(),(int)e.getY()));
-                        engine.removeShape(newShape[0]);
-                        ct2.getAndIncrement();
-                    }
-                    break;
-                } case "resize":{
+                case "select":
+                case "resize": {
                     newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
                     if(newShape[0] != null){
                         p.set(new Point((int)e.getX(),(int)e.getY()));
@@ -494,19 +494,13 @@ public class Paint extends Application{
         });
         canvas.setOnMouseReleased(e->{
             switch (current){
-                case "resize":{
+                case "resize":
+                case "select": {
                     if(newShape[0]!=null) {
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
                     }
                     break;
-                }
-                case "select":{
-                    if(newShape[0]!=null) {
-                        engine.addShape(newShape[0]);
-                        engine.refresh(graphics);
-                    }
-                        break;
                 }
                 case "line":{
                     line l = new line();
