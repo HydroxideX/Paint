@@ -178,6 +178,7 @@ public class Paint extends Application{
             customShape.setDisable(false);
             resize.setDisable(true);
         });
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.java"));
         AtomicReference<Shape> loader = new AtomicReference<>();
@@ -187,6 +188,7 @@ public class Paint extends Application{
                     current = selectedFile.getName();
                     current = current.substring(0, current.length() - 6);
                     addedShapes.getItems().add(current);
+                    addedShapes.setValue(current);
                 }
         });
         Label Border=new Label(" Color: ");
@@ -208,7 +210,19 @@ public class Paint extends Application{
         select.setMinHeight(29);
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
-        customShape.setOnAction(e->current="load");
+        customShape.setOnAction(e->{
+            current="resize";
+            Triangle.setDisable(false);
+            line.setDisable(false);
+            Ellipse.setDisable(false);
+            Square.setDisable(false);
+            Rectangle.setDisable(false);
+            Circle.setDisable(false);
+            select.setDisable(false);
+            customShape.setDisable(true);
+            resize.setDisable(false);
+            current="load";
+        });
         menu.getChildren().addAll(addedShapes,save,load,undo,redo,loadClass);
         shapes.getChildren().addAll(select,line,Circle,Ellipse,Rectangle,Square,Triangle,customShape,Border,colorPicker,Fill,colorPicker2,delete,resize);
         Canvas canvas = new Canvas(1000,600);
