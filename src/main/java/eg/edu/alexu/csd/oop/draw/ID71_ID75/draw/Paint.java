@@ -208,6 +208,33 @@ public class Paint extends Application{
                             l = new Rectangle();
                         } else if(newShape[0].getProperties().get("type")==4d){
                             l = new Ellipse();
+                        } else if(newShape[0].getProperties().get("type")==6d) {
+                            l = new Triangle();
+                            try {
+                                l=(Shape)newShape[0].clone();
+                            } catch (CloneNotSupportedException ex) {
+                                ex.printStackTrace();
+                            }
+                            int diffX=(int)e.getX()- p.get().x;
+                            int diffY=(int)e.getY()- p.get().y;
+                            l.setPosition(new Point(l.getPosition().x+diffX,l.getPosition().y+diffY));
+                            Map<String,Double> secondPoint = new HashMap<String, Double>(l.getProperties());
+                            secondPoint.put("x2",l.getProperties().get("x2")+diffX);
+                            secondPoint.put("y2",l.getProperties().get("y2")+diffY);
+                            secondPoint.put("x3",l.getProperties().get("x3")+diffX);
+                            secondPoint.put("y3",l.getProperties().get("y3")+diffY);
+                            l.setProperties(secondPoint);
+                            engine.addShape(l);
+                            engine.refresh(graphics);
+                            engine.RemoveLastShape();
+                            try {
+                                newShape[0] = (Shape)l.clone();
+                            } catch (CloneNotSupportedException ex) {
+                                ex.printStackTrace();
+                            }
+                            p.get().x = (int)e.getX();
+                            p.get().y = (int)e.getY();
+                            break;
                         } else {
                             l = new Square();
                         }
@@ -220,7 +247,6 @@ public class Paint extends Application{
                         int diffY=(int)e.getY()- p.get().y;
                         l.setPosition(new Point(l.getPosition().x+diffX,l.getPosition().y+diffY));
                         Map<String,Double> secondPoint = new HashMap<String, Double>(l.getProperties());
-                        Double j = Double.valueOf(l.getProperties().get("x2").intValue()+ diffX);
                         secondPoint.put("x2",l.getProperties().get("x2")+diffX);
                         secondPoint.put("y2",l.getProperties().get("y2")+diffY);
                         l.setProperties(secondPoint);
@@ -232,6 +258,8 @@ public class Paint extends Application{
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
+                        p.get().x = (int)e.getX();
+                        p.get().y = (int)e.getY();
                     }
                     break;
                 }
@@ -327,6 +355,11 @@ public class Paint extends Application{
         });
         canvas.setOnMouseReleased(e->{
             switch (current){
+                case "select":{
+                        engine.addShape(newShape[0]);
+                        engine.refresh(graphics);
+                        break;
+                }
                 case "line":{
                     line l = new line();
                     getLineValues(l, p.get(),colorPicker);
