@@ -186,7 +186,8 @@ public class Paint extends Application{
                 current=selectedFile.getName();
                 ClassLoader classLoader =ClassLoader.getSystemClassLoader();
             try {
-                Class cl=classLoader.loadClass(current);
+
+                Class cl=classLoader.loadClass("eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Circle");
                 loader.set(cl.newInstance());
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
                 ex.printStackTrace();
@@ -398,79 +399,6 @@ public class Paint extends Application{
                     }
                     break;
                 }
-                case "line":{
-                    line l = new line();
-                    getlineValues(l, p.get(),colorPicker);
-                    Map<String,Double> secondPoint = new HashMap<>();
-                    secondPoint.put("x2", e.getX());
-                    secondPoint.put("y2", e.getY());
-                    secondPoint.put("released",0d);
-                    l.setProperties(secondPoint);
-                    engine.addShape(l);
-                    engine.refresh(graphics);
-                    engine.RemoveLastShape();
-                    break;
-                }
-                case "Square":{
-                    Square s = new Square();
-                    s.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",0d);
-                    s.setFillColor(getColor(colorPicker2.getValue()));
-                    s.setColor(getColor(colorPicker.getValue()));
-                    s.setProperties(length);
-                    engine.addShape(s);
-                    engine.refresh(graphics);
-                    engine.RemoveLastShape();
-                    break;
-                }
-                case "Rectangle": {
-                    Rectangle r = new Rectangle();
-                    r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",0d);
-                    r.setFillColor(getColor(colorPicker2.getValue()));
-                    r.setColor(getColor(colorPicker.getValue()));
-                    r.setProperties(length);
-                    engine.addShape(r);
-                    engine.refresh(graphics);
-                    engine.removeShape(r);
-                    break;
-                }
-                case "Ellipse":{
-                    Ellipse r = new Ellipse();
-                    r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",0d);
-                    r.setFillColor(getColor(colorPicker2.getValue()));
-                    r.setColor(getColor(colorPicker.getValue()));
-                    r.setProperties(length);
-                    engine.addShape(r);
-                    engine.refresh(graphics);
-                    engine.removeShape(r);
-                    break;
-                }
-                case "Circle":{
-                    Circle c = new Circle();
-                    c.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",0d);
-                    c.setFillColor(getColor(colorPicker2.getValue()));
-                    c.setColor(getColor(colorPicker.getValue()));
-                    c.setProperties(length);
-                    engine.addShape(c);
-                    engine.refresh(graphics);
-                    engine.RemoveLastShape();
-                    break;
-                }
                 case "Triangle":{
                     if(ct1.get() != 2) break;
                     Triangle r=new Triangle();
@@ -490,6 +418,25 @@ public class Paint extends Application{
                     break;
                 }
                 default:{
+                    Shape l=null;
+                    String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                    try {
+                        Class cl=Class.forName(pack+"."+current);
+                         l=(Shape)cl.newInstance();
+                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+                        ex.printStackTrace();
+                    }
+                    l.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
+                    length.put("released",0d);
+                    l.setFillColor(getColor(colorPicker2.getValue()));
+                    l.setColor(getColor(colorPicker.getValue()));
+                    l.setProperties(length);
+                    engine.addShape(l);
+                    engine.refresh(graphics);
+                    engine.RemoveLastShape();
                     break;
                 }
             }
@@ -502,71 +449,6 @@ public class Paint extends Application{
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
                     }
-                    break;
-                }
-                case "line":{
-                    line l = new line();
-                    getlineValues(l, p.get(),colorPicker);
-                    Map<String,Double> secondPoint = new HashMap<>();
-                    secondPoint.put("x2", e.getX());
-                    secondPoint.put("y2", e.getY());
-                    l.setProperties(secondPoint);
-                    engine.addShape(l);
-                    engine.refresh(graphics);
-                    break;
-                }
-                case "Square":{
-                    Square s = new Square();
-                    s.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",1d);
-                    s.setFillColor(getColor(colorPicker2.getValue()));
-                    s.setColor(getColor(colorPicker.getValue()));
-                    s.setProperties(length);
-                    engine.addShape(s);
-                    engine.refresh(graphics);
-                    break;
-                }
-                case "Rectangle": {
-                    Rectangle r = new Rectangle();
-                    r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    r.setFillColor(getColor(colorPicker2.getValue()));
-                    r.setColor(getColor(colorPicker.getValue()));
-                    r.setProperties(length);
-                    engine.addShape(r);
-                    engine.refresh(graphics);
-                    break;
-                }
-                case "Ellipse":{
-                    Ellipse r = new Ellipse();
-                    r.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    r.setFillColor(getColor(colorPicker2.getValue()));
-                    r.setColor(getColor(colorPicker.getValue()));
-                    r.setProperties(length);
-                    engine.addShape(r);
-                    engine.refresh(graphics);
-                    break;
-                }
-                case "Circle":{
-                    Circle c = new Circle();
-                    c.setPosition(p.get());
-                    Map<String,Double> length = new HashMap<>();
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released",1d);
-                    c.setFillColor(getColor(colorPicker2.getValue()));
-                    c.setColor(getColor(colorPicker.getValue()));
-                    c.setProperties(length);
-                    engine.addShape(c);
-                    engine.refresh(graphics);
                     break;
                 }
                 case "Triangle": {
@@ -587,6 +469,24 @@ public class Paint extends Application{
                     break;
                 }
                 default:{
+                    Shape l=null;
+                    String pack="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                    try {
+                        Class cl=Class.forName(pack+"."+current);
+                        l=(Shape)cl.newInstance();
+                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+                        ex.printStackTrace();
+                    }
+                    l.setPosition(p.get());
+                    Map<String,Double> length = new HashMap<>();
+                    length.put("x2", e.getX());
+                    length.put("y2", e.getY());
+                    length.put("released",1d);
+                    l.setFillColor(getColor(colorPicker2.getValue()));
+                    l.setColor(getColor(colorPicker.getValue()));
+                    l.setProperties(length);
+                    engine.addShape(l);
+                    engine.refresh(graphics);
                     break;
                 }
             }
