@@ -1,14 +1,18 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 
+import javafx.scene.control.ColorPicker;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Map;
 
 
 public class Engine implements DrawingEngine{
@@ -149,20 +153,24 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void save(String path) {
-        int i = path.length()-1;
-        for(;path.charAt(i) != '.';i--){
-            continue;
-        }
-        String extension = path.substring(i+1,path.length());
-        if(extension == ".xml"){
+        if(path.contains(".xml")){
 
-        } else if (extension.equals("json")) {
+        } else if (path.contains(".json")) {
             File file = new File(path);
             try {
                 FileWriter file2 = new FileWriter(file);
-                for(i = 0;i<index;i++){
+                for(int i = 0;i<index;i++){
                     JSONObject obj = new JSONObject();
-                    obj.put(arrayOfShapes[i].getClass().getName(), arrayOfShapes[i]);
+                    Color color = arrayOfShapes[i].getColor();
+                    Color fillColor = arrayOfShapes[i].getFillColor();
+                    Map<String,Double> m = arrayOfShapes[i].getProperties();
+                    Point p = arrayOfShapes[i].getPosition();
+                    JSONArray list = new JSONArray();
+                    list.add(color);
+                    list.add(fillColor);
+                    list.add(p);
+                    list.add(m);
+                    obj.put(arrayOfShapes[i].getClass().getName(), list);
                     file2.write(obj.toString());
                     file2.write("\n");
                     file2.flush();
