@@ -100,8 +100,10 @@ public class Paint extends Application{
         select.setMaxHeight(29);
         select.setPrefHeight(29);
         select.setMinHeight(29);
+        Button resize=new Button("Resize");
+        resize.setOnAction(e->current="resize");
         menu.getChildren().addAll(addedShapes,save,load,undo,redo);
-        shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete);
+        shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,Border,colorPicker,Fill,colorPicker2,delete,resize);
         Canvas canvas = new Canvas(1000,600);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         GraphicsContext gc = canvas.getGraphicsContext2D();
