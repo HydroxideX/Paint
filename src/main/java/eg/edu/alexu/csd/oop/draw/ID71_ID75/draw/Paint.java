@@ -51,6 +51,7 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/btn9.png"));
         Button redo=new Button();
         redo.setGraphic(new ImageView(image));
+
         undo.setMinHeight(31);
         redo.setMinHeight(31);
         addedShapes.setMinHeight(31);
@@ -63,28 +64,29 @@ public class Paint extends Application{
         Button Circle =new Button();
         Circle.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn3.png"));
-        Button ellipse =new Button();
-        ellipse.setGraphic(new ImageView(image));
+        Button Ellipse =new Button();
+        Ellipse.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn4.png"));
-        Button rectangle =new Button();
-        rectangle.setGraphic(new ImageView(image));
-        Button square =new Button();
+        Button Rectangle =new Button();
+        Rectangle.setGraphic(new ImageView(image));
+        Button Square =new Button();
         image = new Image(new FileInputStream("Resources/btn5.png"));
-        square.setGraphic(new ImageView(image));
+        Square.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn6.png"));
-        Button triangle =new Button();
-        triangle.setGraphic(new ImageView(image));
+        Button Triangle =new Button();
+        Triangle.setGraphic(new ImageView(image));
         Button select=new Button();
         Button customShape=new Button("Custom");
         Button resize=new Button("Resize");
-
-        triangle.setOnAction(e->{
-            current="triangle";
-            triangle.setDisable(true);
+        Button  loadClass=new Button("Load Class");
+        loadClass.setMinHeight(31);
+        Triangle.setOnAction(e->{
+            current="Triangle";
+            Triangle.setDisable(true);
             line.setDisable(false);
-            ellipse.setDisable(false);
-            square.setDisable(false);
-            rectangle.setDisable(false);
+            Ellipse.setDisable(false);
+            Square.setDisable(false);
+            Rectangle.setDisable(false);
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
@@ -92,59 +94,59 @@ public class Paint extends Application{
         });
         line.setOnAction(e->{
             current = "line";
-            triangle.setDisable(false);
+            Triangle.setDisable(false);
             line.setDisable(true);
-            ellipse.setDisable(false);
-            square.setDisable(false);
-            rectangle.setDisable(false);
+            Ellipse.setDisable(false);
+            Square.setDisable(false);
+            Rectangle.setDisable(false);
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
             resize.setDisable(false);
         });
-        rectangle.setOnAction(e->{
-            current = "rectangle";
-            triangle.setDisable(false);
+        Rectangle.setOnAction(e->{
+            current = "Rectangle";
+            Triangle.setDisable(false);
             line.setDisable(false);
-            ellipse.setDisable(false);
-            square.setDisable(false);
-            rectangle.setDisable(true);
+            Ellipse.setDisable(false);
+            Square.setDisable(false);
+            Rectangle.setDisable(true);
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
             resize.setDisable(false);
         });
         Circle.setOnAction(e-> {
-            current = "circle";
-            triangle.setDisable(false);
+            current = "Circle";
+            Triangle.setDisable(false);
             line.setDisable(false);
-            ellipse.setDisable(false);
-            square.setDisable(false);
-            rectangle.setDisable(false);
+            Ellipse.setDisable(false);
+            Square.setDisable(false);
+            Rectangle.setDisable(false);
             Circle.setDisable(true);
             select.setDisable(false);
             customShape.setDisable(false);
             resize.setDisable(false);
         });
-        ellipse.setOnAction(e->{
-            current="ellipse";
-            triangle.setDisable(false);
+        Ellipse.setOnAction(e->{
+            current="Ellipse";
+            Triangle.setDisable(false);
             line.setDisable(false);
-            ellipse.setDisable(true);
-            square.setDisable(false);
-            rectangle.setDisable(false);
+            Ellipse.setDisable(true);
+            Square.setDisable(false);
+            Rectangle.setDisable(false);
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
             resize.setDisable(false);
         });
-        square.setOnAction(e->{
-            current="square";
-            triangle.setDisable(false);
+        Square.setOnAction(e->{
+            current="Square";
+            Triangle.setDisable(false);
             line.setDisable(false);
-            ellipse.setDisable(false);
-            square.setDisable(true);
-            rectangle.setDisable(false);
+            Ellipse.setDisable(false);
+            Square.setDisable(true);
+            Rectangle.setDisable(false);
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
@@ -152,11 +154,11 @@ public class Paint extends Application{
         });
         select.setOnAction(e-> {
             current = "select";
-            triangle.setDisable(false);
+            Triangle.setDisable(false);
             line.setDisable(false);
-            ellipse.setDisable(false);
-            square.setDisable(false);
-            rectangle.setDisable(false);
+            Ellipse.setDisable(false);
+            Square.setDisable(false);
+            Rectangle.setDisable(false);
             Circle.setDisable(false);
             select.setDisable(true);
             customShape.setDisable(false);
@@ -164,11 +166,11 @@ public class Paint extends Application{
         });
         resize.setOnAction(e->{
             current="resize";
-            triangle.setDisable(false);
+            Triangle.setDisable(false);
             line.setDisable(false);
-            ellipse.setDisable(false);
-            square.setDisable(false);
-            rectangle.setDisable(false);
+            Ellipse.setDisable(false);
+            Square.setDisable(false);
+            Rectangle.setDisable(false);
             Circle.setDisable(false);
             select.setDisable(false);
             customShape.setDisable(false);
@@ -194,8 +196,8 @@ public class Paint extends Application{
         select.setMinHeight(29);
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
-        menu.getChildren().addAll(addedShapes,save,load,undo,redo);
-        shapes.getChildren().addAll(select,line,Circle,ellipse,rectangle,square,triangle,customShape,Border,colorPicker,Fill,colorPicker2,delete,resize);
+        menu.getChildren().addAll(addedShapes,save,load,undo,redo,loadClass);
+        shapes.getChildren().addAll(select,line,Circle,Ellipse,Rectangle,Square,Triangle,customShape,Border,colorPicker,Fill,colorPicker2,delete,resize);
         Canvas canvas = new Canvas(1000,600);
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         can.setStyle("-fx-background-color: WHITE");
@@ -248,7 +250,7 @@ public class Paint extends Application{
                     }
                     break;
                 }
-                case "triangle":{
+                case "Triangle":{
                     if(ct1.get() == 1) {
                         t2.set(new Point((int) e.getX(), (int) e.getY()));
                     } else {
@@ -396,7 +398,7 @@ public class Paint extends Application{
                 }
                 case "line":{
                     line l = new line();
-                    getLineValues(l, p.get(),colorPicker);
+                    getlineValues(l, p.get(),colorPicker);
                     Map<String,Double> secondPoint = new HashMap<>();
                     secondPoint.put("x2", e.getX());
                     secondPoint.put("y2", e.getY());
@@ -407,7 +409,7 @@ public class Paint extends Application{
                     engine.RemoveLastShape();
                     break;
                 }
-                case "square":{
+                case "Square":{
                     Square s = new Square();
                     s.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -422,7 +424,7 @@ public class Paint extends Application{
                     engine.RemoveLastShape();
                     break;
                 }
-                case "rectangle": {
+                case "Rectangle": {
                     Rectangle r = new Rectangle();
                     r.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -437,7 +439,7 @@ public class Paint extends Application{
                     engine.removeShape(r);
                     break;
                 }
-                case "ellipse":{
+                case "Ellipse":{
                     Ellipse r = new Ellipse();
                     r.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -452,7 +454,7 @@ public class Paint extends Application{
                     engine.removeShape(r);
                     break;
                 }
-                case "circle":{
+                case "Circle":{
                     Circle c = new Circle();
                     c.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -467,7 +469,7 @@ public class Paint extends Application{
                     engine.RemoveLastShape();
                     break;
                 }
-                case "triangle":{
+                case "Triangle":{
                     if(ct1.get() != 2) break;
                     Triangle r=new Triangle();
                     r.setPosition(p.get());
@@ -508,7 +510,7 @@ public class Paint extends Application{
                 }
                 case "line":{
                     line l = new line();
-                    getLineValues(l, p.get(),colorPicker);
+                    getlineValues(l, p.get(),colorPicker);
                     Map<String,Double> secondPoint = new HashMap<>();
                     secondPoint.put("x2", e.getX());
                     secondPoint.put("y2", e.getY());
@@ -517,7 +519,7 @@ public class Paint extends Application{
                     engine.refresh(graphics);
                     break;
                 }
-                case "square":{
+                case "Square":{
                     Square s = new Square();
                     s.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -531,7 +533,7 @@ public class Paint extends Application{
                     engine.refresh(graphics);
                     break;
                 }
-                case "rectangle": {
+                case "Rectangle": {
                     Rectangle r = new Rectangle();
                     r.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -544,7 +546,7 @@ public class Paint extends Application{
                     engine.refresh(graphics);
                     break;
                 }
-                case "ellipse":{
+                case "Ellipse":{
                     Ellipse r = new Ellipse();
                     r.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -557,7 +559,7 @@ public class Paint extends Application{
                     engine.refresh(graphics);
                     break;
                 }
-                case "circle":{
+                case "Circle":{
                     Circle c = new Circle();
                     c.setPosition(p.get());
                     Map<String,Double> length = new HashMap<>();
@@ -571,7 +573,7 @@ public class Paint extends Application{
                     engine.refresh(graphics);
                     break;
                 }
-                case "triangle": {
+                case "Triangle": {
                     if(ct1.get() != 2) break;
                     Triangle r = new Triangle();
                     r.setPosition(p.get());
@@ -595,7 +597,7 @@ public class Paint extends Application{
         });
     }
 
-    private void getLineValues(line l, Point p, ColorPicker colorPicker){
+    private void getlineValues(line l, Point p, ColorPicker colorPicker){
         l.setPosition(p);
         Color v = colorPicker.getValue();
         l.setColor(getColor(v));

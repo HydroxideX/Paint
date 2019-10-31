@@ -17,6 +17,7 @@ public class dialogBox {
         VBox vBox = new VBox();
         HBox position = new HBox();
         position.setSpacing(10);
+
         Label px = new Label();
         Label py = new Label();
         px.setText("Origin - X");
