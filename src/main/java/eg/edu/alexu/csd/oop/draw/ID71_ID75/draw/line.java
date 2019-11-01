@@ -21,6 +21,7 @@ public class line implements Shape {
     public void setProperties(Map<String, Double> properties) {
         this.properties = properties;
         this.properties.put("type",1d);
+        this.properties.put("released",1d);
     }
 
     public Map<String, Double> getProperties() {

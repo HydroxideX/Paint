@@ -1,18 +1,22 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 
-import javafx.scene.control.ColorPicker;
+import com.sun.org.apache.bcel.internal.generic.JsrInstruction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class Engine implements DrawingEngine{
@@ -102,7 +106,7 @@ public class Engine implements DrawingEngine{
         return ar;
     }
 
-    //from GeeksforGeeks//
+
     private static double area(int x1, int y1, int x2, int y2, int x3, int y3)
     {
         return Math.abs((x1*(y2-y3) + x2*(y3-y1)+x3*(y1-y2))/2.0);
@@ -115,7 +119,7 @@ public class Engine implements DrawingEngine{
         double A3 = area (x1, y1, x2, y2, x, y);
         return (A == A1 + A2 + A3);
     }
-    /////endofPartThatWasCopied//
+
     Shape checkOnShapes(int x, int y){
         for(int i = index-1 ;i>=0;i--){
             if(arrayOfShapes[i].getProperties().get("type").intValue()==1){
@@ -159,39 +163,109 @@ public class Engine implements DrawingEngine{
             File file = new File(path);
             try {
                 FileWriter file2 = new FileWriter(file);
+                JSONArray Shapes = new JSONArray();
+                JSONObject a = new JSONObject();
+                JSONObject b = new JSONObject();
+                a.put("index",String.valueOf(index));
+                b.put("maxIndex",String.valueOf(maxIndex));
+                Shapes.add(a);
+                Shapes.add(b);
                 for(int i = 0;i<index;i++){
-                    JSONObject obj = new JSONObject();
-                    Color color = arrayOfShapes[i].getColor();
-                    Color fillColor = arrayOfShapes[i].getFillColor();
-                    Map<String,Double> m = arrayOfShapes[i].getProperties();
-                    Point p = arrayOfShapes[i].getPosition();
-                    JSONArray list = new JSONArray();
-                    list.add(color);
-                    list.add(fillColor);
-                    list.add(p);
-                    list.add(m);
-                    obj.put(arrayOfShapes[i].getClass().getName(), list);
-                    file2.write(obj.toString());
-                    file2.write("\n");
-                    file2.flush();
+
+                    JSONObject m = new JSONObject();
+                    m.put("x2", arrayOfShapes[i].getProperties().get("x2").toString());
+                    m.put("y2", arrayOfShapes[i].getProperties().get("y2").toString());
+                    m.put("released", arrayOfShapes[i].getProperties().get("released").toString());
+                    m.put("type", arrayOfShapes[i].getProperties().get("type").toString());
+                    m.put("color", arrayOfShapes[i].getColor().toString());
+                    m.put("name", arrayOfShapes[i].getClass().getName());
+                    m.put("fillColor", arrayOfShapes[i].getFillColor().toString());
+                    m.put("positionx", String.valueOf(arrayOfShapes[i].getPosition().x));
+                    m.put("positiony", String.valueOf(arrayOfShapes[i].getPosition().y));
+                    if(arrayOfShapes[i].getClass().getName()=="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Triangle"){
+                        m.put("x3", arrayOfShapes[i].getProperties().get("x3").toString());
+                        m.put("y3", arrayOfShapes[i].getProperties().get("y3").toString());
+                    }
+                    JSONObject r = new JSONObject();
+                    r.put("shape",m);
+                    Shapes.add(r);
                 }
+                file2.write(Shapes.toString());
+                file2.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
-    @Override
-    public void load(String path) {
-        int i = path.length();
-        for(;path.charAt(i) != '.';i--){
-            continue;
-        }
-        String extension = path.substring(i,path.length());
-        if(extension == "xml"){
-
-        } else if (extension == "json"){
-
+    public  void load(String path)
+    {
+        if(path.contains(".json")) {
+            JSONParser jsonParser = new JSONParser();
+            File file = new File(path);
+            try (FileReader reader = new FileReader(file)) {
+                Object obj = jsonParser.parse(reader);
+                JSONArray shapeList = (JSONArray) obj;
+                Shape x = null;
+                JSONObject index1 = (JSONObject) shapeList.get(0);
+                JSONObject maxIndex1 = (JSONObject) shapeList.get(1);
+                index = Integer.valueOf(index1.get("index").toString());
+                maxIndex = Integer.valueOf(maxIndex1.get("maxIndex").toString());
+                for (int i = 2; i < shapeList.size(); i++) {
+                    Object temp = shapeList.get(i);
+                    x = parseShape((JSONObject)temp);
+                    arrayOfShapes[i-2] = x;
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    private Shape parseShape(JSONObject shape) {
+        Double j;
+        Map<String,Double> m = new HashMap<String, Double>();
+        JSONObject shapeObject = (JSONObject) shape.get("shape");
+        String name = shapeObject.get("name").toString();
+        Class cl= null;
+        try {
+            cl = Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Shape l = null;
+        try {
+            l = (Shape)cl.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        if(cl.getName()=="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Triangle"){
+            m.put("x3", Double.valueOf(shapeObject.get("x3").toString()));
+            m.put("y3", Double.valueOf(shapeObject.get("y3").toString()));
+        }
+        m.put("x2", Double.valueOf(shapeObject.get("x2").toString()));
+        m.put("y2", Double.valueOf(shapeObject.get("y2").toString()));
+        m.put("released", Double.valueOf(shapeObject.get("released").toString()));
+        m.put("type", Double.valueOf(shapeObject.get("type").toString()));
+        l.setProperties(m);
+        l.setPosition(new Point(Double.valueOf(shapeObject.get("positionx").toString()).intValue(),Double.valueOf(shapeObject.get("positiony").toString()).intValue()));
+        String s = shapeObject.get("color").toString();
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter("\\D+");
+        Color color = new Color(sc.nextInt(), sc.nextInt(), sc.nextInt());
+        l.setColor(color);
+        s = shapeObject.get("fillColor").toString();
+        sc = new Scanner(s);
+        sc.useDelimiter("\\D+");
+        Color color2 = new Color(sc.nextInt(), sc.nextInt(), sc.nextInt());
+        l.setFillColor(color2);
+        return l;
+    }
 }
+
+

@@ -252,11 +252,18 @@ public class Paint extends Application{
             engine.refresh(graphics);
         });
         FileChooser fileChooser2 = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save", "*.json", "*.xml"));
+        fileChooser2.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save", "*.json", "*.xml"));
         save.setOnAction(e->{
             File selectedFile = fileChooser2.showOpenDialog(primaryStage);
             if(selectedFile != null) {
                 engine.save(selectedFile.getPath());
+            }
+        });
+        load.setOnAction(e->{
+            File selectedFile = fileChooser2.showOpenDialog(primaryStage);
+            if(selectedFile != null) {
+                engine.load(selectedFile.getPath());
+                engine.refresh(graphics);
             }
         });
         delete.setOnAction(e->{
