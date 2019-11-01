@@ -59,7 +59,6 @@ public class Paint extends Application{
         redo.setMinHeight(31);
         addedShapes.setMinHeight(31);
         addedShapes.setMinWidth(200);
-
         Button line =new Button();
         image = new Image(new FileInputStream("Resources/btn1.png"));
         line.setGraphic(new ImageView(image));
@@ -283,6 +282,9 @@ public class Paint extends Application{
                     newShape[0] = engine.checkOnShapes((int)e.getX(),(int)e.getY());
                     if(newShape[0] != null){
                         p.set(new Point((int)e.getX(),(int)e.getY()));
+                        Map<String,Double> secondPoint = new HashMap<>(newShape[0].getProperties());
+                        secondPoint.put("selected",1d);
+                        newShape[0].setProperties(secondPoint);
                         engine.removeShape(newShape[0]);
                         ct2.getAndIncrement();
                     }
@@ -507,6 +509,9 @@ public class Paint extends Application{
                 case "resize":
                 case "select": {
                     if(newShape[0]!=null) {
+                        Map<String,Double> secondPoint = new HashMap<>(newShape[0].getProperties());
+                        secondPoint.put("selected",1d);
+                        newShape[0].setProperties(secondPoint);
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
                     }

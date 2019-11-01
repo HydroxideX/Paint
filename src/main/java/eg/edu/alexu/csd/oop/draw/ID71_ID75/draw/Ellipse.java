@@ -21,6 +21,14 @@ public class Ellipse implements Shape  {
         this.properties=properties;
         this.properties.put("type",4d);
         this.properties.put("released",1d);
+        this.properties.putIfAbsent("selected",0d);
+        if(this.properties.get("selected")==1d)
+        {
+            Color temp=fillColor;
+            this.fillColor=color;
+            this.color=temp;
+            this.properties.replace("selected",0d);
+        }
     }
 
     public Map<String, Double> getProperties() {

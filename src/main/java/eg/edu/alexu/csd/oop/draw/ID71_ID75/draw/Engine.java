@@ -208,18 +208,14 @@ public class Engine implements DrawingEngine{
                 Shape x = null;
                 JSONObject index1 = (JSONObject) shapeList.get(0);
                 JSONObject maxIndex1 = (JSONObject) shapeList.get(1);
-                index = Integer.valueOf(index1.get("index").toString());
-                maxIndex = Integer.valueOf(maxIndex1.get("maxIndex").toString());
+                index = Integer.parseInt(index1.get("index").toString());
+                maxIndex = Integer.parseInt(maxIndex1.get("maxIndex").toString());
                 for (int i = 2; i < shapeList.size(); i++) {
                     Object temp = shapeList.get(i);
                     x = parseShape((JSONObject)temp);
                     arrayOfShapes[i-2] = x;
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
         }

@@ -20,8 +20,14 @@ public class Square implements Shape  {
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
         this.properties.put("type",5d);
-        if(this.properties.get("released")==null){
-            this.properties.put("released",0d);
+        this.properties.putIfAbsent("released", 0d);
+        this.properties.putIfAbsent("selected",0d);
+        if(this.properties.get("selected")==1d)
+        {
+            Color temp=fillColor;
+            this.fillColor=color;
+            this.color=temp;
+            this.properties.replace("selected",0d);
         }
     }
 
@@ -46,37 +52,37 @@ public class Square implements Shape  {
     }
 
     public void draw(Graphics canvas) {
-        Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
-        Point p3 = Correct(position,p1);
-        Double l,w,mn;
-        if(p3.x == position.x && p3.y == position.y) {
+        Point p1 = new Point(getProperties().get("x2").intValue(), getProperties().get("y2").intValue());
+        Point p3 = Correct(position, p1);
+        Double l, w, mn;
+        if (p3.x == position.x && p3.y == position.y) {
             l = Double.valueOf(Math.abs(p1.x - position.x));
             w = Double.valueOf(Math.abs(p1.y - position.y));
-            mn = Double.valueOf(max(l.intValue(),w.intValue()));
-        }
-        else if(p3.x == position.x) {
-            mn = Double.valueOf(position.y-p3.y);
-        } else if (p3.y == position.y){
-            mn = Double.valueOf(position.x-p3.x);
+            mn = Double.valueOf(max(l.intValue(), w.intValue()));
+        } else if (p3.x == position.x) {
+            mn = Double.valueOf(position.y - p3.y);
+        } else if (p3.y == position.y) {
+            mn = Double.valueOf(position.x - p3.x);
 
         } else {
-            if(position.x-p3.x < position.y-p3.y) p3.x = position.y - position.x + p3.y;
-            if(position.x-p3.x >position.y-p3.y) p3.x = position.x - position.y + p3.y;
-            mn = Double.valueOf(position.x-p3.x);
+            if (position.x - p3.x < position.y - p3.y) p3.x = position.y - position.x + p3.y;
+            if (position.x - p3.x > position.y - p3.y) p3.x = position.x - position.y + p3.y;
+            mn = Double.valueOf(position.x - p3.x);
 
         }
-        if(properties.get("released")==1d){
+        if (properties.get("released") == 1d) {
             Double j = Double.valueOf(p3.x + mn.intValue());
-            properties.put("x2",j);
+            properties.put("x2", j);
             j = Double.valueOf(p3.y + mn.intValue());
-            properties.put("y2",j);
-            properties.put("released",0d);
+            properties.put("y2", j);
+            properties.put("released", 0d);
             setPosition(p3);
         }
-        canvas.setColor(getFillColor());
-        canvas.fillRect(p3.x,p3.y,mn.intValue(),mn.intValue());
-        canvas.setColor(getColor());
-        canvas.drawRect(p3.x,p3.y,mn.intValue(),mn.intValue());
+            canvas.setColor(getFillColor());
+            canvas.fillRect(p3.x, p3.y, mn.intValue(), mn.intValue());
+            canvas.setColor(getColor());
+            canvas.drawRect(p3.x, p3.y, mn.intValue(), mn.intValue());
+
     }
 
     public Object clone() throws CloneNotSupportedException {
