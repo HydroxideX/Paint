@@ -474,7 +474,7 @@ public class Paint extends Application{
                 case "load": {
                     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                     try {
-                        String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                        String pack = "eg.edu.alexu.csd.oop.draw";
                         Class cl = classLoader.loadClass(pack + "." + addedShapes.getValue().toString());
                         loader.set((Shape) cl.newInstance());
                     } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
