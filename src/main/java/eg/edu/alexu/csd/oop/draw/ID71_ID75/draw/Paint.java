@@ -1,9 +1,8 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +20,11 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -186,13 +190,26 @@ public class Paint extends Application{
 
         loadClass.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            if (selectedFile != null) {
+            if (selectedFile != null&&Shape.class.isAssignableFrom(selectedFile.getClass())) {
                 current = selectedFile.getName();
                 current = current.substring(0, current.length() - 6);
                 addedShapes.getItems().add(current);
                 addedShapes.setValue(current);
+                //Files.copy(selectedFile.getPath(),"target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw",StandardCopyOption.REPLACE_EXISTING);
+                try {
+                    copyFileUsingChannel(selectedFile, new File("target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/"+current+".class"));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Wrong Class");
+                alert.setHeaderText("The class you have chosen doesn't implement the required Interface");
+                alert.showAndWait();
             }
         });
+        //01011799537
 
         Label Border = new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -563,5 +580,17 @@ public class Paint extends Application{
         float g = (float)v.getGreen();
         float o = (float)v.getOpacity();
         return new java.awt.Color(r,g,b,o);
+    }
+    private void copyFileUsingChannel(File src, File dest) throws IOException {
+        FileChannel sourceChannel = null;
+        FileChannel destinationChannel = null;
+        try {
+            sourceChannel = new FileInputStream(src).getChannel();
+            destinationChannel = new FileOutputStream(dest).getChannel();
+            destinationChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+        } finally {
+            sourceChannel.close();
+            destinationChannel.close();
+        }
     }
 }
