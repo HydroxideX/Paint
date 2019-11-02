@@ -358,6 +358,7 @@ public class Paint extends Application{
                         Map<String, Double> secondPoint = new HashMap<>(l.getProperties());
                         secondPoint.put("x2", l.getProperties().get("x2") + diffX);
                         secondPoint.put("y2", l.getProperties().get("y2") + diffY);
+                        secondPoint.put("released", 0d);
                         l.setProperties(secondPoint);
                         engine.addShape(l);
                         engine.refresh(graphics);
@@ -515,6 +516,7 @@ public class Paint extends Application{
                     if (newShape[0] != null) {
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
                         secondPoint.put("selected", 1d);
+                        secondPoint.put("released", 1d);
                         newShape[0].setProperties(secondPoint);
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
