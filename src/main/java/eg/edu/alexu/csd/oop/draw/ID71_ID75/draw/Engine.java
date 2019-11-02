@@ -20,8 +20,9 @@ import java.util.Scanner;
 
 
 public class Engine implements DrawingEngine{
-    private int size = 100000;
-    private Shape[] arrayOfShapes = new Shape[size];
+    private int size = 1000;
+    private Shape[] Shapes = new Shape[size];
+    private Shape[][] arrayofShapes = new Shape[size][size];
     private int index = 0;
     private int maxIndex = 0;
     private int max(int a, int b){
@@ -31,15 +32,15 @@ public class Engine implements DrawingEngine{
     public void refresh(Graphics canvas) {
         canvas.setColor(Color.WHITE);
         canvas.fillRect(0,0,10000,10000);
-        for(int i = 0;i<index;i++){
-            arrayOfShapes[i].draw(canvas);
+        for(int i = 0;i<size;i++){
+            Shapes[i].draw(canvas);
         }
         maxIndex = max(index,maxIndex);
     }
 
     @Override
     public void addShape(Shape shape) {
-        arrayOfShapes[index] = shape;
+        Shapes[index] = shape;
         index++;
         maxIndex = index;
     }
@@ -48,13 +49,13 @@ public class Engine implements DrawingEngine{
     public void removeShape(Shape shape) {
         boolean removed = false;
         for (int i = 0;i<index;i++){
-            if(arrayOfShapes[i] == shape){
+            if(Shapes[i] == shape){
                 removed = true;
                 for(int j = i+1;j<size;j++){
-                    if(arrayOfShapes[j-1]== null) break;
-                    arrayOfShapes[j-1] = arrayOfShapes[j];
+                    if(Shapes[j-1]== null) break;
+                    Shapes[j-1] = Shapes[j];
                 }
-                arrayOfShapes[size-1] = null;
+                Shapes[size-1] = null;
                 break;
             }
         }
@@ -69,8 +70,8 @@ public class Engine implements DrawingEngine{
     @Override
     public void updateShape(Shape oldShape, Shape newShape) {
         for(int i = 0;i<index;i++) {
-            if (arrayOfShapes[i] == oldShape) {
-                arrayOfShapes[i] = newShape;
+            if (Shapes[i] == oldShape) {
+                Shapes[i] = newShape;
             }
         }
     }
@@ -78,7 +79,7 @@ public class Engine implements DrawingEngine{
     @Override
     public Shape[] getShapes() {
         Shape[] currentShapes = new Shape[size];
-        if (index >= 0) System.arraycopy(arrayOfShapes, 0, currentShapes, 0, index);
+        if (index >= 0) System.arraycopy(Shapes, 0, currentShapes, 0, index);
         return currentShapes;
     }
 
@@ -122,33 +123,33 @@ public class Engine implements DrawingEngine{
 
     Shape checkOnShapes(int x, int y){
         for(int i = index-1 ;i>=0;i--){
-            if(arrayOfShapes[i].getProperties().get("type").intValue()==1){
-                Point p1 = new Point(arrayOfShapes[i].getPosition());
-                Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
-                        arrayOfShapes[i].getProperties().get("y2").intValue());
+            if(Shapes[i].getProperties().get("type").intValue()==1){
+                Point p1 = new Point(Shapes[i].getPosition());
+                Point p2 = new Point(Shapes[i].getProperties().get("x2").intValue(),
+                        Shapes[i].getProperties().get("y2").intValue());
                 double[] ar = pointsToLine(p1,p2);
                 if(Math.abs(-ar[0]*x+ar[1]*y-ar[2]) < 20){
-                    return arrayOfShapes[i];
+                    return Shapes[i];
                 }
-            }else if(arrayOfShapes[i].getProperties().get("type")==2d ||
-                    arrayOfShapes[i].getProperties().get("type")==3d ||
-                    arrayOfShapes[i].getProperties().get("type")==4d ||
-                    arrayOfShapes[i].getProperties().get("type")==5d){
-                Point p1 = new Point(arrayOfShapes[i].getPosition());
-                Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
-                        arrayOfShapes[i].getProperties().get("y2").intValue());
+            }else if(Shapes[i].getProperties().get("type")==2d ||
+                    Shapes[i].getProperties().get("type")==3d ||
+                    Shapes[i].getProperties().get("type")==4d ||
+                    Shapes[i].getProperties().get("type")==5d){
+                Point p1 = new Point(Shapes[i].getPosition());
+                Point p2 = new Point(Shapes[i].getProperties().get("x2").intValue(),
+                        Shapes[i].getProperties().get("y2").intValue());
                 if((x<=p1.x && y <= p1.y && y >= p2.y && x >= p2.x)
                         ||(x>=p1.x && y <= p1.y && y >= p2.y && x <= p2.x)
                         ||(x>=p1.x && y >= p1.y && y <= p2.y && x <= p2.x)
                         ||(x<=p1.x && y >= p1.y && y <= p2.y && x >= p2.x)){
-                    return arrayOfShapes[i];
+                    return Shapes[i];
                 }
-            } else if(arrayOfShapes[i].getProperties().get("type") == 6d) {
-                if(isInside(arrayOfShapes[i].getPosition().x,arrayOfShapes[i].getPosition().y,
-                        arrayOfShapes[i].getProperties().get("x2").intValue(),arrayOfShapes[i].getProperties().get("y2").intValue(),
-                        arrayOfShapes[i].getProperties().get("x3").intValue(),arrayOfShapes[i].getProperties().get("y3").intValue(),
+            } else if(Shapes[i].getProperties().get("type") == 6d) {
+                if(isInside(Shapes[i].getPosition().x,Shapes[i].getPosition().y,
+                        Shapes[i].getProperties().get("x2").intValue(),Shapes[i].getProperties().get("y2").intValue(),
+                        Shapes[i].getProperties().get("x3").intValue(),Shapes[i].getProperties().get("y3").intValue(),
                         x,y)){
-                    return arrayOfShapes[i];
+                    return Shapes[i];
                 }
             }
         }
@@ -173,18 +174,18 @@ public class Engine implements DrawingEngine{
                 for(int i = 0;i<index;i++){
 
                     JSONObject m = new JSONObject();
-                    m.put("x2", arrayOfShapes[i].getProperties().get("x2").toString());
-                    m.put("y2", arrayOfShapes[i].getProperties().get("y2").toString());
-                    m.put("released", arrayOfShapes[i].getProperties().get("released").toString());
-                    m.put("type", arrayOfShapes[i].getProperties().get("type").toString());
-                    m.put("color", arrayOfShapes[i].getColor().toString());
-                    m.put("name", arrayOfShapes[i].getClass().getName());
-                    m.put("fillColor", arrayOfShapes[i].getFillColor().toString());
-                    m.put("positionx", String.valueOf(arrayOfShapes[i].getPosition().x));
-                    m.put("positiony", String.valueOf(arrayOfShapes[i].getPosition().y));
-                    if(arrayOfShapes[i].getClass().getName()=="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Triangle"){
-                        m.put("x3", arrayOfShapes[i].getProperties().get("x3").toString());
-                        m.put("y3", arrayOfShapes[i].getProperties().get("y3").toString());
+                    m.put("x2", Shapes[i].getProperties().get("x2").toString());
+                    m.put("y2", Shapes[i].getProperties().get("y2").toString());
+                    m.put("released", Shapes[i].getProperties().get("released").toString());
+                    m.put("type", Shapes[i].getProperties().get("type").toString());
+                    m.put("color", Shapes[i].getColor().toString());
+                    m.put("name", Shapes[i].getClass().getName());
+                    m.put("fillColor", Shapes[i].getFillColor().toString());
+                    m.put("positionx", String.valueOf(Shapes[i].getPosition().x));
+                    m.put("positiony", String.valueOf(Shapes[i].getPosition().y));
+                    if(Shapes[i].getClass().getName()=="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Triangle"){
+                        m.put("x3", Shapes[i].getProperties().get("x3").toString());
+                        m.put("y3", Shapes[i].getProperties().get("y3").toString());
                     }
                     JSONObject r = new JSONObject();
                     r.put("shape",m);
@@ -213,7 +214,7 @@ public class Engine implements DrawingEngine{
                 for (int i = 2; i < shapeList.size(); i++) {
                     Object temp = shapeList.get(i);
                     x = parseShape((JSONObject)temp);
-                    arrayOfShapes[i-2] = x;
+                    Shapes[i-2] = x;
                 }
             } catch (IOException | ParseException e) {
                 e.printStackTrace();

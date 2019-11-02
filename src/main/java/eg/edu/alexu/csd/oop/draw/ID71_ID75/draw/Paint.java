@@ -544,6 +544,7 @@ public class Paint extends Application{
                     if (newShape[0] != null) {
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
+                        newShape[0] = null;
                         break;
                     }
                 }
