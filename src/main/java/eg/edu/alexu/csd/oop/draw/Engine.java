@@ -1,11 +1,10 @@
-package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
+package eg.edu.alexu.csd.oop.draw;
 
-import com.sun.org.apache.bcel.internal.generic.JsrInstruction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -19,13 +18,13 @@ import java.util.List;
 
 public class Engine implements DrawingEngine{
     private int size = 100000;
-    private Shape[] arrayOfShapes = new Shape[size];
+    private eg.edu.alexu.csd.oop.draw.Shape[] arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
     private int index = 0;
     private int maxIndex = 0;
     private int max(int a, int b){
         return Math.max(a, b);
     }
-    List<Class<? extends Shape>> SupportedShapes=null;
+    List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> SupportedShapes=null;
     ArrayList<String> ClassNames=new ArrayList<>();
 
     public ArrayList<String> getClassNames() throws ClassNotFoundException {
@@ -44,14 +43,14 @@ public class Engine implements DrawingEngine{
     }
 
     @Override
-    public void addShape(Shape shape) {
+    public void addShape(eg.edu.alexu.csd.oop.draw.Shape shape) {
         arrayOfShapes[index] = shape;
         index++;
         maxIndex = index;
     }
 
     @Override
-    public void removeShape(Shape shape) {
+    public void removeShape(eg.edu.alexu.csd.oop.draw.Shape shape) {
         boolean removed = false;
         for (int i = 0;i<index;i++){
             if(arrayOfShapes[i] == shape){
@@ -73,7 +72,7 @@ public class Engine implements DrawingEngine{
     }
 
     @Override
-    public void updateShape(Shape oldShape, Shape newShape) {
+    public void updateShape(eg.edu.alexu.csd.oop.draw.Shape oldShape, eg.edu.alexu.csd.oop.draw.Shape newShape) {
         for(int i = 0;i<index;i++) {
             if (arrayOfShapes[i] == oldShape) {
                 arrayOfShapes[i] = newShape;
@@ -82,25 +81,25 @@ public class Engine implements DrawingEngine{
     }
 
     @Override
-    public Shape[] getShapes() {
-        Shape[] currentShapes = new Shape[size];
+    public eg.edu.alexu.csd.oop.draw.Shape[] getShapes() {
+        eg.edu.alexu.csd.oop.draw.Shape[] currentShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
         if (index >= 0) System.arraycopy(arrayOfShapes, 0, currentShapes, 0, index);
         return currentShapes;
     }
 
     @Override
-    public List<Class<? extends Shape>> getSupportedShapes() throws ClassNotFoundException {
+    public List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> getSupportedShapes() throws ClassNotFoundException {
         SupportedShapes=new ArrayList<>();
-        File dir = new File("target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw");
+        File dir = new File("target/classes/eg/edu/alexu/csd/oop/draw");
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String current = child.getName();
                 current = current.substring(0, current.length() - 6);
-                String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                String pack = "eg.edu.alexu.csd.oop.draw";
                 ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                 Class cl = classLoader.loadClass(pack + "." + current);
-                if(Shape.class.isAssignableFrom(cl)&& !current.equals("Shape")){
+                if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(cl)&& !current.equals("Shape")){
                     SupportedShapes.add(cl);
                     ClassNames.add(current);
                 }
@@ -142,7 +141,7 @@ public class Engine implements DrawingEngine{
         return (A == A1 + A2 + A3);
     }
 
-    Shape checkOnShapes(int x, int y){
+    eg.edu.alexu.csd.oop.draw.Shape checkOnShapes(int x, int y){
         for(int i = index-1 ;i>=0;i--){
             Map<String, Double> secondPoint = new HashMap<>(arrayOfShapes[i].getProperties());
             secondPoint.putIfAbsent("type",0d);
@@ -206,7 +205,7 @@ public class Engine implements DrawingEngine{
                     m.put("fillColor", arrayOfShapes[i].getFillColor().toString());
                     m.put("positionx", String.valueOf(arrayOfShapes[i].getPosition().x));
                     m.put("positiony", String.valueOf(arrayOfShapes[i].getPosition().y));
-                    if(arrayOfShapes[i].getClass().getName()=="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Triangle"){
+                    if(arrayOfShapes[i].getClass().getName()=="eg.edu.alexu.csd.oop.draw.Triangle"){
                         m.put("x3", arrayOfShapes[i].getProperties().get("x3").toString());
                         m.put("y3", arrayOfShapes[i].getProperties().get("y3").toString());
                     }
@@ -229,7 +228,7 @@ public class Engine implements DrawingEngine{
             try (FileReader reader = new FileReader(file)) {
                 Object obj = jsonParser.parse(reader);
                 JSONArray shapeList = (JSONArray) obj;
-                Shape x = null;
+                eg.edu.alexu.csd.oop.draw.Shape x = null;
                 JSONObject index1 = (JSONObject) shapeList.get(0);
                 JSONObject maxIndex1 = (JSONObject) shapeList.get(1);
                 index = Integer.parseInt(index1.get("index").toString());
@@ -245,7 +244,7 @@ public class Engine implements DrawingEngine{
         }
     }
 
-    private Shape parseShape(JSONObject shape) {
+    private eg.edu.alexu.csd.oop.draw.Shape parseShape(JSONObject shape) {
         Double j;
         Map<String,Double> m = new HashMap<String, Double>();
         JSONObject shapeObject = (JSONObject) shape.get("shape");
@@ -256,7 +255,7 @@ public class Engine implements DrawingEngine{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Shape l = null;
+        eg.edu.alexu.csd.oop.draw.Shape l = null;
         try {
             l = (Shape)cl.newInstance();
         } catch (InstantiationException e) {
@@ -264,7 +263,7 @@ public class Engine implements DrawingEngine{
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        if(cl.getName()=="eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Triangle"){
+        if(cl.getName()=="eg.edu.alexu.csd.oop.draw.Triangle"){
             m.put("x3", Double.valueOf(shapeObject.get("x3").toString()));
             m.put("y3", Double.valueOf(shapeObject.get("y3").toString()));
         }

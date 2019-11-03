@@ -1,10 +1,10 @@
-package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Circle implements Shape  {
+public class Ellipse implements Shape  {
     private Point position;
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
@@ -19,7 +19,7 @@ public class Circle implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
-        this.properties.put("type",2d);
+        this.properties.put("type",4d);
         this.properties.put("released",1d);
         this.properties.putIfAbsent("selected",0d);
         if(this.properties.get("selected")==1d)
@@ -44,7 +44,7 @@ public class Circle implements Shape  {
     }
 
     public void setFillColor(Color color) {
-    this.fillColor=color;
+        this.fillColor=color;
     }
 
     public Color getFillColor() {
@@ -54,44 +54,23 @@ public class Circle implements Shape  {
     public void draw(Graphics canvas) {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
         Point p3 = Correct(position,p1);
-        Double l,w,mn;
-
-        if(p3.x == position.x && p3.y == position.y) {
-            l = (double) Math.abs(p1.x - position.x);
-            w = (double) Math.abs(p1.y - position.y);
-            mn = (double) max(l.intValue(), w.intValue());
-        }
-        else if(p3.x == position.x) {
-            mn = (double) (position.y - p3.y);
-        } else if (p3.y == position.y){
-            mn = (double) (position.x - p3.x);
-        } else {
-            if(position.x-p3.x < position.y-p3.y) p3.x = position.y - position.x + p3.y;
-            if(position.x-p3.x >position.y-p3.y) p3.x = position.x - position.y + p3.y;
-            mn = (double) (position.x - p3.x);
-        }
-        if(properties.get("released")==1d){
-            Double j = (double) (p3.x + mn.intValue());
-            properties.put("x2",j);
-            j = (double) (p3.y + mn.intValue());
-            properties.put("y2",j);
-            properties.put("released",0d);
-            setPosition(p3);
-        }
+        double l = Math.abs(p1.x - position.x);
+        double w = Math.abs(p1.y - position.y);
         canvas.setColor(getFillColor());
-        canvas.fillOval(p3.x,p3.y,mn.intValue(),mn.intValue());
+        canvas.fillOval(p3.x,p3.y, (int) l, (int) w);
         canvas.setColor(getColor());
-        canvas.drawOval(p3.x,p3.y,mn.intValue(),mn.intValue());
+        canvas.drawOval(p3.x,p3.y, (int) l, (int) w);
     }
 
-    public Object clone() {
-        Circle c=new Circle();
+    public Object clone() throws CloneNotSupportedException {
+        Ellipse c = new Ellipse();
         c.setProperties(getProperties());
         c.setPosition(getPosition());
         c.setColor(getColor());
         c.setFillColor(getFillColor());
         return c;
     }
+
     private Point Correct(Point p1, Point p2){
         Point p3 = new Point();
         p3.x = min(p1.x,p2.x);
@@ -100,9 +79,5 @@ public class Circle implements Shape  {
     }
     private int min(int a, int b){
         return Math.min(a, b);
-    }
-    private int max(int a, int b){
-        if(a<b) return b;
-        return b;
     }
 }

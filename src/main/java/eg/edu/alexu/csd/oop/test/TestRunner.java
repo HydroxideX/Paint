@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package eg.edu.alexu.csd.oop.draw.ID71_ID75.test;
+package eg.edu.alexu.csd.oop.test;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;

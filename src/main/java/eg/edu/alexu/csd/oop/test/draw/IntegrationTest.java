@@ -1,9 +1,9 @@
-package eg.edu.alexu.csd.oop.draw.ID71_ID75.test.draw;
+package eg.edu.alexu.csd.oop.test.draw;
 
-import eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.DrawingEngine;
-import eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Shape;
-import eg.edu.alexu.csd.oop.draw.ID71_ID75.test.DummyShape;
-import eg.edu.alexu.csd.oop.draw.ID71_ID75.test.TestRunner;
+import eg.edu.alexu.csd.oop.draw.DrawingEngine;
+import eg.edu.alexu.csd.oop.draw.Shape;
+import eg.edu.alexu.csd.oop.test.DummyShape;
+import eg.edu.alexu.csd.oop.test.TestRunner;
 
 import javax.swing.*;
 import java.awt.*;

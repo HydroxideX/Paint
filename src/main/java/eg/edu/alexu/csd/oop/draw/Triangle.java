@@ -1,10 +1,10 @@
-package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Rectangle implements Shape  {
+public class Triangle implements Shape  {
     private Point position;
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
@@ -19,7 +19,7 @@ public class Rectangle implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
-        this.properties.put("type",3d);
+        this.properties.put("type",6d);
         this.properties.put("released",1d);
         this.properties.putIfAbsent("selected",0d);
         if(this.properties.get("selected")==1d)
@@ -52,32 +52,25 @@ public class Rectangle implements Shape  {
     }
 
     public void draw(Graphics canvas) {
-        Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
-        Point p3 = Correct(position,p1);
-        Double l = Double.valueOf(Math.abs(p1.x-position.x));
-        Double w = Double.valueOf(Math.abs(p1.y-position.y));
+        int []x= new int[3];
+        x[0]=getPosition().x;
+        x[1]=getProperties().get("x2").intValue();
+        x[2]=getProperties().get("x3").intValue();
+        int []y= new int[3];
+        y[0]=getPosition().y;
+        y[1]=getProperties().get("y2").intValue();
+        y[2]=getProperties().get("y3").intValue();
         canvas.setColor(getFillColor());
-        canvas.fillRect(p3.x,p3.y,l.intValue(),w.intValue());
+        canvas.fillPolygon(x,y,3);
         canvas.setColor(getColor());
-        canvas.drawRect(p3.x,p3.y,l.intValue(),w.intValue());
+        canvas.drawPolygon(x,y,3);
     }
 
     public Object clone() throws CloneNotSupportedException {
-        Rectangle c=new Rectangle();
+        Triangle c=new Triangle();
         c.setProperties(getProperties());
         c.setPosition(getPosition());
         c.setColor(getColor());
         c.setFillColor(getFillColor());
-        return c;
-    }
-    Point Correct(Point p1,Point p2){
-        Point p3 = new Point();
-        p3.x = min(p1.x,p2.x);
-        p3.y = min(p1.y,p2.y);
-        return p3;
-    }
-    int min(int a,int b){
-        if(a<b) return a;
-        return b;
-    }
+        return c;    }
 }

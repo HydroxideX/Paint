@@ -1,10 +1,10 @@
-package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Ellipse implements Shape  {
+public class Rectangle implements Shape  {
     private Point position;
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
@@ -19,7 +19,7 @@ public class Ellipse implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
-        this.properties.put("type",4d);
+        this.properties.put("type",3d);
         this.properties.put("released",1d);
         this.properties.putIfAbsent("selected",0d);
         if(this.properties.get("selected")==1d)
@@ -54,30 +54,30 @@ public class Ellipse implements Shape  {
     public void draw(Graphics canvas) {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
         Point p3 = Correct(position,p1);
-        double l = Math.abs(p1.x - position.x);
-        double w = Math.abs(p1.y - position.y);
+        Double l = Double.valueOf(Math.abs(p1.x-position.x));
+        Double w = Double.valueOf(Math.abs(p1.y-position.y));
         canvas.setColor(getFillColor());
-        canvas.fillOval(p3.x,p3.y, (int) l, (int) w);
+        canvas.fillRect(p3.x,p3.y,l.intValue(),w.intValue());
         canvas.setColor(getColor());
-        canvas.drawOval(p3.x,p3.y, (int) l, (int) w);
+        canvas.drawRect(p3.x,p3.y,l.intValue(),w.intValue());
     }
 
     public Object clone() throws CloneNotSupportedException {
-        Ellipse c = new Ellipse();
+        Rectangle c=new Rectangle();
         c.setProperties(getProperties());
         c.setPosition(getPosition());
         c.setColor(getColor());
         c.setFillColor(getFillColor());
         return c;
     }
-
-    private Point Correct(Point p1, Point p2){
+    Point Correct(Point p1,Point p2){
         Point p3 = new Point();
         p3.x = min(p1.x,p2.x);
         p3.y = min(p1.y,p2.y);
         return p3;
     }
-    private int min(int a, int b){
-        return Math.min(a, b);
+    int min(int a,int b){
+        if(a<b) return a;
+        return b;
     }
 }

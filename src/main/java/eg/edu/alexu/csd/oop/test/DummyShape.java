@@ -3,9 +3,10 @@
 // (powered by Fernflower decompiler)
 //
 
-package eg.edu.alexu.csd.oop.draw.ID71_ID75.test;
+package eg.edu.alexu.csd.oop.test;
 
-import eg.edu.alexu.csd.oop.draw.ID71_ID75.draw.Shape;
+import eg.edu.alexu.csd.oop.draw.Shape;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
