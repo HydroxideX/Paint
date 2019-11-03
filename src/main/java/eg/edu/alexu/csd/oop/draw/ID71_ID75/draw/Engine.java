@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 
 public class Engine implements DrawingEngine{
-    private int size = 1000;
+    private int size = 100000;
     private Shape[] arrayOfShapes = new Shape[size];
     private int index = 0;
     private int maxIndex = 0;
@@ -31,7 +31,7 @@ public class Engine implements DrawingEngine{
     public void refresh(Graphics canvas) {
         canvas.setColor(Color.WHITE);
         canvas.fillRect(0,0,10000,10000);
-        for(int i = 0;i<size;i++) {
+        for(int i = 0;i<index;i++){
             arrayOfShapes[i].draw(canvas);
         }
         maxIndex = max(index,maxIndex);
@@ -90,7 +90,7 @@ public class Engine implements DrawingEngine{
     @Override
     public void undo() {
         if(index>0)
-        index--;
+            index--;
     }
 
     @Override
@@ -263,5 +263,3 @@ public class Engine implements DrawingEngine{
         return l;
     }
 }
-
-

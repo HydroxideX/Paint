@@ -196,21 +196,22 @@ public class Paint extends Application{
                 try {
                     current = selectedFile.getName();
                     current = current.substring(0, current.length() - 6);
-                    String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
-                    Class cl = classLoader.loadClass(pack + "." + current);
-                    x=cl;
-                } catch (ClassNotFoundException ex) {
-
-                }
-                if(Shape.class.isAssignableFrom(x)){
-                    addedShapes.getItems().add(current);
-                    addedShapes.setValue(current);
-                    //Files.copy(selectedFile.getPath(),"target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw",StandardCopyOption.REPLACE_EXISTING);
                     try {
                         copyFileUsingChannel(selectedFile, new File("target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/"+current+".class"));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
+                    String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                    Class cl = classLoader.loadClass(pack + "." + current);
+                    x=cl;
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                if(Shape.class.isAssignableFrom(x)){
+                    addedShapes.getItems().add(current);
+                    addedShapes.setValue(current);
+                    //Files.copy(selectedFile.getPath(),"target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw",StandardCopyOption.REPLACE_EXISTING);
+
                 }
                 else {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -487,11 +488,11 @@ public class Paint extends Application{
                 case "load": {
                     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                     try {
-                        String pack = "eg.edu.alexu.csd.oop.draw";
+                        String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
                         Class cl = classLoader.loadClass(pack + "." + addedShapes.getValue().toString());
                         loader.set((Shape) cl.newInstance());
                     } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
-                        break;
+                        ex.printStackTrace();
                     }
                     Shape l = null;
                     Shape x = loader.get();
@@ -502,7 +503,7 @@ public class Paint extends Application{
                     }
                     assert l != null;
                     l.setPosition(p.get());
-                    Map<String, Double> length = new HashMap<>();
+                    Map<String, Double> length = new HashMap<>(l.getProperties());
                     length.put("x2", e.getX());
                     length.put("y2", e.getY());
                     length.put("released", 0d);
