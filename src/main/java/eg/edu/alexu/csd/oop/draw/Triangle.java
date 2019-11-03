@@ -32,7 +32,15 @@ public class Triangle implements Shape  {
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
         this.properties.putIfAbsent("type",6d);
+        this.properties.putIfAbsent("type",6d);
+        this.properties.putIfAbsent("released",0d);
+        this.properties.putIfAbsent("selected",0d);
+        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
+        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
+        this.properties.putIfAbsent("x3", Double.valueOf(position.x));
+        this.properties.putIfAbsent("y3", Double.valueOf(position.y));
         this.properties.putIfAbsent("selected", 0.0D);
+
         if(this.properties.get("selected")==1d)
         {
             Color temp=fillColor;

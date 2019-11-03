@@ -30,6 +30,11 @@ public class line implements Shape {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties = properties;
+        this.properties.put("type",1d);
+        this.properties.put("released",1d);
+        this.properties.putIfAbsent("selected",0d);
+        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
+        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
     }
 
     public Map<String, Double> getProperties() {

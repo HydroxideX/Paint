@@ -30,7 +30,11 @@ public class Square implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
-        this.properties.putIfAbsent("selected", 0.0D);
+        this.properties.put("type",5d);
+        this.properties.put("released",0d);
+        this.properties.putIfAbsent("selected",0d);
+        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
+        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
         if(this.properties.get("selected")==1d)
         {
             Color temp=fillColor;
