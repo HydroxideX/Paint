@@ -144,6 +144,9 @@ public class Engine implements DrawingEngine{
 
     Shape checkOnShapes(int x, int y){
         for(int i = index-1 ;i>=0;i--){
+            Map<String, Double> secondPoint = new HashMap<>(arrayOfShapes[i].getProperties());
+            secondPoint.putIfAbsent("type",0d);
+            arrayOfShapes[i].setProperties(secondPoint);
             if(arrayOfShapes[i].getProperties().get("type").intValue()==1){
                 Point p1 = new Point(arrayOfShapes[i].getPosition());
                 Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
@@ -152,10 +155,15 @@ public class Engine implements DrawingEngine{
                 if(Math.abs(-ar[0]*x+ar[1]*y-ar[2]) < 20){
                     return arrayOfShapes[i];
                 }
-            }else if(arrayOfShapes[i].getProperties().get("type")==2d ||
-                    arrayOfShapes[i].getProperties().get("type")==3d ||
-                    arrayOfShapes[i].getProperties().get("type")==4d ||
-                    arrayOfShapes[i].getProperties().get("type")==5d){
+            }else if(arrayOfShapes[i].getProperties().get("type") == 6d) {
+                if(isInside(arrayOfShapes[i].getPosition().x,arrayOfShapes[i].getPosition().y,
+                        arrayOfShapes[i].getProperties().get("x2").intValue(),arrayOfShapes[i].getProperties().get("y2").intValue(),
+                        arrayOfShapes[i].getProperties().get("x3").intValue(),arrayOfShapes[i].getProperties().get("y3").intValue(),
+                        x,y)){
+                    return arrayOfShapes[i];
+                }
+            }
+            else {
                 Point p1 = new Point(arrayOfShapes[i].getPosition());
                 Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
                         arrayOfShapes[i].getProperties().get("y2").intValue());
@@ -163,13 +171,6 @@ public class Engine implements DrawingEngine{
                         ||(x>=p1.x && y <= p1.y && y >= p2.y && x <= p2.x)
                         ||(x>=p1.x && y >= p1.y && y <= p2.y && x <= p2.x)
                         ||(x<=p1.x && y >= p1.y && y <= p2.y && x >= p2.x)){
-                    return arrayOfShapes[i];
-                }
-            } else if(arrayOfShapes[i].getProperties().get("type") == 6d) {
-                if(isInside(arrayOfShapes[i].getPosition().x,arrayOfShapes[i].getPosition().y,
-                        arrayOfShapes[i].getProperties().get("x2").intValue(),arrayOfShapes[i].getProperties().get("y2").intValue(),
-                        arrayOfShapes[i].getProperties().get("x3").intValue(),arrayOfShapes[i].getProperties().get("y3").intValue(),
-                        x,y)){
                     return arrayOfShapes[i];
                 }
             }

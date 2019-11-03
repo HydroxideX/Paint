@@ -142,9 +142,8 @@ public class Paint extends Application{
                         ex.printStackTrace();
                     }
                     String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
-                    Class cl = classLoader.loadClass(pack + "." + current);
-                    x=cl;
-                } catch (ClassNotFoundException ex) {
+                    x= classLoader.loadClass(pack + "." + current);
+                } catch (ClassNotFoundException | NoClassDefFoundError ex) {
                     ex.printStackTrace();
                 }
                 if(Shape.class.isAssignableFrom(x)){
@@ -548,7 +547,9 @@ public class Paint extends Application{
             destinationChannel = new FileOutputStream(dest).getChannel();
             destinationChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
         } finally {
+            assert sourceChannel != null;
             sourceChannel.close();
+            assert destinationChannel != null;
             destinationChannel.close();
         }
     }
