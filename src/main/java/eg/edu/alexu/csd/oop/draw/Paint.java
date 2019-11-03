@@ -462,6 +462,11 @@ public class Paint extends Application{
                             } catch (InstantiationException | IllegalAccessException ex) {
                                 ex.printStackTrace();
                             }
+                            try {
+                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[0].clone();
+                            } catch (CloneNotSupportedException ex) {
+                                ex.printStackTrace();
+                            }
                             int diffX = (int) e.getX() - p.get().x;
                             int diffY = (int) e.getY() - p.get().y;
                             assert l != null;
