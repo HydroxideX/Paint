@@ -124,63 +124,67 @@ public class Paint extends Application{
 
         loadClass.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            java.util.jar.JarFile jarfile = null; //jar file path(here sqljdbc4.jar)
-            try {
-                jarfile = new java.util.jar.JarFile(selectedFile);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            java.util.Enumeration<java.util.jar.JarEntry> enu= jarfile.entries();
-            while(enu.hasMoreElements())
+            if(selectedFile!=null)
             {
-                current = selectedFile.getName();
-                current = current.substring(0, current.length() - 4);
-                String destdir = "loaded_data/"+current;     //abc is my destination directory
-                java.util.jar.JarEntry je = enu.nextElement();
-                java.io.File fl = new java.io.File(destdir, je.getName());
-                if(!fl.exists())
-                {
-                    fl.getParentFile().mkdirs();
-                    fl = new java.io.File(destdir, je.getName());
-                }
-                if(je.isDirectory())
-                {
-                    continue;
-                }
-                java.io.InputStream is = null;
+
+                java.util.jar.JarFile jarfile = null; //jar file path(here sqljdbc4.jar)
                 try {
-                    is = jarfile.getInputStream(je);
+                    jarfile = new java.util.jar.JarFile(selectedFile);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                FileOutputStream fo = null;
-                try {
-                    fo = new FileOutputStream(fl);
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-                while(true)
+                java.util.Enumeration<java.util.jar.JarEntry> enu= jarfile.entries();
+                while(enu.hasMoreElements())
                 {
+                    current = selectedFile.getName();
+                    current = current.substring(0, current.length() - 4);
+                    String destdir = "loaded_data/"+current;     //abc is my destination directory
+                    java.util.jar.JarEntry je = enu.nextElement();
+                    java.io.File fl = new java.io.File(destdir, je.getName());
+                    if(!fl.exists())
+                    {
+                        fl.getParentFile().mkdirs();
+                        fl = new java.io.File(destdir, je.getName());
+                    }
+                    if(je.isDirectory())
+                    {
+                        continue;
+                    }
+                    java.io.InputStream is = null;
                     try {
-                        if (!(is.available()>0)) break;
+                        is = jarfile.getInputStream(je);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    FileOutputStream fo = null;
+                    try {
+                        fo = new FileOutputStream(fl);
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                    while(true)
+                    {
+                        try {
+                            if (!(is.available()>0)) break;
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            fo.write(is.read());
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    try {
+                        fo.close();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                     try {
-                        fo.write(is.read());
+                        is.close();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                }
-                try {
-                    fo.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    is.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
                 }
             }
             if (selectedFile != null) {
