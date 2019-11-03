@@ -30,6 +30,7 @@ public class Rectangle implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
+        this.properties.putIfAbsent("selected", 0.0D);
         if(this.properties.get("selected")==1d)
         {
             Color temp=fillColor;

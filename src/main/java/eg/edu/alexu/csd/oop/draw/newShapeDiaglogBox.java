@@ -37,8 +37,17 @@ public class newShapeDiaglogBox {
         py.setFont(new Font("Arial", 15));
         TextField positionX = new TextField();
         TextField positionY = new TextField();
-        positionX.setText(Integer.toString(shape.getPosition().x));
-        positionY.setText(Integer.toString(shape.getPosition().y));
+        Point p=shape.getPosition();
+        if(p!=null)
+        {
+            positionX.setText(Integer.toString(shape.getPosition().x));
+            positionY.setText(Integer.toString(shape.getPosition().y));
+        }
+        else
+        {
+            positionX.setText("0");
+            positionY.setText("0");
+        }
         position.getChildren().addAll(px,positionX,py,positionY);
         HBox shapeProperties = new HBox();
         HBox buttons = new HBox();
