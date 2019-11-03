@@ -201,9 +201,9 @@ public class Engine implements DrawingEngine{
     eg.edu.alexu.csd.oop.draw.Shape checkOnShapes(int x, int y){
         for(int i = index-1 ;i>=0;i--){
             Map<String, Double> secondPoint = new HashMap<>(arrayOfShapes[i].getProperties());
-            secondPoint.putIfAbsent("type",9d);
+            secondPoint.putIfAbsent("type",0d);
             arrayOfShapes[i].setProperties(secondPoint);
-            if(arrayOfShapes[i].getProperties().get("type") == 9d){
+            if(arrayOfShapes[i].getProperties().get("type") == 0d){
                 Point p1 = arrayOfShapes[i].getPosition();
                 double dist = Math.sqrt(Math.pow(p1.x-x,2)+Math.pow(p1.y-y,2));
                 if(dist <= 20) return arrayOfShapes[i];
