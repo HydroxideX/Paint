@@ -369,31 +369,13 @@ public class Paint extends Application{
                             p.get().y = (int) e.getY();
                             break;
                         } else if (newShape[0].getProperties().get("type") == 0d) {
-                            try {
-                                l = newShape[0].getClass().newInstance();
-                            } catch (InstantiationException | IllegalAccessException ex) {
-                                ex.printStackTrace();
-                            }
-                            int diffX = (int) e.getX() - p.get().x;
-                            int diffY = (int) e.getY() - p.get().y;
-                            assert l != null;
-                            l.setPosition(new Point(l.getPosition().x + diffX, l.getPosition().y + diffY));
-                            Map<String, Double> secondPoint = new HashMap<>(l.getProperties());
-                            l.setProperties(newShape[0].getProperties());
-                            l.setFillColor(newShape[0].getColor());
-                            l.setFillColor(newShape[0].getFillColor());
-                            engine.addShape(l);
-                            engine.refresh(graphics);
-                            engine.RemoveLastShape();
-                            try {
-                                newShape[0] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
-                            } catch (CloneNotSupportedException ex) {
-                                ex.printStackTrace();
-                            }
-                            p.get().x = (int) e.getX();
-                            p.get().y = (int) e.getY();
-                            break;
-                        }else {
+                                int temp = engine.index;
+                                newShapeDialogBox shapeDiaglogBox = new newShapeDialogBox(newShape[0],engine,graphics);
+                                if(temp > engine.index) engine.removeShape(newShape[0]);
+                                disable(customShape);
+                                customShape.setDisable(false);
+                                break;
+                        } else {
                             try {
                                 l = newShape[0].getClass().newInstance();
                             } catch (InstantiationException | IllegalAccessException ex) {
@@ -597,6 +579,7 @@ public class Paint extends Application{
                 case "resize":
                 case "select": {
                     if (newShape[0] != null) {
+                        if(newShape[0].getProperties().get("type")==0d) break;
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
                         secondPoint.put("selected", 1d);
                         secondPoint.put("released", 1d);

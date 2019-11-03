@@ -49,8 +49,8 @@ public class newShapeDialogBox {
         }
         else
         {
-            positionX.setText("0");
-            positionY.setText("0");
+            positionX.setText(Integer.toString(p.x));
+            positionY.setText(Integer.toString(p.y));
         }
 
 
@@ -82,7 +82,7 @@ public class newShapeDialogBox {
             properties.put((String)s.getKey(), (Double) s.getValue());
             labels[i] = new Label(s.getKey().toString());
             labels[i].setFont(new Font("Arial", 15));
-            texts[i] = new TextField("0");
+            texts[i] = new TextField(s.getValue().toString());
             i++;
         }
         for(int j = 0;j<i;j++){
