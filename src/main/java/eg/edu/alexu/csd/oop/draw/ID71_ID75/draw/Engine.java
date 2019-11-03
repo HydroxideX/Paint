@@ -100,7 +100,7 @@ public class Engine implements DrawingEngine{
                 String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
                 ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                 Class cl = classLoader.loadClass(pack + "." + current);
-                if(Shape.class.isAssignableFrom(cl)&&current!="Shape"){
+                if(Shape.class.isAssignableFrom(cl)&& !current.equals("Shape")){
                     SupportedShapes.add(cl);
                     ClassNames.add(current);
                 }
