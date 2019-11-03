@@ -18,10 +18,7 @@ import org.jfree.fx.FXGraphics2D;
 
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -122,12 +119,74 @@ public class Paint extends Application{
         });
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.java"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.jar"));
         AtomicReference<eg.edu.alexu.csd.oop.draw.Shape> loader = new AtomicReference<>();
 
         loadClass.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            java.util.jar.JarFile jarfile = null; //jar file path(here sqljdbc4.jar)
+            try {
+                jarfile = new java.util.jar.JarFile(selectedFile);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            java.util.Enumeration<java.util.jar.JarEntry> enu= jarfile.entries();
+            while(enu.hasMoreElements())
+            {
+                current = selectedFile.getName();
+                current = current.substring(0, current.length() - 4);
+                String destdir = "loaded_data/"+current;     //abc is my destination directory
+                java.util.jar.JarEntry je = enu.nextElement();
+                java.io.File fl = new java.io.File(destdir, je.getName());
+                if(!fl.exists())
+                {
+                    fl.getParentFile().mkdirs();
+                    fl = new java.io.File(destdir, je.getName());
+                }
+                if(je.isDirectory())
+                {
+                    continue;
+                }
+                java.io.InputStream is = null;
+                try {
+                    is = jarfile.getInputStream(je);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                FileOutputStream fo = null;
+                try {
+                    fo = new FileOutputStream(fl);
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                while(true)
+                {
+                    try {
+                        if (!(is.available()>0)) break;
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        fo.write(is.read());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                try {
+                    fo.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    is.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
             if (selectedFile != null) {
+                current = selectedFile.getName();
+                current = current.substring(0, current.length() - 4);
+                selectedFile=new File("loaded_data/"+current+"/eg/edu/alexu/csd/oop/draw/"+current+".class");
                 ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                 Class x = null;
                 try {
