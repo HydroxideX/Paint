@@ -17,21 +17,47 @@ import java.util.List;
 
 
 public class Engine implements DrawingEngine{
-    private int size = 100000;
+    private int size = 1000;
     private eg.edu.alexu.csd.oop.draw.Shape[] arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
-    private int index = 0;
+    private eg.edu.alexu.csd.oop.draw.Shape[][] UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[1000][size];
+
+     int index = 0;
+    private int UndoIndex = 0;
     private int maxIndex = 0;
+    private int UndomaxIndex = 0;
     private int max(int a, int b){
         return Math.max(a, b);
     }
-    List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> SupportedShapes=null;
-    ArrayList<String> ClassNames=new ArrayList<>();
+    private List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> SupportedShapes=null;
+    private ArrayList<String> ClassNames=new ArrayList<>();
 
-    public ArrayList<String> getClassNames() throws ClassNotFoundException {
+    ArrayList<String> getClassNames() throws ClassNotFoundException {
         SupportedShapes=getSupportedShapes();
         return ClassNames;
     }
-
+    void UpdateUndo(){
+        UndoIndex--;
+        boolean checker=false;
+        if(UndoIndex>=0)
+        {
+            for (int i=0;i<index;i++)
+            {
+                if(arrayOfShapes[i]!=UndoArray[UndoIndex][i])
+                {
+                    checker=true;
+                    break;
+                }
+            }
+        }
+        else checker=true;
+        UndoIndex++;
+        if(checker)
+        {
+            System.arraycopy(arrayOfShapes, 0, UndoArray[UndoIndex], 0, index);
+            UndoIndex++;
+            UndomaxIndex=max(UndoIndex,UndomaxIndex);
+        }
+    }
     @Override
     public void refresh(Graphics canvas) {
         canvas.setColor(Color.WHITE);
@@ -82,9 +108,7 @@ public class Engine implements DrawingEngine{
 
     @Override
     public eg.edu.alexu.csd.oop.draw.Shape[] getShapes() {
-        eg.edu.alexu.csd.oop.draw.Shape[] currentShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
-        if (index >= 0) System.arraycopy(arrayOfShapes, 0, currentShapes, 0, index);
-        return currentShapes;
+        return arrayOfShapes;
     }
 
     @Override
@@ -110,13 +134,46 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void undo() {
-        if(index>0)
-            index--;
+        if(UndoIndex>1)
+        {
+            UndoIndex--;
+            UndoIndex--;
+            System.arraycopy(UndoArray[UndoIndex], 0,arrayOfShapes , 0, UndoArray[UndoIndex].length);
+            UndomaxIndex=max(UndoIndex,UndomaxIndex);
+            int i=0;
+            while (arrayOfShapes[i]!=null)
+            {
+                i++;
+            }
+            index=i;
+            UndoIndex++;
+        }
+        else {
+            arrayOfShapes=new eg.edu.alexu.csd.oop.draw.Shape[size];
+            index=0;
+            UndoIndex=0;
+        }
     }
 
     @Override
     public void redo() {
-        if(index < maxIndex) index++;
+        if(UndoIndex <UndomaxIndex) {
+            int i=0;
+            while (UndoArray[UndoIndex][i]!=null)
+            {
+                i++;
+            }
+            index=i;
+            System.arraycopy(UndoArray[UndoIndex], 0,arrayOfShapes , 0, index);
+            UndoIndex++;
+            UndomaxIndex=max(UndoIndex,UndomaxIndex);
+             i=0;
+            while (arrayOfShapes[i]!=null)
+            {
+                i++;
+            }
+            index=i;
+        }
     }
 
     private double[] pointsToLine(Point p1, Point p2){

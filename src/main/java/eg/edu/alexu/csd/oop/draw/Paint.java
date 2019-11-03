@@ -240,21 +240,6 @@ public class Paint extends Application{
         select.setMinHeight(29);
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
-        customShape.setOnAction(e -> {
-            current= (String) addedShapes.getValue();
-            String pack = "eg.edu.alexu.csd.oop.draw";
-            try {
-                Class cl = Class.forName(pack + "." + current);
-                Shape shape = (Shape) cl.newInstance();
-                newShapeDiaglogBox shapeDiaglogBox = new newShapeDiaglogBox(shape);
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (IllegalAccessException ex) {
-                ex.printStackTrace();
-            } catch (InstantiationException ex) {
-                ex.printStackTrace();
-            }
-        });
         addedShapes.setOnAction(e->{
             disable(select);
             select.fire();
@@ -272,7 +257,21 @@ public class Paint extends Application{
         image = new Image(new FileInputStream("Resources/paint.png"));
         primaryStage.getIcons().add(image);
         primaryStage.show();
-
+        customShape.setOnAction(e -> {
+            current= (String) addedShapes.getValue();
+            String pack = "eg.edu.alexu.csd.oop.draw";
+            try {
+                Class cl = Class.forName(pack + "." + current);
+                Shape shape = (Shape) cl.newInstance();
+                newShapeDiaglogBox shapeDiaglogBox = new newShapeDiaglogBox(shape,engine,graphics);
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+            } catch (InstantiationException ex) {
+                ex.printStackTrace();
+            }
+        });
         AtomicReference<Point> p = new AtomicReference<>(new Point());
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
         AtomicInteger ct1 = new AtomicInteger();
@@ -306,6 +305,7 @@ public class Paint extends Application{
             if (current.equals("select") && newShape[0] != null) {
                 engine.removeShape(newShape[0]);
                 engine.refresh(graphics);
+                engine.UpdateUndo();
                 newShape[0] = null;
                 ct2.set(0);
             }
@@ -550,6 +550,7 @@ public class Paint extends Application{
                         newShape[0].setProperties(secondPoint);
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
+                        engine.UpdateUndo();
                     }
                     break;
                 }
@@ -567,13 +568,16 @@ public class Paint extends Application{
                     r.setProperties(length);
                     engine.addShape(r);
                     engine.refresh(graphics);
+                    engine.UpdateUndo();
                     ct1.set(0);
                     break;
                 }
                 default: {
                     if (newShape[0] != null) {
+                        System.out.println(engine.index);
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
+                        engine.UpdateUndo();
                         newShape[0] = null;
                         break;
                     }
