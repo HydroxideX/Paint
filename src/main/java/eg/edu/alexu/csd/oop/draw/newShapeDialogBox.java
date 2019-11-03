@@ -21,8 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class newShapeDiaglogBox {
-    newShapeDiaglogBox(Shape shape, Engine engine,Graphics graphics) {
+public class newShapeDialogBox {
+    newShapeDialogBox(Shape shape, Engine engine, Graphics graphics) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Resize");
@@ -126,6 +126,8 @@ public class newShapeDiaglogBox {
             l.setPosition(p1);
             Map <String,Double> m = new HashMap<>();
             m = l.getProperties();
+            int temp = 0;
+            int val2 = 0;
             for(int j = 0;j<100;j++){
                 if(labels[j] != null){
                     s = texts[j].getText();
@@ -138,6 +140,7 @@ public class newShapeDiaglogBox {
                     m.put(labels[j].getText(),Double.valueOf(texts[j].getText()));
                 }
             }
+            m.putIfAbsent("type",0d);
             if(m.get("released") != null) m.put("released",1d);
             l.setProperties(m);
             engine.addShape(l);

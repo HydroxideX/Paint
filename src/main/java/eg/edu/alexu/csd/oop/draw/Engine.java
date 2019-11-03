@@ -203,7 +203,12 @@ public class Engine implements DrawingEngine{
             Map<String, Double> secondPoint = new HashMap<>(arrayOfShapes[i].getProperties());
             secondPoint.putIfAbsent("type",0d);
             arrayOfShapes[i].setProperties(secondPoint);
-            if(arrayOfShapes[i].getProperties().get("type").intValue()==1){
+            if(arrayOfShapes[i].getProperties().get("type") == 0d){
+                Point p1 = arrayOfShapes[i].getPosition();
+                double dist = Math.sqrt(Math.pow(p1.x-x,2)+Math.pow(p1.y-y,2));
+                if(dist <= 20) return arrayOfShapes[i];
+            }
+            else if(arrayOfShapes[i].getProperties().get("type").intValue()==1){
                 Point p1 = new Point(arrayOfShapes[i].getPosition());
                 Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
                         arrayOfShapes[i].getProperties().get("y2").intValue());
