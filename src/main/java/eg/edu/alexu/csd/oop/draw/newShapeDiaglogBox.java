@@ -54,15 +54,14 @@ public class newShapeDiaglogBox {
                     || s.getKey().toString().contains("released")
                     || s.getKey().toString().contains("selected") ) continue;
             properties.put((String)s.getKey(), (Double) s.getValue());
-            labels[i].setText((s.getKey().toString()));
-            texts[i].setText((s.getValue().toString()));
+            labels[i] = new Label(s.getKey().toString());
+            labels[i].setFont(new Font("Arial", 15));
+            texts[i] = new TextField();
             i++;
         }
-        for(int j = 0;j<100;j++){
-            if(labels[i] != null){
-                shapeProperties.getChildren().add(labels[i]);
-                shapeProperties.getChildren().add(texts[i]);
-            }
+        for(int j = 0;j<i;j++){
+                shapeProperties.getChildren().add(labels[j]);
+                shapeProperties.getChildren().add(texts[j]);
         }
         vBox.getChildren().addAll(position,shapeProperties,buttons);
         HBox Buttons = new HBox();

@@ -237,7 +237,6 @@ public class Paint extends Application{
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
         customShape.setOnAction(e -> {
-            disable(customShape);
             current= (String) addedShapes.getValue();
             String pack = "eg.edu.alexu.csd.oop.draw";
             try {
