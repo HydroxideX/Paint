@@ -264,13 +264,11 @@ public class Paint extends Application{
                 Class cl = Class.forName(pack + "." + current);
                 Shape shape = (Shape) cl.newInstance();
                 newShapeDiaglogBox shapeDiaglogBox = new newShapeDiaglogBox(shape,engine,graphics);
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (IllegalAccessException ex) {
-                ex.printStackTrace();
-            } catch (InstantiationException ex) {
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
                 ex.printStackTrace();
             }
+            disable(customShape);
+            customShape.setDisable(false);
         });
         AtomicReference<Point> p = new AtomicReference<>(new Point());
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
