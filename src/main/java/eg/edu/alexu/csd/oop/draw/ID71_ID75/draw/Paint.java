@@ -1,9 +1,8 @@
 package eg.edu.alexu.csd.oop.draw.ID71_ID75.draw;
 import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +20,11 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -187,12 +191,38 @@ public class Paint extends Application{
         loadClass.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             if (selectedFile != null) {
-                current = selectedFile.getName();
-                current = current.substring(0, current.length() - 6);
-                addedShapes.getItems().add(current);
-                addedShapes.setValue(current);
+                ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+                Class x = null;
+                try {
+                    current = selectedFile.getName();
+                    current = current.substring(0, current.length() - 6);
+                    String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                    Class cl = classLoader.loadClass(pack + "." + current);
+                    x=cl;
+                } catch (ClassNotFoundException ex) {
+
+                }
+                if(Shape.class.isAssignableFrom(x)){
+                    addedShapes.getItems().add(current);
+                    addedShapes.setValue(current);
+                    //Files.copy(selectedFile.getPath(),"target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw",StandardCopyOption.REPLACE_EXISTING);
+                    try {
+                        copyFileUsingChannel(selectedFile, new File("target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw/"+current+".class"));
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Wrong Class");
+                    alert.setHeaderText("The class you have chosen doesn't implement the required Interface");
+                    alert.showAndWait();
+                }
+
             }
+
         });
+        //01011799537
 
         Label Border = new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
@@ -358,6 +388,7 @@ public class Paint extends Application{
                         Map<String, Double> secondPoint = new HashMap<>(l.getProperties());
                         secondPoint.put("x2", l.getProperties().get("x2") + diffX);
                         secondPoint.put("y2", l.getProperties().get("y2") + diffY);
+                        secondPoint.put("released", 0d);
                         l.setProperties(secondPoint);
                         engine.addShape(l);
                         engine.refresh(graphics);
@@ -456,7 +487,7 @@ public class Paint extends Application{
                 case "load": {
                     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                     try {
-                        String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                        String pack = "eg.edu.alexu.csd.oop.draw";
                         Class cl = classLoader.loadClass(pack + "." + addedShapes.getValue().toString());
                         loader.set((Shape) cl.newInstance());
                     } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
@@ -515,6 +546,7 @@ public class Paint extends Application{
                     if (newShape[0] != null) {
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
                         secondPoint.put("selected", 1d);
+                        secondPoint.put("released", 1d);
                         newShape[0].setProperties(secondPoint);
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
@@ -542,6 +574,7 @@ public class Paint extends Application{
                     if (newShape[0] != null) {
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
+                        newShape[0] = null;
                         break;
                     }
                 }
@@ -561,5 +594,17 @@ public class Paint extends Application{
         float g = (float)v.getGreen();
         float o = (float)v.getOpacity();
         return new java.awt.Color(r,g,b,o);
+    }
+    private void copyFileUsingChannel(File src, File dest) throws IOException {
+        FileChannel sourceChannel = null;
+        FileChannel destinationChannel = null;
+        try {
+            sourceChannel = new FileInputStream(src).getChannel();
+            destinationChannel = new FileOutputStream(dest).getChannel();
+            destinationChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+        } finally {
+            sourceChannel.close();
+            destinationChannel.close();
+        }
     }
 }
