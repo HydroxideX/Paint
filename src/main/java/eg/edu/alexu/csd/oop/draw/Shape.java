@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.oop.draw;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public interface Shape{
 
     public void setPosition(java.awt.Point position);
@@ -18,4 +20,5 @@ public interface Shape{
     public void draw(java.awt.Graphics canvas); // redraw the shape on the canvas
 
     public Object clone() throws CloneNotSupportedException; // create a deep clone of the shape
+
 }
