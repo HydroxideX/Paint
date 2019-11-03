@@ -43,7 +43,7 @@ public class IntegrationTest {
     }
     
     @org.junit.Test
-    public void testCreateShapes(){
+    public void testCreateShapes() throws ClassNotFoundException {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         List<Class<? extends Shape>> supportedShapes = instance.getSupportedShapes();
         assertNotNull("No supported shapes returned, check getSupportedShapes function!", supportedShapes);

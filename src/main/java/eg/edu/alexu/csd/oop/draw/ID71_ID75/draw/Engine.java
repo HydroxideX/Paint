@@ -11,12 +11,10 @@ import java.io.IOException;
 
 import java.awt.*;
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.List;
 
 
 public class Engine implements DrawingEngine{
@@ -27,6 +25,14 @@ public class Engine implements DrawingEngine{
     private int max(int a, int b){
         return Math.max(a, b);
     }
+    List<Class<? extends Shape>> SupportedShapes=null;
+    ArrayList<String> ClassNames=new ArrayList<>();
+
+    public ArrayList<String> getClassNames() throws ClassNotFoundException {
+        SupportedShapes=getSupportedShapes();
+        return ClassNames;
+    }
+
     @Override
     public void refresh(Graphics canvas) {
         canvas.setColor(Color.WHITE);
@@ -83,8 +89,24 @@ public class Engine implements DrawingEngine{
     }
 
     @Override
-    public List<Class<? extends Shape>> getSupportedShapes() {
-        return null;
+    public List<Class<? extends Shape>> getSupportedShapes() throws ClassNotFoundException {
+        SupportedShapes=new ArrayList<>();
+        File dir = new File("target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw");
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                String current = child.getName();
+                current = current.substring(0, current.length() - 6);
+                String pack = "eg.edu.alexu.csd.oop.draw.ID71_ID75.draw";
+                ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+                Class cl = classLoader.loadClass(pack + "." + current);
+                if(Shape.class.isAssignableFrom(cl)&&current!="Shape"){
+                    SupportedShapes.add(cl);
+                    ClassNames.add(current);
+                }
+            }
+        }
+        return SupportedShapes;
     }
 
     @Override
@@ -158,6 +180,7 @@ public class Engine implements DrawingEngine{
     @Override
     public void save(String path) {
         if(path.contains(".xml")){
+
 
         } else if (path.contains(".json")) {
             File file = new File(path);

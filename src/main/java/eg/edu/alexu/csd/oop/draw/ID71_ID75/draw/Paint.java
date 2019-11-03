@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -36,6 +36,19 @@ public class Paint extends Application{
     public static void main(String[] args){
         launch(args);
     }
+    private Button save = new Button();
+    private Button load = new Button();
+    private Button undo = new Button();
+    private Button redo = new Button();
+    private Button line = new Button();
+    private Button Circle = new Button();
+    private Button Ellipse = new Button();
+    private Button select = new Button();
+    private Button Rectangle = new Button();
+    private Button Square = new Button();
+    private Button Triangle = new Button();
+    private Button customShape = new Button("Custom");
+    private Button resize = new Button("Resize");
 
     public void start(Stage primaryStage) throws Exception {
         VBox root = new VBox();
@@ -47,141 +60,68 @@ public class Paint extends Application{
         shapes.setSpacing(3);
         Image image = new Image(new FileInputStream("Resources/btn13.png"));
         ChoiceBox addedShapes = new ChoiceBox();
-        addedShapes.setValue("Default");
-        Button save = new Button();
+        Engine engine = new Engine();
+        ArrayList<String >ClassNames=engine.getClassNames();
+        for (String className : ClassNames) {
+           addedShapes.getItems().add(className);
+           addedShapes.setValue(className);
+        }
         save.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn14.png"));
-        Button load = new Button();
         load.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn8.png"));
-        Button undo = new Button();
         undo.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn9.png"));
-        Button redo = new Button();
         redo.setGraphic(new ImageView(image));
-
         undo.setMinHeight(31);
         redo.setMinHeight(31);
         addedShapes.setMinHeight(31);
         addedShapes.setMinWidth(200);
-        Button line = new Button();
         image = new Image(new FileInputStream("Resources/btn1.png"));
         line.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn2.png"));
-        Button Circle = new Button();
         Circle.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn3.png"));
-        Button Ellipse = new Button();
         Ellipse.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn4.png"));
-        Button Rectangle = new Button();
         Rectangle.setGraphic(new ImageView(image));
-        Button Square = new Button();
         image = new Image(new FileInputStream("Resources/btn5.png"));
         Square.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn6.png"));
-        Button Triangle = new Button();
         Triangle.setGraphic(new ImageView(image));
-        Button select = new Button();
-        Button customShape = new Button("Custom");
-        Button resize = new Button("Resize");
         Button loadClass = new Button("Load Class");
         loadClass.setMinHeight(31);
         Triangle.setOnAction(e -> {
             current = "Triangle";
-            Triangle.setDisable(true);
-            line.setDisable(false);
-            Ellipse.setDisable(false);
-            Square.setDisable(false);
-            Rectangle.setDisable(false);
-            Circle.setDisable(false);
-            select.setDisable(false);
-            customShape.setDisable(false);
-            resize.setDisable(false);
+            disable(Triangle);
         });
         line.setOnAction(e -> {
             current = "line";
-            Triangle.setDisable(false);
-            line.setDisable(true);
-            Ellipse.setDisable(false);
-            Square.setDisable(false);
-            Rectangle.setDisable(false);
-            Circle.setDisable(false);
-            select.setDisable(false);
-            customShape.setDisable(false);
-            resize.setDisable(false);
+            disable(line);
         });
         Rectangle.setOnAction(e -> {
             current = "Rectangle";
-            Triangle.setDisable(false);
-            line.setDisable(false);
-            Ellipse.setDisable(false);
-            Square.setDisable(false);
-            Rectangle.setDisable(true);
-            Circle.setDisable(false);
-            select.setDisable(false);
-            customShape.setDisable(false);
-            resize.setDisable(false);
+            disable(Rectangle);
         });
         Circle.setOnAction(e -> {
             current = "Circle";
-            Triangle.setDisable(false);
-            line.setDisable(false);
-            Ellipse.setDisable(false);
-            Square.setDisable(false);
-            Rectangle.setDisable(false);
-            Circle.setDisable(true);
-            select.setDisable(false);
-            customShape.setDisable(false);
-            resize.setDisable(false);
+            disable(Circle);
         });
         Ellipse.setOnAction(e -> {
             current = "Ellipse";
-            Triangle.setDisable(false);
-            line.setDisable(false);
-            Ellipse.setDisable(true);
-            Square.setDisable(false);
-            Rectangle.setDisable(false);
-            Circle.setDisable(false);
-            select.setDisable(false);
-            customShape.setDisable(false);
-            resize.setDisable(false);
+            disable(Ellipse);
         });
         Square.setOnAction(e -> {
             current = "Square";
-            Triangle.setDisable(false);
-            line.setDisable(false);
-            Ellipse.setDisable(false);
-            Square.setDisable(true);
-            Rectangle.setDisable(false);
-            Circle.setDisable(false);
-            select.setDisable(false);
-            customShape.setDisable(false);
-            resize.setDisable(false);
+            disable(Square);
         });
         select.setOnAction(e -> {
             current = "select";
-            Triangle.setDisable(false);
-            line.setDisable(false);
-            Ellipse.setDisable(false);
-            Square.setDisable(false);
-            Rectangle.setDisable(false);
-            Circle.setDisable(false);
-            select.setDisable(true);
-            customShape.setDisable(false);
-            resize.setDisable(false);
+            disable(select);
         });
         resize.setOnAction(e -> {
             current = "resize";
-            Triangle.setDisable(false);
-            line.setDisable(false);
-            Ellipse.setDisable(false);
-            Square.setDisable(false);
-            Rectangle.setDisable(false);
-            Circle.setDisable(false);
-            select.setDisable(false);
-            customShape.setDisable(false);
-            resize.setDisable(true);
+            disable(resize);
         });
 
         FileChooser fileChooser = new FileChooser();
@@ -210,8 +150,6 @@ public class Paint extends Application{
                 if(Shape.class.isAssignableFrom(x)){
                     addedShapes.getItems().add(current);
                     addedShapes.setValue(current);
-                    //Files.copy(selectedFile.getPath(),"target/classes/eg/edu/alexu/csd/oop/draw/ID71_ID75/draw",StandardCopyOption.REPLACE_EXISTING);
-
                 }
                 else {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -219,12 +157,9 @@ public class Paint extends Application{
                     alert.setHeaderText("The class you have chosen doesn't implement the required Interface");
                     alert.showAndWait();
                 }
-
             }
-
         });
         //01011799537
-
         Label Border = new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
         Border.setCenterShape(true);
@@ -245,17 +180,15 @@ public class Paint extends Application{
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
         customShape.setOnAction(e -> {
-            current = "resize";
-            Triangle.setDisable(false);
-            line.setDisable(false);
-            Ellipse.setDisable(false);
-            Square.setDisable(false);
-            Rectangle.setDisable(false);
-            Circle.setDisable(false);
-            select.setDisable(false);
-            customShape.setDisable(true);
-            resize.setDisable(false);
+            disable(customShape);
+            current= (String) addedShapes.getValue();
+            if(!current.equals("Triangle"))
             current = "load";
+            else current="Triangle";
+        });
+        addedShapes.setOnAction(e->{
+            disable(select);
+            select.fire();
         });
         menu.getChildren().addAll(save, load, undo, redo, addedShapes, loadClass);
         shapes.getChildren().addAll(select, line, Circle, Ellipse, Rectangle, Square, Triangle, customShape, Border, colorPicker, Fill, colorPicker2, delete, resize);
@@ -275,7 +208,6 @@ public class Paint extends Application{
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
         AtomicInteger ct1 = new AtomicInteger();
 
-        Engine engine = new Engine();
         Shape[] newShape = new Shape[1];
         AtomicInteger ct2 = new AtomicInteger();
         undo.setOnAction(e -> {
@@ -307,8 +239,6 @@ public class Paint extends Application{
                 engine.refresh(graphics);
                 newShape[0] = null;
                 ct2.set(0);
-                current = "";
-                select.setDisable(false);
             }
         });
         canvas.setOnMousePressed(e -> {
@@ -589,6 +519,20 @@ public class Paint extends Application{
             }
         });
     }
+
+    private void disable(Button x) {
+        Triangle.setDisable(false);
+        line.setDisable(false);
+        Ellipse.setDisable(false);
+        Square.setDisable(false);
+        Rectangle.setDisable(false);
+        Circle.setDisable(false);
+        select.setDisable(false);
+        customShape.setDisable(false);
+        resize.setDisable(false);
+        x.setDisable(true);
+    }
+
     private java.awt.Color getColor(Color v){
         float r = (float)v.getRed();
         float b = (float)v.getBlue();
