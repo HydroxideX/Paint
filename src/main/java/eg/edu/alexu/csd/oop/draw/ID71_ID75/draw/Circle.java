@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Circle implements Shape  {
     private Point position;
-    public Map<String, Double> properties= new HashMap<>();
+    private Map<String, Double> properties= new HashMap<>();
     private Color color;
     private Color fillColor;
     public void setPosition(Point position) {
@@ -57,23 +57,23 @@ public class Circle implements Shape  {
         Double l,w,mn;
 
         if(p3.x == position.x && p3.y == position.y) {
-            l = Double.valueOf(Math.abs(p1.x - position.x));
-            w = Double.valueOf(Math.abs(p1.y - position.y));
-            mn = Double.valueOf(max(l.intValue(),w.intValue()));
+            l = (double) Math.abs(p1.x - position.x);
+            w = (double) Math.abs(p1.y - position.y);
+            mn = (double) max(l.intValue(), w.intValue());
         }
         else if(p3.x == position.x) {
-            mn = Double.valueOf(position.y-p3.y);
+            mn = (double) (position.y - p3.y);
         } else if (p3.y == position.y){
-            mn = Double.valueOf(position.x-p3.x);
+            mn = (double) (position.x - p3.x);
         } else {
             if(position.x-p3.x < position.y-p3.y) p3.x = position.y - position.x + p3.y;
             if(position.x-p3.x >position.y-p3.y) p3.x = position.x - position.y + p3.y;
-            mn = Double.valueOf(position.x-p3.x);
+            mn = (double) (position.x - p3.x);
         }
         if(properties.get("released")==1d){
-            Double j = Double.valueOf(p3.x + mn.intValue());
+            Double j = (double) (p3.x + mn.intValue());
             properties.put("x2",j);
-            j = Double.valueOf(p3.y + mn.intValue());
+            j = (double) (p3.y + mn.intValue());
             properties.put("y2",j);
             properties.put("released",0d);
             setPosition(p3);
@@ -84,7 +84,7 @@ public class Circle implements Shape  {
         canvas.drawOval(p3.x,p3.y,mn.intValue(),mn.intValue());
     }
 
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         Circle c=new Circle();
         c.setProperties(getProperties());
         c.setPosition(getPosition());
