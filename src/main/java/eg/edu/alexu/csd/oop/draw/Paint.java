@@ -83,7 +83,7 @@ public class Paint extends Application{
         Square.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Triangle.setGraphic(new ImageView(image));
-        Button loadClass = new Button("Load Class");
+        Button loadClass = new Button("Load Shape");
         loadClass.setMinHeight(31);
         Triangle.setOnAction(e -> {
             current = "Triangle";
@@ -119,7 +119,7 @@ public class Paint extends Application{
         });
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader", "*.class", "*.jar"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader",  "*.jar"));
         AtomicReference<eg.edu.alexu.csd.oop.draw.Shape> loader = new AtomicReference<>();
 
         loadClass.setOnAction(e -> {
@@ -239,9 +239,18 @@ public class Paint extends Application{
         customShape.setOnAction(e -> {
             disable(customShape);
             current= (String) addedShapes.getValue();
-            if(!current.equals("Triangle"))
-            current = "load";
-            else current="Triangle";
+            String pack = "eg.edu.alexu.csd.oop.draw";
+            try {
+                Class cl = Class.forName(pack + "." + current);
+                Shape shape = (Shape) cl.newInstance();
+                newShapeDiaglogBox shapeDiaglogBox = new newShapeDiaglogBox(shape);
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+            } catch (InstantiationException ex) {
+                ex.printStackTrace();
+            }
         });
         addedShapes.setOnAction(e->{
             disable(select);

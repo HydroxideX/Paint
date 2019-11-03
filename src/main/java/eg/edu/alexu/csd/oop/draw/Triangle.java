@@ -9,6 +9,18 @@ public class Triangle implements Shape  {
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
     private Color fillColor;
+    public Triangle(){
+        position = new Point(0,0);
+        color = Color.black;
+        fillColor = Color.black;
+        this.properties.put("type",5d);
+        this.properties.put("released",0d);
+        this.properties.putIfAbsent("selected",0d);
+        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
+        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
+        this.properties.putIfAbsent("x3", Double.valueOf(position.x));
+        this.properties.putIfAbsent("y3", Double.valueOf(position.y));
+    }
     public void setPosition(Point position) {
         this.position=position;
     }
@@ -19,9 +31,6 @@ public class Triangle implements Shape  {
 
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
-        this.properties.put("type",6d);
-        this.properties.put("released",1d);
-        this.properties.putIfAbsent("selected",0d);
         if(this.properties.get("selected")==1d)
         {
             Color temp=fillColor;
