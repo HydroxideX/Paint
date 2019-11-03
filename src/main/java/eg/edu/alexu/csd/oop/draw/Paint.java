@@ -146,6 +146,8 @@ public class Paint extends Application{
                 if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(x)){
                     addedShapes.getItems().add(current);
                     addedShapes.setValue(current);
+                    customShape.fire();
+                    disable(customShape);
                 }
                 else {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
