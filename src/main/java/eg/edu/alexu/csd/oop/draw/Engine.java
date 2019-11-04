@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.oop.draw;
 
+import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -212,7 +214,7 @@ public class Engine implements DrawingEngine{
         }
         return null;
     }
-
+/*
     @Override
     public void save(String path) {
         if(path.contains(".xml")){
@@ -320,5 +322,232 @@ public class Engine implements DrawingEngine{
         Color color2 = new Color(sc.nextInt(), sc.nextInt(), sc.nextInt());
         l.setFillColor(color2);
         return l;
+    }*/
+
+    public void save(String path) {
+        if (path.contains(".xml")) {
+
+
+        } else if (path.contains(".json")) {
+            File file2 = new File(path);
+            try {
+                FileWriter file = new FileWriter(file2);
+                file.write('[');
+                int i = 0;
+                while (arrayOfShapes[i] != null) {
+                    file.write('{');
+                    file.write('"' + arrayOfShapes[i].getClass().getName() + '"');
+                    file.write(':');
+                    file.write('{');
+                    file.write('"');
+                    file.write("x1");
+                    file.write('"');
+                    file.write(':');
+                    file.write('"');
+                    file.write(String.valueOf(arrayOfShapes[i].getPosition().x));
+                    file.write('"');
+                    file.write(',');
+                    file.write('"');
+                    file.write("x2");
+                    file.write('"');
+                    file.write(':');
+                    file.write('"');
+                    file.write(String.valueOf(arrayOfShapes[i].getPosition().y));
+                    file.write('"');
+                    file.write(',');
+                    file.write('"');
+                    file.write("color");
+                    file.write('"');
+                    file.write(':');
+                    file.write('"');
+                    file.write(arrayOfShapes[i].getColor().toString());
+                    file.write('"');
+                    file.write(',');
+                    file.write('"');
+                    file.write("fill");
+                    file.write('"');
+                    file.write(':');
+                    file.write('"');
+                    file.write(arrayOfShapes[i].getFillColor().toString());
+                    file.write('"');
+                    file.write(',');
+                    Map<String,Double> properties = new HashMap<String, Double>();
+                    Iterator var4 = arrayOfShapes[i].getProperties().entrySet().iterator();
+                    properties = arrayOfShapes[i].getProperties();
+                    while(var4.hasNext()) {
+                        Map.Entry s = (Map.Entry)var4.next();
+                        String s1 = (String)s.getKey();
+                        String s2 = s.getValue().toString();
+                        file.write('"');
+                        file.write(s1);
+                        file.write('"');
+                        file.write(':');
+                        file.write('"');
+                        file.write(s2);
+                        file.write('"');
+                        if(var4.hasNext()){
+                            file.write(',');
+                        }
+                    }
+                    file.write('}');
+                    if(arrayOfShapes[i+1] != null)  file.write("},");
+                    else file.write('}');
+                    i++;
+                }
+                file.write(']');
+                file.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new RuntimeException();
+        }
     }
+
+    @Override
+    public void load(String path) {
+        if (path.contains(".xml")) {
+
+
+        } else if (path.contains(".json")) {
+            File file2 = new File(path);
+            try {
+                FileReader file = new FileReader(file2);
+                file.read('[');
+                int i = 0;
+                while (arrayOfShapes[i] != null) {
+                    file.read('{');
+                    file.read('"' + arrayOfShapes[i].getClass().getName() + '"');
+                    file.read(':');
+                    file.read('{');
+                    file.read('"');
+                    file.read("x1");
+                    file.read('"');
+                    file.read(':');
+                    file.read('"');
+                    file.read(String.valueOf(arrayOfShapes[i].getPosition().x));
+                    file.read('"');
+                    file.read(',');
+                    file.read('"');
+                    file.read("x2");
+                    file.read('"');
+                    file.read(':');
+                    file.read('"');
+                    file.read(String.valueOf(arrayOfShapes[i].getPosition().y));
+                    file.read('"');
+                    file.read(',');
+                    file.read('"');
+                    file.read("color");
+                    file.read('"');
+                    file.read(':');
+                    file.read('"');
+                    file.read(arrayOfShapes[i].getColor().toString());
+                    file.read('"');
+                    file.read(',');
+                    file.read('"');
+                    file.read("fill");
+                    file.read('"');
+                    file.read(':');
+                    file.read('"');
+                    file.read(arrayOfShapes[i].getFillColor().toString());
+                    file.read('"');
+                    file.read(',');
+                    Map<String,Double> properties = new HashMap<String, Double>();
+                    Iterator var4 = arrayOfShapes[i].getProperties().entrySet().iterator();
+                    properties = arrayOfShapes[i].getProperties();
+                    while(var4.hasNext()) {
+                        Map.Entry s = (Map.Entry)var4.next();
+                        String s1 = (String)s.getKey();
+                        String s2 = s.getValue().toString();
+                        file.read('"');
+                        file.read(s1);
+                        file.read('"');
+                        file.read(':');
+                        file.read('"');
+                        file.read(s2);
+                        file.read('"');
+                        if(var4.hasNext()){
+                            file.read(',');
+                        }
+                    }
+                    file.read('}');
+                    if(arrayOfShapes[i+1] != null)  file.read("},");
+                    else file.read('}');
+                    i++;
+                }
+                file.read(']');
+                file.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new RuntimeException();
+        }
+    }
+    /*public  void load(String path)
+    {
+        if(path.contains(".json")) {
+            JSONParser jsonParser = new JSONParser();
+            File file = new File(path);
+            try (FileReader reader = new FileReader(file)) {
+                Object obj = jsonParser.parse(reader);
+                JSONArray shapeList = (JSONArray) obj;
+                eg.edu.alexu.csd.oop.draw.Shape x = null;
+                JSONObject index1 = (JSONObject) shapeList.get(0);
+                JSONObject maxIndex1 = (JSONObject) shapeList.get(1);
+                index = Integer.parseInt(index1.get("index").toString());
+                maxIndex = Integer.parseInt(maxIndex1.get("maxIndex").toString());
+                for (int i = 2; i < shapeList.size(); i++) {
+                    Object temp = shapeList.get(i);
+                    x = parseShape((JSONObject)temp);
+                    arrayOfShapes[i-2] = x;
+                }
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private eg.edu.alexu.csd.oop.draw.Shape parseShape(JSONObject shape) {
+        Double j;
+        Map<String,Double> m = new HashMap<String, Double>();
+        JSONObject shapeObject = (JSONObject) shape.get("shape");
+        String name = shapeObject.get("name").toString();
+        Class cl= null;
+        try {
+            cl = Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        eg.edu.alexu.csd.oop.draw.Shape l = null;
+        try {
+            l = (Shape)cl.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        if(cl.getName()=="eg.edu.alexu.csd.oop.draw.Triangle"){
+            m.put("x3", Double.valueOf(shapeObject.get("x3").toString()));
+            m.put("y3", Double.valueOf(shapeObject.get("y3").toString()));
+        }
+        m.put("x2", Double.valueOf(shapeObject.get("x2").toString()));
+        m.put("y2", Double.valueOf(shapeObject.get("y2").toString()));
+        m.put("released", Double.valueOf(shapeObject.get("released").toString()));
+        m.put("type", Double.valueOf(shapeObject.get("type").toString()));
+        l.setProperties(m);
+        l.setPosition(new Point(Double.valueOf(shapeObject.get("positionx").toString()).intValue(),Double.valueOf(shapeObject.get("positiony").toString()).intValue()));
+        String s = shapeObject.get("color").toString();
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter("\\D+");
+        Color color = new Color(sc.nextInt(), sc.nextInt(), sc.nextInt());
+        l.setColor(color);
+        s = shapeObject.get("fillColor").toString();
+        sc = new Scanner(s);
+        sc.useDelimiter("\\D+");
+        Color color2 = new Color(sc.nextInt(), sc.nextInt(), sc.nextInt());
+        l.setFillColor(color2);
+        return l;
+    }*/
 }
+
