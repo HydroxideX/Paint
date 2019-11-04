@@ -314,6 +314,14 @@ public class Paint extends Application{
                 case "resize": {
                     newShape[0] = engine.checkOnShapes((int) e.getX(), (int) e.getY());
                     if (newShape[0] != null) {
+                        if (newShape[0].getProperties().get("type") == 0d && current == "resize") {
+                            int temp = engine.index;
+                            newShapeDialogBox shapeDiaglogBox = new newShapeDialogBox(newShape[0], engine, graphics);
+                            if (temp > engine.index) engine.removeShape(newShape[0]);
+                            disable(customShape);
+                            customShape.setDisable(false);
+                            break;
+                        }
                         p.set(new Point((int) e.getX(), (int) e.getY()));
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
                         secondPoint.put("selected", 1d);
@@ -369,11 +377,6 @@ public class Paint extends Application{
                             p.get().y = (int) e.getY();
                             break;
                         } else if (newShape[0].getProperties().get("type") == 0d) {
-                                int temp = engine.index;
-                                newShapeDialogBox shapeDiaglogBox = new newShapeDialogBox(newShape[0],engine,graphics);
-                                if(temp > engine.index) engine.removeShape(newShape[0]);
-                                disable(customShape);
-                                customShape.setDisable(false);
                                 break;
                         } else {
                             try {
