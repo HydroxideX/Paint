@@ -22,12 +22,12 @@ public class Engine implements DrawingEngine {
     private eg.edu.alexu.csd.oop.draw.Shape[][] UndoArray;
 
     int index = 0;
-    private int UndoIndex = -1;
+    private int UndoIndex = 0;
     private int maxIndex = 0;
-    private int UndomaxIndex = -1;
+    private int UndomaxIndex = 0;
     public Engine(){
         arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
-        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[21][size];
+        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[22][size];
     }
     private int max(int a, int b) {
         return Math.max(a, b);
@@ -63,7 +63,11 @@ public class Engine implements DrawingEngine {
     public void addShape(eg.edu.alexu.csd.oop.draw.Shape shape) {
         if(shape.getPosition() == null){
             shape.setPosition(new Point(0,0));
+        }
+        if(shape.getColor() == null){
             shape.setColor(Color.red);
+        }
+        if(shape.getFillColor()== null){
             shape.setFillColor(Color.black);
         }
         arrayOfShapes[index] = shape;
