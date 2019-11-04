@@ -579,7 +579,6 @@ public class Paint extends Application{
                 case "resize":
                 case "select": {
                     if (newShape[0] != null) {
-                        if(newShape[0].getProperties().get("type")==0d) break;
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
                         secondPoint.put("selected", 1d);
                         secondPoint.put("released", 1d);
