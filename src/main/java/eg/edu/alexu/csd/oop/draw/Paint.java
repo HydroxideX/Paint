@@ -279,7 +279,7 @@ public class Paint extends Application{
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
         AtomicInteger ct1 = new AtomicInteger();
 
-        eg.edu.alexu.csd.oop.draw.Shape[] newShape = new eg.edu.alexu.csd.oop.draw.Shape[1];
+        eg.edu.alexu.csd.oop.draw.Shape[] newShape = new eg.edu.alexu.csd.oop.draw.Shape[2];
         AtomicInteger ct2 = new AtomicInteger();
         undo.setOnAction(e -> {
             engine.undo();
@@ -305,11 +305,11 @@ public class Paint extends Application{
             }
         });
         delete.setOnAction(e -> {
-            if (current.equals("select") && newShape[0] != null) {
-                engine.removeShape(newShape[0]);
+            if (current.equals("select") && newShape[1] != null) {
+                engine.removeShape(newShape[1]);
                 engine.refresh(graphics);
                 engine.updateUndo();
-                newShape[0] = null;
+                newShape[1] = null;
                 ct2.set(0);
             }
         });
@@ -326,12 +326,17 @@ public class Paint extends Application{
                             customShape.setDisable(false);
                             break;
                         }
+                        try {
+                            newShape[1] = (Shape) newShape[0].clone();
+                        } catch (CloneNotSupportedException ex) {
+                            ex.printStackTrace();
+                        }
                         p.set(new Point((int) e.getX(), (int) e.getY()));
-                        Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
-                        java.awt.Color temp=newShape[0].getColor();
-                        newShape[0].setColor(newShape[0].getFillColor());
-                        newShape[0].setFillColor(temp);
-                        newShape[0].setProperties(secondPoint);
+                        Map<String, Double> secondPoint = new HashMap<>(newShape[1].getProperties());
+                        java.awt.Color temp=newShape[1].getColor();
+                        newShape[1].setColor(newShape[1].getFillColor());
+                        newShape[1].setFillColor(temp);
+                        newShape[1].setProperties(secondPoint);
                         engine.removeShape(newShape[0]);
                         ct2.getAndIncrement();
                     }
@@ -356,12 +361,12 @@ public class Paint extends Application{
         canvas.setOnMouseDragged(e -> {
             switch (current) {
                 case "resize": {
-                    if (newShape[0] != null) {
+                    if (newShape[1] != null) {
                         eg.edu.alexu.csd.oop.draw.Shape l = null;
-                        if (newShape[0].getProperties().get("type") == 6d) {
+                        if (newShape[1].getProperties().get("type") == 6d) {
                             l = new Triangle();
                             try {
-                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[0].clone();
+                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -375,24 +380,24 @@ public class Paint extends Application{
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
-                                newShape[0] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                                newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
                             p.get().x = (int) e.getX();
                             p.get().y = (int) e.getY();
                             break;
-                        } else if (newShape[0].getProperties().get("type") == 0d) {
+                        } else if (newShape[1].getProperties().get("type") == 0d) {
                                 break;
                         } else {
                             try {
-                                l = newShape[0].getClass().newInstance();
+                                l = newShape[1].getClass().newInstance();
                             } catch (InstantiationException | IllegalAccessException ex) {
                                 ex.printStackTrace();
                             }
                         }
                         try {
-                            l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[0].clone();
+                            l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -408,7 +413,7 @@ public class Paint extends Application{
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
                         try {
-                            newShape[0] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                            newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -418,12 +423,12 @@ public class Paint extends Application{
                     break;
                 }
                 case "select": {
-                    if (newShape[0] != null) {
+                    if (newShape[1] != null) {
                         eg.edu.alexu.csd.oop.draw.Shape l = null;
-                        if (newShape[0].getProperties().get("type") == 6d) {
+                        if (newShape[1].getProperties().get("type") == 6d) {
                             l = new Triangle();
                             try {
-                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[0].clone();
+                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -440,7 +445,7 @@ public class Paint extends Application{
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
-                                newShape[0] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                                newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -448,14 +453,14 @@ public class Paint extends Application{
                             p.get().y = (int) e.getY();
                             break;
                         }
-                        else if (newShape[0].getProperties().get("type") == 0d) {
+                        else if (newShape[1].getProperties().get("type") == 0d) {
                             try {
-                                l = newShape[0].getClass().newInstance();
+                                l = newShape[1].getClass().newInstance();
                             } catch (InstantiationException | IllegalAccessException ex) {
                                 ex.printStackTrace();
                             }
                             try {
-                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[0].clone();
+                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -463,14 +468,14 @@ public class Paint extends Application{
                             int diffY = (int) e.getY() - p.get().y;
                             assert l != null;
                             l.setPosition(new Point(l.getPosition().x + diffX, l.getPosition().y + diffY));
-                            l.setProperties(newShape[0].getProperties());
-                            l.setFillColor(newShape[0].getColor());
-                            l.setFillColor(newShape[0].getFillColor());
+                            l.setProperties(newShape[1].getProperties());
+                            l.setFillColor(newShape[1].getColor());
+                            l.setFillColor(newShape[1].getFillColor());
                             engine.addTempShape(l);
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
-                                newShape[0] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                                newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -479,13 +484,13 @@ public class Paint extends Application{
                             break;
                         } else {
                             try {
-                                l = newShape[0].getClass().newInstance();
+                                l = newShape[1].getClass().newInstance();
                             } catch (InstantiationException | IllegalAccessException ex) {
                                 ex.printStackTrace();
                             }
                         }
                         try {
-                            l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[0].clone();
+                            l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -501,7 +506,7 @@ public class Paint extends Application{
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
                         try {
-                            newShape[0] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                            newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -545,8 +550,8 @@ public class Paint extends Application{
                         engine.addTempShape(l);
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
-                        newShape[0] = l;
-                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ignored) {
+                        newShape[1] = (Shape) l.clone();
+                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | CloneNotSupportedException ignored) {
                     }
                     break;
                 }
@@ -556,15 +561,15 @@ public class Paint extends Application{
             switch (current) {
                 case "resize":
                 case "select": {
-                    if (newShape[0] != null) {
-                        if(newShape[0].getProperties().get("type") == 0d && current.equals("resize")) break;
-                        Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
-                        java.awt.Color temp=newShape[0].getColor();
-                        newShape[0].setColor(newShape[0].getFillColor());
-                        newShape[0].setFillColor(temp);
+                    if (newShape[1] != null) {
+                        if(newShape[1].getProperties().get("type") == 0d && current.equals("resize")) break;
+                        Map<String, Double> secondPoint = new HashMap<>(newShape[1].getProperties());
+                        java.awt.Color temp=newShape[1].getColor();
+                        newShape[1].setColor(newShape[1].getFillColor());
+                        newShape[1].setFillColor(temp);
                         secondPoint.put("released", 1d);
-                        newShape[0].setProperties(secondPoint);
-                        engine.addShape(newShape[0]);
+                        newShape[1].setProperties(secondPoint);
+                        engine.addShape(newShape[1]);
                         engine.refresh(graphics);
                     }
                     break;
@@ -587,13 +592,13 @@ public class Paint extends Application{
                     break;
                 }
                 default: {
-                    if (newShape[0] != null) {
-                        Map <String,Double> m = new HashMap<>(newShape[0].getProperties());
+                    if (newShape[1] != null) {
+                        Map <String,Double> m = new HashMap<>(newShape[1].getProperties());
                         m.put("released",1d);
-                        newShape[0].setProperties(m);
-                        engine.addShape(newShape[0]);
+                        newShape[1].setProperties(m);
+                        engine.addShape(newShape[1]);
                         engine.refresh(graphics);
-                        newShape[0] = null;
+                        newShape[1] = null;
                         break;
                     }
                 }
