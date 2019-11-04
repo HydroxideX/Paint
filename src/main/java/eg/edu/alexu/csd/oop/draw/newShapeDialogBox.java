@@ -49,8 +49,8 @@ public class newShapeDialogBox {
         }
         else
         {
-            positionX.setText(Integer.toString(p.x));
-            positionY.setText(Integer.toString(p.y));
+            positionX.setText("0");
+            positionY.setText("0");
         }
 
 
