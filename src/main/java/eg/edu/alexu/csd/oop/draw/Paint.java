@@ -570,6 +570,7 @@ public class Paint extends Application{
                         newShape[1].setProperties(secondPoint);
                         engine.addShape(newShape[1]);
                         engine.refresh(graphics);
+                        newShape[1] = null;
                     }
                     break;
                 }
