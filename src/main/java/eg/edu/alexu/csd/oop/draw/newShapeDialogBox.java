@@ -82,7 +82,7 @@ public class newShapeDialogBox {
             properties.put((String)s.getKey(), (Double) s.getValue());
             labels[i] = new Label(s.getKey().toString());
             labels[i].setFont(new Font("Arial", 15));
-            texts[i] = new TextField(s.getValue().toString());
+            texts[i] = new TextField();
             i++;
         }
         for(int j = 0;j<i;j++){
@@ -124,10 +124,7 @@ public class newShapeDialogBox {
                 return;
             }
             l.setPosition(p1);
-            Map <String,Double> m = new HashMap<>();
-            m = l.getProperties();
-            int temp = 0;
-            int val2 = 0;
+            Map <String,Double> m = new HashMap<>(l.getProperties());
             for(int j = 0;j<100;j++){
                 if(labels[j] != null){
                     s = texts[j].getText();
@@ -152,7 +149,6 @@ public class newShapeDialogBox {
         });
 
         vBox.getChildren().addAll(position,shapeProperties,buttons);
-        HBox Buttons = new HBox();
         window.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(vBox);
         window.setScene(scene);
