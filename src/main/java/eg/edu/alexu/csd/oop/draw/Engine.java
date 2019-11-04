@@ -23,8 +23,8 @@ public class Engine implements DrawingEngine {
 
     int index = 0;
     private int UndoIndex = -1;
-    private int maxIndex = -1;
-    private int UndomaxIndex = 0;
+    private int maxIndex = 0;
+    private int UndomaxIndex = -1;
     public Engine(){
         arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
         UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[21][size];
@@ -61,6 +61,11 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void addShape(eg.edu.alexu.csd.oop.draw.Shape shape) {
+        if(shape.getPosition() == null){
+            shape.setPosition(new Point(0,0));
+            shape.setColor(Color.red);
+            shape.setFillColor(Color.black);
+        }
         arrayOfShapes[index] = shape;
         index++;
         maxIndex = index;
@@ -88,6 +93,25 @@ public class Engine implements DrawingEngine {
         }
         if (removed) index--;
         maxIndex = index;
+        updateUndo();
+    }
+
+
+    public void removeShape2(eg.edu.alexu.csd.oop.draw.Shape shape) {
+        boolean removed = false;
+        for (int i = 0; i < index; i++) {
+            if (arrayOfShapes[i] == shape) {
+                removed = true;
+                for (int j = i + 1; j < size; j++) {
+                    if (arrayOfShapes[j - 1] == null) break;
+                    arrayOfShapes[j - 1] = arrayOfShapes[j];
+                }
+                arrayOfShapes[size - 1] = null;
+                break;
+            }
+        }
+        if (removed) index--;
+        maxIndex = index;
     }
 
     void RemoveLastShape() {
@@ -99,6 +123,8 @@ public class Engine implements DrawingEngine {
         for (int i = 0; i < index; i++) {
             if (arrayOfShapes[i] == oldShape) {
                 arrayOfShapes[i] = newShape;
+                updateUndo();
+                break;
             }
         }
     }
@@ -283,21 +309,23 @@ public class Engine implements DrawingEngine {
                     file.write('"');
                     file.write(',');
                     Map<String, Double> properties = new HashMap<String, Double>();
-                    Iterator var4 = arrayOfShapes[i].getProperties().entrySet().iterator();
                     properties = arrayOfShapes[i].getProperties();
-                    while (var4.hasNext()) {
-                        Map.Entry s = (Map.Entry) var4.next();
-                        String s1 = (String) s.getKey();
-                        String s2 = s.getValue().toString();
-                        file.write('"');
-                        file.write(s1);
-                        file.write('"');
-                        file.write(':');
-                        file.write('"');
-                        file.write(s2);
-                        file.write('"');
-                        if (var4.hasNext()) {
-                            file.write(',');
+                    if(properties != null) {
+                        Iterator var4 = arrayOfShapes[i].getProperties().entrySet().iterator();
+                        while (var4.hasNext()) {
+                            Map.Entry s = (Map.Entry) var4.next();
+                            String s1 = (String) s.getKey();
+                            String s2 = s.getValue().toString();
+                            file.write('"');
+                            file.write(s1);
+                            file.write('"');
+                            file.write(':');
+                            file.write('"');
+                            file.write(s2);
+                            file.write('"');
+                            if (var4.hasNext()) {
+                                file.write(',');
+                            }
                         }
                     }
                     file.write('}');
@@ -327,7 +355,7 @@ public class Engine implements DrawingEngine {
                 while (arrayOfShapes[index] != null) {
                     index++;
                 }
-                UndoIndex = 0;
+                UndoIndex = -1;
                 updateUndo();
 
             } catch (FileNotFoundException e) {
@@ -389,8 +417,8 @@ public class Engine implements DrawingEngine {
                 for (int j = index; j < size; j++) {
                     arrayOfShapes[j] = null;
                 }
-                UndoIndex = 0;
-                UndomaxIndex = 0;
+                UndoIndex = -1;
+                UndomaxIndex = -1;
                 updateUndo();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

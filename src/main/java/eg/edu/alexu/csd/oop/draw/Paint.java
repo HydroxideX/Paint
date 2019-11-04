@@ -308,7 +308,6 @@ public class Paint extends Application{
             if (current.equals("select") && newShape[1] != null) {
                 engine.removeShape(newShape[1]);
                 engine.refresh(graphics);
-                engine.updateUndo();
                 newShape[1] = null;
                 ct2.set(0);
             }
@@ -337,7 +336,7 @@ public class Paint extends Application{
                         newShape[1].setColor(newShape[1].getFillColor());
                         newShape[1].setFillColor(temp);
                         newShape[1].setProperties(secondPoint);
-                        engine.removeShape(newShape[0]);
+                        engine.removeShape2(newShape[0]);
                         ct2.getAndIncrement();
                     }
                     break;
@@ -530,7 +529,7 @@ public class Paint extends Application{
                     r.setProperties(length);
                     engine.addTempShape(r);
                     engine.refresh(graphics);
-                    engine.removeShape(r);
+                    engine.removeShape2(r);
                     break;
                 }
                 default: {
