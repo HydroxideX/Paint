@@ -7,6 +7,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -326,7 +328,6 @@ public class Engine implements DrawingEngine{
 
     public void save(String path) {
         if (path.contains(".xml")) {
-
 
         } else if (path.contains(".json")) {
             File file2 = new File(path);

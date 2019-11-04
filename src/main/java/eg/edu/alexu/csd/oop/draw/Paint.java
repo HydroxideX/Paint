@@ -245,8 +245,8 @@ public class Paint extends Application{
         resize.setMinHeight(29);
         customShape.setMinHeight(29);
         addedShapes.setOnAction(e->{
-            disable(select);
             select.fire();
+            current="select";
         });
         menu.getChildren().addAll(save, load, undo, redo, addedShapes, loadClass);
         shapes.getChildren().addAll(select, line, Circle, Ellipse, Rectangle, Square, Triangle, customShape, Border, colorPicker, Fill, colorPicker2, delete, resize);
