@@ -44,14 +44,13 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void refresh (Graphics canvas) {
+        ((Graphics2D)canvas).setStroke(new BasicStroke(2.0F));
         javax.swing.DebugGraphics x = new DebugGraphics(canvas);
         try{
             canvas.setColor(Color.WHITE);
             canvas.fillRect(0, 0, 10000, 10000);
             for (int i = 0; i < index; i++) {
                 arrayOfShapes[i].draw(canvas);
-                if(canvas == null)
-                arrayOfShapes[i].draw(x);
             }
             maxIndex = max(index, maxIndex);
         } catch (NullPointerException ignored){
@@ -419,7 +418,7 @@ public class Engine implements DrawingEngine {
                     newShape.setFillColor(color2);
                     Map<String, Double> properties = new HashMap<String, Double>();
                     for (int i = 13; i < parts.length; i += 2) {
-                        if(parts[i].length() <= 2) break;
+                        if(i+1 == parts.length) break;
                         properties.put(parts[i], Double.valueOf(parts[i + 1]));
                     }
                     newShape.setProperties(properties);
