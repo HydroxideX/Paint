@@ -1,6 +1,7 @@
 package eg.edu.alexu.csd.oop.draw;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import java.beans.XMLDecoder;
@@ -27,7 +28,7 @@ public class Engine implements DrawingEngine {
     private int UndomaxIndex = 0;
     public Engine(){
         arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
-        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[22][size];
+        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[21][size];
     }
     private int max(int a, int b) {
         return Math.max(a, b);
@@ -176,6 +177,7 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void undo() {
+        if(UndomaxIndex-UndoIndex == 20) return;
         if (UndoIndex > 0) {
             UndoIndex--;
             System.arraycopy(UndoArray[UndoIndex], 0, arrayOfShapes, 0, size);

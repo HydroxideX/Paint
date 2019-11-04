@@ -1,9 +1,0 @@
-[{"eg.edu.alexu.csd.oop.draw.Circle":{"x1":"0","y1":"0","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","y2":"0.0","x2":"0.0","type":"2.0","released":"0.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Ellipse":{"x1":"0","y1":"0","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","y2":"0.0","x2":"0.0","type":"4.0","released":"1.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.line":{"x1":"0","y1":"0","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","y2":"0.0","x2":"0.0","type":"1.0","released":"1.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Rectangle":{"x1":"0","y1":"0","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","y2":"0.0","x2":"0.0","type":"3.0","released":"1.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.RoundRectangle":{"x1":"0","y1":"0","color":"java.awt.Color[r=255,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","Length":"0.0","ArcWidth":"0.0","ArcLength":"0.0","Width":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Square":{"x1":"0","y1":"0","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","y2":"0.0","x2":"0.0","type":"5.0","released":"0.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Triangle":{"x1":"0","y1":"0","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","y2":"0.0","x2":"0.0","y3":"0.0","x3":"0.0","type":"6.0","released":"0.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.test.DummyShape":{"x1":"0","y1":"0","color":"java.awt.Color[r=255,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]",}}
-]
