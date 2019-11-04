@@ -163,8 +163,8 @@ public class Engine implements DrawingEngine {
     }
 
     void updateUndo() {
-        if(UndoIndex == 21){
-            for(int i = 0;i<21;i++){
+        if(UndoIndex == 20){
+            for(int i = 0;i<20;i++){
                 System.arraycopy(UndoArray[i+1], 0, UndoArray[i], 0, size);
             }
             System.arraycopy(arrayOfShapes, 0, UndoArray[UndoIndex], 0, size);
@@ -177,7 +177,7 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void undo() {
-        if(UndomaxIndex-UndoIndex == 20) return;
+        if(UndomaxIndex-UndoIndex == 19) return;
         if (UndoIndex > 0) {
             UndoIndex--;
             System.arraycopy(UndoArray[UndoIndex], 0, arrayOfShapes, 0, size);
