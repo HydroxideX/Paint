@@ -441,7 +441,8 @@ public class Paint extends Application{
                             p.get().x = (int) e.getX();
                             p.get().y = (int) e.getY();
                             break;
-                        } else if (newShape[0].getProperties().get("type") == 0d) {
+                        }
+                        else if (newShape[0].getProperties().get("type") == 0d) {
                             try {
                                 l = newShape[0].getClass().newInstance();
                             } catch (InstantiationException | IllegalAccessException ex) {

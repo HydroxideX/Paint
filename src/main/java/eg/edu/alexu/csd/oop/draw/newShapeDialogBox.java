@@ -42,7 +42,7 @@ public class newShapeDialogBox {
         TextField positionX = new TextField();
         TextField positionY = new TextField();
         Point p = shape.getPosition();
-        if(p !=null)
+        if(p!=null)
         {
             positionX.setText(Integer.toString(shape.getPosition().x));
             positionY.setText(Integer.toString(shape.getPosition().y));
@@ -82,7 +82,7 @@ public class newShapeDialogBox {
             properties.put((String)s.getKey(), (Double) s.getValue());
             labels[i] = new Label(s.getKey().toString());
             labels[i].setFont(new Font("Arial", 15));
-            texts[i] = new TextField();
+            texts[i] = new TextField(s.getValue().toString());
             i++;
         }
         for(int j = 0;j<i;j++){
@@ -104,8 +104,8 @@ public class newShapeDialogBox {
                 l = null;
                 return;
             }
-            p1.x = Integer.valueOf(s);
-            value = Integer.valueOf(s);
+            p1.x = Integer.parseInt(s);
+            value = Integer.parseInt(s);
             if(value > 1000 || value < 0) {
                 l = null;
                 return;
@@ -128,6 +128,9 @@ public class newShapeDialogBox {
             for(int j = 0;j<100;j++){
                 if(labels[j] != null){
                     s = texts[j].getText();
+                    double y=Double.parseDouble(s);
+                    int x=(int)y;
+                    s=String.valueOf(x);
                     matcher = pattern.matcher(s);
                     correct = matcher.matches();
                     if(!correct){
