@@ -279,7 +279,7 @@ public class Paint extends Application{
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
         AtomicInteger ct1 = new AtomicInteger();
 
-        eg.edu.alexu.csd.oop.draw.Shape[] newShape = new eg.edu.alexu.csd.oop.draw.Shape[2];
+        eg.edu.alexu.csd.oop.draw.Shape[] newShape = new eg.edu.alexu.csd.oop.draw.Shape[3];
         AtomicInteger ct2 = new AtomicInteger();
         undo.setOnAction(e -> {
             engine.undo();
@@ -305,10 +305,10 @@ public class Paint extends Application{
             }
         });
         delete.setOnAction(e -> {
-            if (current.equals("select") && newShape[1] != null) {
-                engine.removeShape(newShape[1]);
+            if (current.equals("select") && newShape[2] != null) {
+                engine.removeShape(newShape[2]);
                 engine.refresh(graphics);
-                newShape[1] = null;
+                newShape[2] = null;
                 ct2.set(0);
             }
         });
@@ -570,6 +570,7 @@ public class Paint extends Application{
                         newShape[1].setProperties(secondPoint);
                         engine.addShape(newShape[1]);
                         engine.refresh(graphics);
+                        newShape[2] = (Shape) newShape[1];
                         newShape[1] = null;
                     }
                     break;
@@ -598,6 +599,7 @@ public class Paint extends Application{
                         newShape[1].setProperties(m);
                         engine.addShape(newShape[1]);
                         engine.refresh(graphics);
+                        newShape[2] = (Shape) newShape[1];
                         newShape[1] = null;
                         break;
                     }

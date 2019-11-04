@@ -43,17 +43,18 @@ public class Engine implements DrawingEngine {
     }
 
     @Override
-    public void refresh(Graphics canvas) {
-        javax.swing.DebugGraphics x= new DebugGraphics(canvas);
+    public void refresh (Graphics canvas) {
+        javax.swing.DebugGraphics x = new DebugGraphics(canvas);
         try{
             canvas.setColor(Color.WHITE);
             canvas.fillRect(0, 0, 10000, 10000);
             for (int i = 0; i < index; i++) {
                 arrayOfShapes[i].draw(canvas);
+                if(canvas == null)
                 arrayOfShapes[i].draw(x);
             }
             maxIndex = max(index, maxIndex);
-        }catch (NullPointerException ignored){
+        } catch (NullPointerException ignored){
             for (int i = 0; i < index; i++) {
                 arrayOfShapes[i].draw(x);
             }
@@ -237,7 +238,10 @@ public class Engine implements DrawingEngine {
                 Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
                         arrayOfShapes[i].getProperties().get("y2").intValue());
                 double[] ar = pointsToLine(p1, p2);
-                if (Math.abs(-ar[0] * x + ar[1] * y - ar[2]) < 50) {
+                if(p1.x==p2.x)p1.x+=50;
+                if(p1.y==p2.y)p1.y+=50;
+                if (Math.abs(-ar[0] * x + ar[1] * y - ar[2]) < 50 &&
+                        (x<=Math.max(p1.x,p2.x)&&x>=Math.min(p1.x,p2.x))&&(y<=Math.max(p1.y,p2.y)&&y>=Math.min(p1.y,p2.y))) {
                     return arrayOfShapes[i];
                 }
             } else if (arrayOfShapes[i].getProperties().get("type") == 6d) {
