@@ -22,8 +22,8 @@ public class Engine implements DrawingEngine {
     private eg.edu.alexu.csd.oop.draw.Shape[][] UndoArray;
 
     int index = 0;
-    private int UndoIndex = 0;
-    private int maxIndex = 0;
+    private int UndoIndex = -1;
+    private int maxIndex = -1;
     private int UndomaxIndex = 0;
     public Engine(){
         arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
@@ -132,11 +132,7 @@ public class Engine implements DrawingEngine {
     }
 
     void updateUndo() {
-        if(UndoIndex == 0){
-            UndoIndex++;
-            System.arraycopy(arrayOfShapes, 0, UndoArray[UndoIndex], 0, size);
-        }
-        else if(UndoIndex == 20){
+        if(UndoIndex == 20){
             for(int i = 0;i<20;i++){
                 System.arraycopy(UndoArray[i+1], 0, UndoArray[i], 0, size);
             }
