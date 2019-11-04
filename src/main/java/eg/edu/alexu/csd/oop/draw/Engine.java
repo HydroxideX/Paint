@@ -177,7 +177,7 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void undo() {
-        if(UndomaxIndex-UndoIndex == 19) return;
+        if(UndomaxIndex-UndoIndex == 20) return;
         if (UndoIndex > 0) {
             UndoIndex--;
             System.arraycopy(UndoArray[UndoIndex], 0, arrayOfShapes, 0, size);
