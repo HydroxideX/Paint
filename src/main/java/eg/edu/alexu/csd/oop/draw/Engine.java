@@ -1,9 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
 import javax.swing.*;
-import javax.swing.undo.UndoManager;
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.FileReader;
@@ -22,11 +19,11 @@ public class Engine implements DrawingEngine {
     private eg.edu.alexu.csd.oop.draw.Shape[] arrayOfShapes;
     private eg.edu.alexu.csd.oop.draw.Shape[][] UndoArray;
 
-    int index = 0;
+    private int index = 0;
     private int UndoIndex = 0;
     private int maxIndex = 0;
     private int UndomaxIndex = 0;
-    public Engine(){
+    Engine(){
         arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
         UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[21][size];
     }
@@ -44,10 +41,10 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void refresh (Graphics canvas) {
-        ((Graphics2D)canvas).setStroke(new BasicStroke(2.0F));
         javax.swing.DebugGraphics x = new DebugGraphics(canvas);
         try{
             canvas.setColor(Color.WHITE);
+            ((Graphics2D)canvas).setStroke(new BasicStroke(2.0F));
             canvas.fillRect(0, 0, 10000, 10000);
             for (int i = 0; i < index; i++) {
                 arrayOfShapes[i].draw(canvas);
@@ -102,7 +99,7 @@ public class Engine implements DrawingEngine {
     }
 
 
-    public void removeShape2(eg.edu.alexu.csd.oop.draw.Shape shape) {
+    void removeShape2(eg.edu.alexu.csd.oop.draw.Shape shape) {
         boolean removed = false;
         for (int i = 0; i < index; i++) {
             if (arrayOfShapes[i] == shape) {
@@ -137,7 +134,7 @@ public class Engine implements DrawingEngine {
     @Override
     public eg.edu.alexu.csd.oop.draw.Shape[] getShapes() {
         Shape [] newarrayOfShapes = new Shape[index];
-        for(int i = 0 ;i<index;i++) newarrayOfShapes[i] = arrayOfShapes[i];
+        System.arraycopy(arrayOfShapes, 0, newarrayOfShapes, 0, index);
         return newarrayOfShapes;
     }
 
@@ -162,7 +159,7 @@ public class Engine implements DrawingEngine {
         return SupportedShapes;
     }
 
-    void updateUndo() {
+    private void updateUndo() {
         if(UndoIndex == 20){
             for(int i = 0;i<20;i++){
                 System.arraycopy(UndoArray[i+1], 0, UndoArray[i], 0, size);
@@ -236,9 +233,9 @@ public class Engine implements DrawingEngine {
                 Point p1 = new Point(arrayOfShapes[i].getPosition());
                 Point p2 = new Point(arrayOfShapes[i].getProperties().get("x2").intValue(),
                         arrayOfShapes[i].getProperties().get("y2").intValue());
+                if(Math.abs(p1.x-p2.x) < 20)p1.x+=50;
+                if(Math.abs(p1.y-p2.y) < 20)p1.y+=50;
                 double[] ar = pointsToLine(p1, p2);
-                if(p1.x==p2.x)p1.x+=50;
-                if(p1.y==p2.y)p1.y+=50;
                 if (Math.abs(-ar[0] * x + ar[1] * y - ar[2]) < 50 &&
                         (x<=Math.max(p1.x,p2.x)&&x>=Math.min(p1.x,p2.x))&&(y<=Math.max(p1.y,p2.y)&&y>=Math.min(p1.y,p2.y))) {
                     return arrayOfShapes[i];
@@ -375,7 +372,7 @@ public class Engine implements DrawingEngine {
             File file2 = new File(path);
             try {
                 Shape newShape;
-                String s = new String();
+                String s;
                 BufferedReader file = new BufferedReader(new FileReader(file2));
                 index = 0;
                 while ((s = file.readLine()) != null) {
@@ -392,7 +389,7 @@ public class Engine implements DrawingEngine {
                     }
                     Class cl = Class.forName(parts[0]);
                     newShape = (Shape) cl.newInstance();
-                    newShape.setPosition(new Point(Integer.valueOf(parts[2]), Integer.valueOf(parts[4])));
+                    newShape.setPosition(new Point(Integer.parseInt(parts[2]), Integer.parseInt(parts[4])));
                     Scanner sc = new Scanner(parts[6]);
                     sc.useDelimiter("\\D+");
                     int r, g, b;
@@ -431,11 +428,7 @@ public class Engine implements DrawingEngine {
                 UndoIndex = -1;
                 UndomaxIndex = -1;
                 updateUndo();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
+            } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         } else {

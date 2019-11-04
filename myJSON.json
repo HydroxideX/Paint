@@ -1,7 +1,0 @@
-[{"eg.edu.alexu.csd.oop.draw.Square":{"x1":"478","y1":"104","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=255,g=255,b=255]","y2":"231.0","x2":"605.0","type":"5.0","released":"0.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Rectangle":{"x1":"189","y1":"60","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=255,g=255,b=255]","y2":"87.0","x2":"144.0","type":"3.0","released":"1.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Rectangle":{"x1":"199","y1":"223","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=255,g=255,b=255]","y2":"369.0","x2":"377.0","type":"3.0","released":"1.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Triangle":{"x1":"537","y1":"306","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=255,g=255,b=255]","y2":"316.0","x2":"712.0","y3":"483.0","x3":"613.0","type":"6.0","released":"0.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.Square":{"x1":"745","y1":"85","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=255,g=255,b=255]","y2":"215.0","x2":"875.0","type":"5.0","released":"0.0","selected":"0.0"}},
-{"eg.edu.alexu.csd.oop.draw.line":{"x1":"138","y1":"245","color":"java.awt.Color[r=0,g=0,b=0]","fill":"java.awt.Color[r=0,g=0,b=0]","y2":"358.0","x2":"138.0","type":"1.0","released":"1.0","selected":"0.0"}}
-]

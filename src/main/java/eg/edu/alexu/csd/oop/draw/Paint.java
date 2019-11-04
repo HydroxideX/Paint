@@ -356,7 +356,6 @@ public class Paint extends Application{
                 }
             }
         });
-
         canvas.setOnMouseDragged(e -> {
             switch (current) {
                 case "resize": {
@@ -570,7 +569,7 @@ public class Paint extends Application{
                         newShape[1].setProperties(secondPoint);
                         engine.addShape(newShape[1]);
                         engine.refresh(graphics);
-                        newShape[2] = (Shape) newShape[1];
+                        newShape[2] = newShape[1];
                         newShape[1] = null;
                     }
                     break;
@@ -599,7 +598,7 @@ public class Paint extends Application{
                         newShape[1].setProperties(m);
                         engine.addShape(newShape[1]);
                         engine.refresh(graphics);
-                        newShape[2] = (Shape) newShape[1];
+                        newShape[2] = newShape[1];
                         newShape[1] = null;
                         break;
                     }

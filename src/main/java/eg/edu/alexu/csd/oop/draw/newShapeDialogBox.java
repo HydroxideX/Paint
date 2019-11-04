@@ -1,4 +1,5 @@
 package eg.edu.alexu.csd.oop.draw;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,23 +12,21 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sun.security.util.Length;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class newShapeDialogBox {
+class newShapeDialogBox {
     newShapeDialogBox(Shape shape, Engine engine, Graphics graphics) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Resize");
-        window.setMinWidth(250);
-        window.setMinHeight(250);
+        window.setMinWidth(280);
+        window.setMinHeight(100);
         VBox vBox = new VBox();
         HBox position = new HBox();
         position.setSpacing(10);
@@ -57,7 +56,10 @@ public class newShapeDialogBox {
 
         position.getChildren().addAll(px,positionX,py,positionY);
         HBox shapeProperties = new HBox();
+        shapeProperties.setSpacing(15);
         HBox buttons = new HBox();
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setSpacing(30);
         Button confirm = new Button("Confirm");
         Button cancel = new Button("Cancel");
         buttons.getChildren().addAll(confirm,cancel);
@@ -72,7 +74,7 @@ public class newShapeDialogBox {
         Label[] labels = new Label[100];
         TextField[] texts = new TextField[100];
         int i  = 0;
-        Map<String,Double> properties = new HashMap<String, Double>();
+        Map<String,Double> properties;
         Iterator var4 = shape.getProperties().entrySet().iterator();
         properties = shape.getProperties();
         while(var4.hasNext()) {
@@ -81,7 +83,7 @@ public class newShapeDialogBox {
                     || s.getKey().toString().contains("released")
                     || s.getKey().toString().contains("selected") ) continue;
             properties.put((String)s.getKey(), (Double) s.getValue());
-            labels[i] = new Label(s.getKey().toString());
+            labels[i] = new Label(s.getKey().toString().toUpperCase());
             labels[i].setFont(new Font("Arial", 15));
             texts[i] = new TextField(s.getValue().toString());
             i++;
@@ -92,7 +94,7 @@ public class newShapeDialogBox {
         }
 
         confirm.setOnAction(e-> {
-            Shape l = null;
+            Shape l;
             try {
                 l = (Shape) shape.clone();
                 int value;
@@ -120,8 +122,8 @@ public class newShapeDialogBox {
                     l = null;
                     return;
                 }
-                p1.y = Integer.valueOf(s);
-                value = Integer.valueOf(s);
+                p1.y = Integer.parseInt(s);
+                value = Integer.parseInt(s);
                 if(value > 600 || value < 0){
                     l = null;
                     return;
@@ -160,13 +162,11 @@ public class newShapeDialogBox {
             }
 
         });
-        cancel.setOnAction(e->{
-            window.close();
-        });
-
+        cancel.setOnAction(e-> window.close());
+        vBox.setSpacing(20);
         vBox.getChildren().addAll(position,shapeProperties,buttons);
-        window.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(vBox);
+        window.setResizable(false);
         window.setScene(scene);
         window.showAndWait();
     }
