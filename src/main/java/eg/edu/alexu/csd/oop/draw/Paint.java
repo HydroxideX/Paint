@@ -267,6 +267,7 @@ public class Paint extends Application{
             }
             disable(customShape);
             customShape.setDisable(false);
+            select.fire();
         });
         AtomicReference<Point> p = new AtomicReference<>(new Point());
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());

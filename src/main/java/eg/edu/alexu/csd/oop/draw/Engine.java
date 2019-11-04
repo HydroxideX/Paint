@@ -406,7 +406,9 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void load(String path) {
-        if (path.contains(".xml")) {
+    }
+
+    /*    if (path.contains(".xml")) {
 
 
         } else if (path.contains(".json")) {
@@ -483,7 +485,7 @@ public class Engine implements DrawingEngine{
         } else {
             throw new RuntimeException();
         }
-    }
+    }*/
     /*public  void load(String path)
     {
         if(path.contains(".json")) {
