@@ -9,7 +9,7 @@ public class Triangle implements Shape  {
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
     private Color fillColor;
-    Triangle(){
+    public Triangle(){
         position = new Point(0,0);
         color = Color.black;
         fillColor = Color.black;

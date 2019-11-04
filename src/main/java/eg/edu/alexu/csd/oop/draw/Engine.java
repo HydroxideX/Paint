@@ -1,8 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import javafx.scene.control.TextField;
-import javafx.scene.text.Font;
-
+import javax.swing.*;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import java.beans.XMLDecoder;
@@ -20,14 +18,17 @@ import java.util.List;
 
 public class Engine implements DrawingEngine {
     private int size = 1000;
-    private eg.edu.alexu.csd.oop.draw.Shape[] arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
-    private eg.edu.alexu.csd.oop.draw.Shape[][] UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[size][size];
+    private eg.edu.alexu.csd.oop.draw.Shape[] arrayOfShapes;
+    private eg.edu.alexu.csd.oop.draw.Shape[][] UndoArray;
 
     int index = 0;
     private int UndoIndex = 0;
     private int maxIndex = 0;
     private int UndomaxIndex = 0;
-
+    public Engine(){
+        arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
+        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[size][size];
+    }
     private int max(int a, int b) {
         return Math.max(a, b);
     }
@@ -96,7 +97,9 @@ public class Engine implements DrawingEngine {
 
     @Override
     public eg.edu.alexu.csd.oop.draw.Shape[] getShapes() {
-        return arrayOfShapes;
+        Shape [] newarrayOfShapes = new Shape[index];
+        for(int i = 0 ;i<index;i++) newarrayOfShapes[i] = arrayOfShapes[i];
+        return newarrayOfShapes;
     }
 
     @Override
@@ -213,7 +216,7 @@ public class Engine implements DrawingEngine {
     }
 
     public void save(String path) {
-        if (path.contains(".xml")) {
+        if (path.contains(".xml")||path.contains(".XmL")||path.contains("Xml")) {
             try {
                 XMLEncoder xmlEncoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(path)));
                 xmlEncoder.writeObject(arrayOfShapes);
@@ -301,7 +304,7 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void load(String path) {
-        if (path.contains(".xml")) {
+        if (path.contains(".xml")||path.contains(".XmL")) {
             try {
                 XMLDecoder xmlDecoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
                 index = 0;
