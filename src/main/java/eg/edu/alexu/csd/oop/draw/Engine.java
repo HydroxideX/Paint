@@ -408,6 +408,7 @@ public class Engine implements DrawingEngine {
                     newShape.setFillColor(color2);
                     Map<String, Double> properties = new HashMap<String, Double>();
                     for (int i = 13; i < parts.length; i += 2) {
+                        if(parts[i].length() <= 2) break;
                         properties.put(parts[i], Double.valueOf(parts[i + 1]));
                     }
                     newShape.setProperties(properties);
