@@ -9,6 +9,8 @@ import org.json.simple.parser.ParseException;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -328,6 +330,13 @@ public class Engine implements DrawingEngine{
 
     public void save(String path) {
         if (path.contains(".xml")) {
+            try {
+                XMLEncoder xmlEncoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(path)));
+                xmlEncoder.writeObject(arrayOfShapes);
+                xmlEncoder.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
         } else if (path.contains(".json")) {
             File file2 = new File(path);
@@ -407,6 +416,23 @@ public class Engine implements DrawingEngine{
 
     @Override
     public void load(String path) {
+        if (path.contains(".xml")) {
+            try {
+                XMLDecoder xmlDecoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
+                index=0;
+                arrayOfShapes=new Shape[size];
+                arrayOfShapes= (Shape[]) xmlDecoder.readObject();
+                while (arrayOfShapes[index]!=null)
+                {
+                    index++;
+                }
+                UndoIndex=0;
+                updateUndo();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*    if (path.contains(".xml")) {
