@@ -30,7 +30,6 @@ public class Circle implements Shape  {
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
         this.properties.put("type",2d);
-        this.properties.put("released",0d);
         this.properties.putIfAbsent("selected",0d);
         this.properties.putIfAbsent("x2", Double.valueOf(position.x));
         this.properties.putIfAbsent("y2", Double.valueOf(position.y));

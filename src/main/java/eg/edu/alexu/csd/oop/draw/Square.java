@@ -31,7 +31,6 @@ public class Square implements Shape  {
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
         this.properties.put("type",5d);
-        this.properties.put("released",0d);
         this.properties.putIfAbsent("selected",0d);
         this.properties.putIfAbsent("x2", Double.valueOf(position.x));
         this.properties.putIfAbsent("y2", Double.valueOf(position.y));
@@ -83,12 +82,12 @@ public class Square implements Shape  {
             mn = Double.valueOf(position.x - p3.x);
 
         }
-        if (properties.get("released") == 1d) {
+        if (this.properties.get("released") == 1) {
             Double j = Double.valueOf(p3.x + mn.intValue());
-            properties.put("x2", j);
+            this.properties.put("x2", j);
             j = Double.valueOf(p3.y + mn.intValue());
-            properties.put("y2", j);
-            properties.put("released", 0d);
+            this.properties.put("y2", j);
+            this.properties.put("released", 0d);
             setPosition(p3);
         }
             canvas.setColor(getFillColor());

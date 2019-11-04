@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Paint extends Application{
-    private String current = "";
+    private String current = "select";
 
     public static void main(String[] args){
         launch(args);
@@ -209,8 +209,6 @@ public class Paint extends Application{
                 if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(x)){
                     addedShapes.getItems().add(current);
                     addedShapes.setValue(current);
-                    customShape.fire();
-                    disable(customShape);
                 }
                 else {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -303,7 +301,7 @@ public class Paint extends Application{
             if (current.equals("select") && newShape[0] != null) {
                 engine.removeShape(newShape[0]);
                 engine.refresh(graphics);
-                engine.UpdateUndo();
+                engine.updateUndo();
                 newShape[0] = null;
                 ct2.set(0);
             }
@@ -317,7 +315,7 @@ public class Paint extends Application{
                         if (newShape[0].getProperties().get("type") == 0d && current == "resize") {
                             int temp = engine.index;
                             newShapeDialogBox shapeDiaglogBox = new newShapeDialogBox(newShape[0], engine, graphics);
-                            if (temp > engine.index) engine.removeShape(newShape[0]);
+                            engine.refresh(graphics);
                             disable(customShape);
                             customShape.setDisable(false);
                             break;
@@ -365,7 +363,7 @@ public class Paint extends Application{
                             secondPoint.put("x3", l.getProperties().get("x3") + diffX);
                             secondPoint.put("y3", l.getProperties().get("y3") + diffY);
                             l.setProperties(secondPoint);
-                            engine.addShape(l);
+                            engine.addTempShape(l);
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
@@ -398,7 +396,7 @@ public class Paint extends Application{
                         secondPoint.put("y2", l.getProperties().get("y2") + diffY);
                         secondPoint.put("released", 0d);
                         l.setProperties(secondPoint);
-                        engine.addShape(l);
+                        engine.addTempShape(l);
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
                         try {
@@ -430,7 +428,7 @@ public class Paint extends Application{
                             secondPoint.put("x3", l.getProperties().get("x3") + diffX);
                             secondPoint.put("y3", l.getProperties().get("y3") + diffY);
                             l.setProperties(secondPoint);
-                            engine.addShape(l);
+                            engine.addTempShape(l);
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
@@ -461,7 +459,7 @@ public class Paint extends Application{
                             l.setProperties(newShape[0].getProperties());
                             l.setFillColor(newShape[0].getColor());
                             l.setFillColor(newShape[0].getFillColor());
-                            engine.addShape(l);
+                            engine.addTempShape(l);
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
@@ -492,7 +490,7 @@ public class Paint extends Application{
                         secondPoint.put("x2", l.getProperties().get("x2") + diffX);
                         secondPoint.put("y2", l.getProperties().get("y2") + diffY);
                         l.setProperties(secondPoint);
-                        engine.addShape(l);
+                        engine.addTempShape(l);
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
                         try {
@@ -518,40 +516,9 @@ public class Paint extends Application{
                     r.setFillColor(getColor(colorPicker2.getValue()));
                     r.setColor(getColor(colorPicker.getValue()));
                     r.setProperties(length);
-                    engine.addShape(r);
+                    engine.addTempShape(r);
                     engine.refresh(graphics);
                     engine.removeShape(r);
-                    break;
-                }
-                case "load": {
-                    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-                    try {
-                        String pack = "eg.edu.alexu.csd.oop.draw";
-                        Class cl = classLoader.loadClass(pack + "." + addedShapes.getValue().toString());
-                        loader.set((eg.edu.alexu.csd.oop.draw.Shape) cl.newInstance());
-                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
-                        ex.printStackTrace();
-                    }
-                    eg.edu.alexu.csd.oop.draw.Shape l = null;
-                    eg.edu.alexu.csd.oop.draw.Shape x = loader.get();
-                    try {
-                        l = x.getClass().newInstance();
-                    } catch (InstantiationException | IllegalAccessException ex) {
-                        ex.printStackTrace();
-                    }
-                    assert l != null;
-                    l.setPosition(p.get());
-                    Map<String, Double> length = new HashMap<>(l.getProperties());
-                    length.put("x2", e.getX());
-                    length.put("y2", e.getY());
-                    length.put("released", 0d);
-                    l.setFillColor(getColor(colorPicker2.getValue()));
-                    l.setColor(getColor(colorPicker.getValue()));
-                    l.setProperties(length);
-                    engine.addShape(l);
-                    engine.refresh(graphics);
-                    engine.RemoveLastShape();
-                    newShape[0] = l;
                     break;
                 }
                 default: {
@@ -568,7 +535,7 @@ public class Paint extends Application{
                         l.setFillColor(getColor(colorPicker2.getValue()));
                         l.setColor(getColor(colorPicker.getValue()));
                         l.setProperties(length);
-                        engine.addShape(l);
+                        engine.addTempShape(l);
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
                         newShape[0] = l;
@@ -583,13 +550,13 @@ public class Paint extends Application{
                 case "resize":
                 case "select": {
                     if (newShape[0] != null) {
+                        if(newShape[0].getProperties().get("type") == 0d && current == "resize") break;
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
                         secondPoint.put("selected", 1d);
                         secondPoint.put("released", 1d);
                         newShape[0].setProperties(secondPoint);
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
-                        engine.UpdateUndo();
                     }
                     break;
                 }
@@ -607,16 +574,17 @@ public class Paint extends Application{
                     r.setProperties(length);
                     engine.addShape(r);
                     engine.refresh(graphics);
-                    engine.UpdateUndo();
                     ct1.set(0);
                     break;
                 }
                 default: {
                     if (newShape[0] != null) {
                         System.out.println(engine.index);
+                        Map <String,Double> m = new HashMap<>(newShape[0].getProperties());
+                        m.put("released",1d);
+                        newShape[0].setProperties(m);
                         engine.addShape(newShape[0]);
                         engine.refresh(graphics);
-                        engine.UpdateUndo();
                         newShape[0] = null;
                         break;
                     }

@@ -41,6 +41,7 @@ public class newShapeDialogBox {
         py.setFont(new Font("Arial", 15));
         TextField positionX = new TextField();
         TextField positionY = new TextField();
+
         Point p = shape.getPosition();
         if(p!=null)
         {
@@ -91,61 +92,73 @@ public class newShapeDialogBox {
         }
 
         confirm.setOnAction(e-> {
-            Shape l = shape;
-            int value;
-            String s;
-            Point p1 = new Point();
-            l.setFillColor(getColor((colorPicker2.getValue())));
-            l.setColor(getColor(colorPicker.getValue()));
-            s = positionX.getText();
-            Matcher matcher = pattern.matcher(s);
-            boolean correct = matcher.matches();
-            if(!correct) {
-                l = null;
-                return;
-            }
-            p1.x = Integer.parseInt(s);
-            value = Integer.parseInt(s);
-            if(value > 1000 || value < 0) {
-                l = null;
-                return;
-            }
-            s = positionY.getText();
-            matcher = pattern.matcher(s);
-            correct = matcher.matches();
-            if(!correct){
-                l = null;
-                return;
-            }
-            p1.y = Integer.valueOf(s);
-            value = Integer.valueOf(s);
-            if(value > 600 || value < 0){
-                l = null;
-                return;
-            }
-            l.setPosition(p1);
-            Map <String,Double> m = new HashMap<>(l.getProperties());
-            for(int j = 0;j<100;j++){
-                if(labels[j] != null){
-                    s = texts[j].getText();
-                    double y=Double.parseDouble(s);
-                    int x=(int)y;
-                    s=String.valueOf(x);
-                    matcher = pattern.matcher(s);
-                    correct = matcher.matches();
-                    if(!correct){
-                        l = null;
-                        return;
-                    }
-                    m.put(labels[j].getText(),Double.valueOf(texts[j].getText()));
+            Shape l = null;
+            try {
+                l = (Shape) shape.clone();
+                int value;
+                String s;
+                Point p1 = new Point();
+                l.setFillColor(getColor((colorPicker2.getValue())));
+                l.setColor(getColor(colorPicker.getValue()));
+                s = positionX.getText();
+                Matcher matcher = pattern.matcher(s);
+                boolean correct = matcher.matches();
+                if(!correct) {
+                    l = null;
+                    return;
                 }
+                p1.x = Integer.parseInt(s);
+                value = Integer.parseInt(s);
+                if(value > 1000 || value < 0) {
+                    l = null;
+                    return;
+                }
+                s = positionY.getText();
+                matcher = pattern.matcher(s);
+                correct = matcher.matches();
+                if(!correct){
+                    l = null;
+                    return;
+                }
+                p1.y = Integer.valueOf(s);
+                value = Integer.valueOf(s);
+                if(value > 600 || value < 0){
+                    l = null;
+                    return;
+                }
+                l.setPosition(p1);
+                Map <String,Double> m = new HashMap<>(l.getProperties());
+                for(int j = 0;j<100;j++){
+                    if(labels[j] != null){
+                        s = texts[j].getText();
+                        double y=Double.parseDouble(s);
+                        int x=(int)y;
+                        s=String.valueOf(x);
+                        matcher = pattern.matcher(s);
+                        correct = matcher.matches();
+                        if(!correct){
+                            l = null;
+                            return;
+                        }
+                        value = Integer.parseInt(s);
+                        if(value > 3000) {
+                            l = null;
+                            return;
+                        }
+                        m.put(labels[j].getText(),Double.valueOf(texts[j].getText()));
+                    }
+                }
+                m.putIfAbsent("type",0d);
+                if(m.get("released") != null) m.put("released",1d);
+                l.setProperties(m);
+                engine.removeShape(shape);
+                engine.addShape(l);
+                engine.refresh(graphics);
+                window.close();
+            } catch (CloneNotSupportedException ex) {
+                ex.printStackTrace();
             }
-            m.putIfAbsent("type",0d);
-            if(m.get("released") != null) m.put("released",1d);
-            l.setProperties(m);
-            engine.addShape(l);
-            engine.refresh(graphics);
-            window.close();
+
         });
         cancel.setOnAction(e->{
             window.close();
@@ -155,7 +168,7 @@ public class newShapeDialogBox {
         window.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(vBox);
         window.setScene(scene);
-        window.show();
+        window.showAndWait();
     }
 
     private java.awt.Color getColor(Color v){
