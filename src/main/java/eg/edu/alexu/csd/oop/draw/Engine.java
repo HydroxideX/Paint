@@ -27,7 +27,7 @@ public class Engine implements DrawingEngine {
     private int UndomaxIndex = 0;
     public Engine(){
         arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
-        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[size][size];
+        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[20][size];
     }
     private int max(int a, int b) {
         return Math.max(a, b);
@@ -43,12 +43,20 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void refresh(Graphics canvas) {
-        canvas.setColor(Color.WHITE);
-        canvas.fillRect(0, 0, 10000, 10000);
-        for (int i = 0; i < index; i++) {
-            arrayOfShapes[i].draw(canvas);
+        javax.swing.DebugGraphics x= new DebugGraphics(canvas);
+        try{
+            canvas.setColor(Color.WHITE);
+            canvas.fillRect(0, 0, 10000, 10000);
+            for (int i = 0; i < index; i++) {
+                arrayOfShapes[i].draw(canvas);
+                arrayOfShapes[i].draw(x);
+            }
+            maxIndex = max(index, maxIndex);
+        }catch (NullPointerException ignored){
+            for (int i = 0; i < index; i++) {
+                arrayOfShapes[i].draw(x);
+            }
         }
-        maxIndex = max(index, maxIndex);
     }
 
     @Override
@@ -124,7 +132,12 @@ public class Engine implements DrawingEngine {
     }
 
     void updateUndo() {
-        UndoIndex++;
+        if(UndoIndex == 20){
+            for(int i = 0;i<19;i++){
+                System.arraycopy(UndoArray[i+1], 0, UndoArray[i], 0, size);
+            }
+            UndoIndex--;
+        }
         System.arraycopy(arrayOfShapes, 0, UndoArray[UndoIndex], 0, size);
         UndomaxIndex = UndoIndex;
     }
