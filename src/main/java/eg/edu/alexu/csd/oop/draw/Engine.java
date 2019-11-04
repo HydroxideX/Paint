@@ -27,7 +27,7 @@ public class Engine implements DrawingEngine {
     private int UndomaxIndex = 0;
     public Engine(){
         arrayOfShapes = new eg.edu.alexu.csd.oop.draw.Shape[size];
-        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[20][size];
+        UndoArray = new eg.edu.alexu.csd.oop.draw.Shape[21][size];
     }
     private int max(int a, int b) {
         return Math.max(a, b);
@@ -132,13 +132,18 @@ public class Engine implements DrawingEngine {
     }
 
     void updateUndo() {
-        if(UndoIndex == 20){
-            for(int i = 0;i<19;i++){
+        if(UndoIndex == 0){
+            UndoIndex++;
+            System.arraycopy(arrayOfShapes, 0, UndoArray[UndoIndex], 0, size);
+        }
+        else if(UndoIndex == 20){
+            for(int i = 0;i<20;i++){
                 System.arraycopy(UndoArray[i+1], 0, UndoArray[i], 0, size);
             }
-            UndoIndex--;
+        } else {
+            UndoIndex++;
+            System.arraycopy(arrayOfShapes, 0, UndoArray[UndoIndex], 0, size);
         }
-        System.arraycopy(arrayOfShapes, 0, UndoArray[UndoIndex], 0, size);
         UndomaxIndex = UndoIndex;
     }
 
@@ -238,7 +243,7 @@ public class Engine implements DrawingEngine {
                 e.printStackTrace();
             }
 
-        } else if (path.contains(".json")) {
+        } else if (path.contains(".json") || path.contains(".JsOn")) {
             File file2 = new File(path);
             try {
                 FileWriter file = new FileWriter(file2);
@@ -317,7 +322,7 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void load(String path) {
-        if (path.contains(".xml")||path.contains(".XmL")) {
+        if (path.contains(".xml")||path.contains(".XmL")||path.contains("Xml")) {
             try {
                 XMLDecoder xmlDecoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
                 index = 0;
@@ -332,7 +337,7 @@ public class Engine implements DrawingEngine {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        } else if (path.contains(".json")) {
+        } else if (path.contains(".json") || path.contains(".JsOn")) {
             File file2 = new File(path);
             try {
                 Shape newShape;
