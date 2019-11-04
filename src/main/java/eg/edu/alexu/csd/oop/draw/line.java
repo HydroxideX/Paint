@@ -8,16 +8,16 @@ public class line implements Shape {
     private Point position;
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
-    private Color fillColor;
+
     public line(){
         position = new Point(0,0);
         color = Color.black;
-        fillColor = Color.black;
+        Color fillColor = Color.black;
         this.properties.put("type",1d);
         this.properties.put("released",1d);
         this.properties.putIfAbsent("selected",0d);
-        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
+        this.properties.putIfAbsent("x2", (double) position.x);
+        this.properties.putIfAbsent("y2", (double) position.y);
     }
 
     public void setPosition(Point position) {
@@ -33,8 +33,8 @@ public class line implements Shape {
         this.properties.put("type",1d);
         this.properties.put("released",1d);
         this.properties.putIfAbsent("selected",0d);
-        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
+        this.properties.putIfAbsent("x2", (double) position.x);
+        this.properties.putIfAbsent("y2", (double) position.y);
     }
 
     public Map<String, Double> getProperties() {

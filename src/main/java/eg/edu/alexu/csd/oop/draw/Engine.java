@@ -56,7 +56,7 @@ public class Engine implements DrawingEngine{
         updateUndo();
     }
 
-    public void addTempShape(eg.edu.alexu.csd.oop.draw.Shape shape) {
+    void addTempShape(eg.edu.alexu.csd.oop.draw.Shape shape) {
         arrayOfShapes[index] = shape;
         index++;
     }

@@ -9,17 +9,17 @@ public class Triangle implements Shape  {
     private Map<String, Double> properties= new HashMap<>();
     private Color color;
     private Color fillColor;
-    public Triangle(){
+    Triangle(){
         position = new Point(0,0);
         color = Color.black;
         fillColor = Color.black;
         this.properties.putIfAbsent("type",6d);
         this.properties.putIfAbsent("released",0d);
         this.properties.putIfAbsent("selected",0d);
-        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
-        this.properties.putIfAbsent("x3", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y3", Double.valueOf(position.y));
+        this.properties.putIfAbsent("x2", (double) position.x);
+        this.properties.putIfAbsent("y2", (double) position.y);
+        this.properties.putIfAbsent("x3", (double) position.x);
+        this.properties.putIfAbsent("y3", (double) position.y);
     }
     public void setPosition(Point position) {
         this.position=position;
@@ -35,19 +35,11 @@ public class Triangle implements Shape  {
         this.properties.putIfAbsent("type",6d);
         this.properties.putIfAbsent("released",0d);
         this.properties.putIfAbsent("selected",0d);
-        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
-        this.properties.putIfAbsent("x3", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y3", Double.valueOf(position.y));
+        this.properties.putIfAbsent("x2", (double) position.x);
+        this.properties.putIfAbsent("y2", (double) position.y);
+        this.properties.putIfAbsent("x3", (double) position.x);
+        this.properties.putIfAbsent("y3", (double) position.y);
         this.properties.putIfAbsent("selected", 0.0D);
-
-        if(this.properties.get("selected")==1d)
-        {
-            Color temp=fillColor;
-            this.fillColor=color;
-            this.color=temp;
-            this.properties.replace("selected",0d);
-        }
     }
 
     public Map<String, Double> getProperties() {

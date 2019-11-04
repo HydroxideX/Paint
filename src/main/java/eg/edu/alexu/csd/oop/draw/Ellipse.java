@@ -16,8 +16,8 @@ public class Ellipse implements Shape  {
         this.properties.put("type",4d);
         this.properties.put("released",1d);
         this.properties.putIfAbsent("selected",0d);
-        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
+        this.properties.putIfAbsent("x2", (double) position.x);
+        this.properties.putIfAbsent("y2", (double) position.y);
     }
     public void setPosition(Point position) {
         this.position=position;
@@ -32,15 +32,8 @@ public class Ellipse implements Shape  {
         this.properties.put("type",4d);
         this.properties.putIfAbsent("selected", 0.0D);
         this.properties.put("released",1d);
-        this.properties.putIfAbsent("x2", Double.valueOf(position.x));
-        this.properties.putIfAbsent("y2", Double.valueOf(position.y));
-        if(this.properties.get("selected")==1d)
-        {
-            Color temp=fillColor;
-            this.fillColor=color;
-            this.color=temp;
-            this.properties.replace("selected",0d);
-        }
+        this.properties.putIfAbsent("x2", (double) position.x);
+        this.properties.putIfAbsent("y2", (double) position.y);
     }
 
     public Map<String, Double> getProperties() {

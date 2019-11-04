@@ -133,6 +133,7 @@ public class Paint extends Application{
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                assert jarfile != null;
                 java.util.Enumeration<java.util.jar.JarEntry> enu= jarfile.entries();
                 while(enu.hasMoreElements())
                 {
@@ -165,17 +166,20 @@ public class Paint extends Application{
                     while(true)
                     {
                         try {
+                            assert is != null;
                             if (!(is.available()>0)) break;
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
                         try {
+                            assert fo != null;
                             fo.write(is.read());
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
                     }
                     try {
+                        assert fo != null;
                         fo.close();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -206,9 +210,11 @@ public class Paint extends Application{
                 } catch (ClassNotFoundException | NoClassDefFoundError ex) {
                     ex.printStackTrace();
                 }
+                assert x != null;
                 if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(x)){
                     addedShapes.getItems().add(current);
                     addedShapes.setValue(current);
+                    current="select";
                 }
                 else {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -313,8 +319,7 @@ public class Paint extends Application{
                 case "resize": {
                     newShape[0] = engine.checkOnShapes((int) e.getX(), (int) e.getY());
                     if (newShape[0] != null) {
-                        if (newShape[0].getProperties().get("type") == 0d && current == "resize") {
-                            int temp = engine.index;
+                        if (newShape[0].getProperties().get("type") == 0d && current.equals("resize")) {
                             newShapeDialogBox shapeDiaglogBox = new newShapeDialogBox(newShape[0], engine, graphics);
                             engine.refresh(graphics);
                             disable(customShape);
@@ -323,7 +328,9 @@ public class Paint extends Application{
                         }
                         p.set(new Point((int) e.getX(), (int) e.getY()));
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
-                        secondPoint.put("selected", 1d);
+                        java.awt.Color temp=newShape[0].getColor();
+                        newShape[0].setColor(newShape[0].getFillColor());
+                        newShape[0].setFillColor(temp);
                         newShape[0].setProperties(secondPoint);
                         engine.removeShape(newShape[0]);
                         ct2.getAndIncrement();
@@ -456,7 +463,6 @@ public class Paint extends Application{
                             int diffY = (int) e.getY() - p.get().y;
                             assert l != null;
                             l.setPosition(new Point(l.getPosition().x + diffX, l.getPosition().y + diffY));
-                            Map<String, Double> secondPoint = new HashMap<>(l.getProperties());
                             l.setProperties(newShape[0].getProperties());
                             l.setFillColor(newShape[0].getColor());
                             l.setFillColor(newShape[0].getFillColor());
@@ -551,9 +557,11 @@ public class Paint extends Application{
                 case "resize":
                 case "select": {
                     if (newShape[0] != null) {
-                        if(newShape[0].getProperties().get("type") == 0d && current == "resize") break;
+                        if(newShape[0].getProperties().get("type") == 0d && current.equals("resize")) break;
                         Map<String, Double> secondPoint = new HashMap<>(newShape[0].getProperties());
-                        secondPoint.put("selected", 1d);
+                        java.awt.Color temp=newShape[0].getColor();
+                        newShape[0].setColor(newShape[0].getFillColor());
+                        newShape[0].setFillColor(temp);
                         secondPoint.put("released", 1d);
                         newShape[0].setProperties(secondPoint);
                         engine.addShape(newShape[0]);
@@ -580,7 +588,6 @@ public class Paint extends Application{
                 }
                 default: {
                     if (newShape[0] != null) {
-                        System.out.println(engine.index);
                         Map <String,Double> m = new HashMap<>(newShape[0].getProperties());
                         m.put("released",1d);
                         newShape[0].setProperties(m);
