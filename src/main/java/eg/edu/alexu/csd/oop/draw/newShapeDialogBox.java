@@ -83,7 +83,7 @@ class newShapeDialogBox {
                     || s.getKey().toString().contains("released")
                     || s.getKey().toString().contains("selected") ) continue;
             properties.put((String)s.getKey(), (Double) s.getValue());
-            labels[i] = new Label(s.getKey().toString().toUpperCase());
+            labels[i] = new Label(s.getKey().toString());
             labels[i].setFont(new Font("Arial", 15));
             texts[i] = new TextField(s.getValue().toString());
             i++;
@@ -129,7 +129,7 @@ class newShapeDialogBox {
                     return;
                 }
                 l.setPosition(p1);
-                Map <String,Double> m = new HashMap<>(l.getProperties());
+                Map <String,Double> m = new HashMap<>();
                 for(int j = 0;j<100;j++){
                     if(labels[j] != null){
                         s = texts[j].getText();

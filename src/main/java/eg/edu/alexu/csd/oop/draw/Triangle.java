@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Triangle implements Shape  {
     private Point position;
-    private Map<String, Double> properties= new HashMap<>();
+    private Map<String, Double> properties= new HashMap<String, Double>();
     private Color color;
     private Color fillColor;
     public Triangle(){

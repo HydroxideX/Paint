@@ -201,11 +201,11 @@ public class Paint extends Application{
                     current = selectedFile.getName();
                     current = current.substring(0, current.length() - 6);
                     try {
-                        copyFileUsingChannel(selectedFile, new File("target/classes/eg/edu/alexu/csd/oop/draw/"+current+".class"));
+                        copyFileUsingChannel(selectedFile, new File("eg/edu/alexu/csd/oop/draw/"+current+".class"));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    String pack = "eg.edu.alexu.csd.oop.draw";
+                    String pack = "target.classes.eg.edu.alexu.csd.oop.draw";
                     x= classLoader.loadClass(pack + "." + current);
                 } catch (ClassNotFoundException | NoClassDefFoundError ex) {
                     ex.printStackTrace();

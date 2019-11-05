@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Square implements Shape  {
     private Point position;
-    private Map<String, Double> properties= new HashMap<>();
+    private Map<String, Double> properties= new HashMap<String, Double>();
     private Color color;
     private Color fillColor;
     public Square(){
@@ -31,6 +31,7 @@ public class Square implements Shape  {
         this.properties=properties;
         this.properties.put("type",5d);
         this.properties.putIfAbsent("selected",0d);
+        this.properties.putIfAbsent("released",1d);
         this.properties.putIfAbsent("x2", (double) position.x);
         this.properties.putIfAbsent("y2", (double) position.y);
     }

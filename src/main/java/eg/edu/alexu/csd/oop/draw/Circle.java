@@ -31,6 +31,7 @@ public class Circle implements Shape  {
         this.properties=properties;
         this.properties.put("type",2d);
         this.properties.putIfAbsent("selected",0d);
+        this.properties.putIfAbsent("released",1d);
         this.properties.putIfAbsent("x2", (double) position.x);
         this.properties.putIfAbsent("y2", (double) position.y);
     }

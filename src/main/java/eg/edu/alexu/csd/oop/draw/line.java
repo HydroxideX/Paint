@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class line implements Shape {
     private Point position;
-    private Map<String, Double> properties= new HashMap<>();
+    private Map<String, Double> properties= new HashMap<String, Double>();
     private Color color;
 
     public line(){
