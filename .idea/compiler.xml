@@ -8,7 +8,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Paint-1" />
         <module name="Sh3rawyELShreerAwy" />
-        <module name="Paint" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -201,16 +201,27 @@ public class Paint extends Application{
                     current = selectedFile.getName();
                     current = current.substring(0, current.length() - 6);
                     try {
-                        copyFileUsingChannel(selectedFile, new File("eg/edu/alexu/csd/oop/draw/"+current+".class"));
+                        copyFileUsingChannel(selectedFile, new File("target/classes/eg/edu/alexu/csd/oop/draw/"+current+".class"));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    String pack = "target.classes.eg.edu.alexu.csd.oop.draw";
-                    x= classLoader.loadClass(pack + "." + current);
-                } catch (ClassNotFoundException | NoClassDefFoundError ex) {
+                   // String pack = "eg.edu.alexu.csd.oop.draw";
+                    //x= classLoader.loadClass(pack + "." + current);
+                } catch ( NoClassDefFoundError ex) {
                     ex.printStackTrace();
                 }
-                assert x != null;
+                ArrayList<String >ClassNames2= null;
+                try {
+                    ClassNames2 = engine.getClassNames();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                addedShapes.getItems().clear();
+                for (String className : ClassNames2) {
+                    addedShapes.getItems().add(className);
+                    addedShapes.setValue(className);
+                }
+                /*assert x != null;
                 if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(x)){
                     addedShapes.getItems().add(current);
                     addedShapes.setValue(current);
@@ -221,7 +232,7 @@ public class Paint extends Application{
                     alert.setTitle("Wrong Class");
                     alert.setHeaderText("The class you have chosen doesn't implement the required Interface");
                     alert.showAndWait();
-                }
+                }*/
             }
         });
         //01011799537

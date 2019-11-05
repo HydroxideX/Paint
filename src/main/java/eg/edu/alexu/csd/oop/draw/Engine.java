@@ -35,6 +35,11 @@ public class Engine implements DrawingEngine {
     private ArrayList<String> ClassNames = new ArrayList<>();
 
     ArrayList<String> getClassNames() throws ClassNotFoundException {
+        try {
+            SupportedShapes.clear();
+            ClassNames.clear();
+        }catch (NullPointerException ignored){
+        }
         SupportedShapes = getSupportedShapes();
         return ClassNames;
     }
