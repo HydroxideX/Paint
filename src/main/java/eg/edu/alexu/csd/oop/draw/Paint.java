@@ -19,10 +19,15 @@ import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.channels.FileChannel;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Paint extends Application{
     private String current = "select";
@@ -55,8 +60,8 @@ public class Paint extends Application{
         Image image = new Image(new FileInputStream("Resources/btn13.png"));
         ChoiceBox addedShapes = new ChoiceBox();
         Engine engine = new Engine();
-        ArrayList<String >ClassNames=engine.getClassNames();
-        for (String className : ClassNames) {
+        final AtomicReference<ArrayList<String>>[] ClassNames = new AtomicReference[]{new AtomicReference<>(engine.getClassNames())};
+        for (String className : ClassNames[0].get()) {
            addedShapes.getItems().add(className);
            addedShapes.setValue(className);
         }
@@ -121,7 +126,6 @@ public class Paint extends Application{
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader",  "*.jar"));
         AtomicReference<eg.edu.alexu.csd.oop.draw.Shape> loader = new AtomicReference<>();
-
         loadClass.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             if(selectedFile!=null)
@@ -196,33 +200,29 @@ public class Paint extends Application{
                 current = current.substring(0, current.length() - 4);
                 selectedFile=new File("loaded_data/"+current+"/eg/edu/alexu/csd/oop/draw/"+current+".class");
                 ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-                Class x = null;
+                Class d = null;
                 try {
                     current = selectedFile.getName();
                     current = current.substring(0, current.length() - 6);
                     try {
-                        copyFileUsingChannel(selectedFile, new File("target/classes/eg/edu/alexu/csd/oop/draw/"+current+".class"));
+                        String path = System.getProperty("user.dir");
+                        copyFileUsingChannel(selectedFile, new File(path + "/target/classes/Hybrid/eg/edu/alexu/csd/oop/draw/"+current+".class"));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                   // String pack = "eg.edu.alexu.csd.oop.draw";
-                    //x= classLoader.loadClass(pack + "." + current);
-                } catch ( NoClassDefFoundError ex) {
+                    String path = System.getProperty("user.dir");
+                    String pack = "eg.edu.alexu.csd.oop.draw";
+                    String p = path+"/target/classes/Hybrid";
+                    URL[] a = new URL[]{new File(p).toURI().toURL()};
+                    URLClassLoader c = new URLClassLoader(a);
+                    d = c.loadClass(pack+ "." + current);
+                } catch (ClassNotFoundException | NoClassDefFoundError ex) {
+                    ex.printStackTrace();
+                } catch (MalformedURLException ex) {
                     ex.printStackTrace();
                 }
-                ArrayList<String >ClassNames2= null;
-                try {
-                    ClassNames2 = engine.getClassNames();
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-                addedShapes.getItems().clear();
-                for (String className : ClassNames2) {
-                    addedShapes.getItems().add(className);
-                    addedShapes.setValue(className);
-                }
-                /*assert x != null;
-                if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(x)){
+                assert d != null;
+                if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(d)){
                     addedShapes.getItems().add(current);
                     addedShapes.setValue(current);
                     current="select";
@@ -232,10 +232,11 @@ public class Paint extends Application{
                     alert.setTitle("Wrong Class");
                     alert.setHeaderText("The class you have chosen doesn't implement the required Interface");
                     alert.showAndWait();
-                }*/
+                }
             }
         });
-        //01011799537
+
+
         Label Border = new Label(" Color: ");
         Border.setFont(new Font("Arial", 20));
         Border.setCenterShape(true);
@@ -276,10 +277,20 @@ public class Paint extends Application{
             current= (String) addedShapes.getValue();
             String pack = "eg.edu.alexu.csd.oop.draw";
             try {
-                Class cl = Class.forName(pack + "." + current);
-                Shape shape = (Shape) cl.newInstance();
+                Shape shape;
+                if(current.equals("Circle")|| current.equals("Triangle") || current.equals("line")
+                        || current.equals("Square")|| current.equals("Ellipse")|| current.equals("Rectangle")) {
+                    Class cl = Class.forName(pack + "." + current);
+                    shape = (Shape) cl.newInstance();
+                } else {
+                    String path1 = System.getProperty("user.dir");
+                    path1 = path1.replace('\\', '/');
+                    URLClassLoader x = new URLClassLoader(new URL[]{new File(path1+"/target/classes/Hybrid/").toURI().toURL()});
+                    Class cl = x.loadClass(pack + "." + current);
+                    shape = (Shape) cl.newInstance();
+                }
                 newShapeDialogBox shapeDiaglogBox = new newShapeDialogBox(shape,engine,graphics);
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | MalformedURLException ex) {
                 ex.printStackTrace();
             }
             disable(customShape);

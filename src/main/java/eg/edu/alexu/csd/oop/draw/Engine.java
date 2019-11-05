@@ -34,13 +34,17 @@ public class Engine implements DrawingEngine {
     private List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> SupportedShapes = null;
     private ArrayList<String> ClassNames = new ArrayList<>();
 
-    ArrayList<String> getClassNames() throws ClassNotFoundException {
+    ArrayList<String> getClassNames(){
         try {
             SupportedShapes.clear();
             ClassNames.clear();
         }catch (NullPointerException ignored){
         }
-        SupportedShapes = getSupportedShapes();
+        try {
+            getSupportedShapes();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return ClassNames;
     }
 
