@@ -18,8 +18,8 @@
 This project is public, Feel free to create pull requests.
 
 ## Screen Shots ##
-![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_2.png)
-![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_3.png)
+![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_2.PNG)
+![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_3.PNG)
 ![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_1.png)
 ![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_4.png)
 ![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_5.png)
