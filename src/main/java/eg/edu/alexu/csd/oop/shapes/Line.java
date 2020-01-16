@@ -3,8 +3,8 @@ package eg.edu.alexu.csd.oop.shapes;
 import java.awt.*;
 import java.util.Map;
 
-public class line extends TwoPointShapes{
-    public line(){
+public class Line extends TwoPointShapes{
+    public Line(){
         position = new Point(0,0);
         color = Color.black;
         this.properties.put("type",1d);
@@ -40,7 +40,7 @@ public class line extends TwoPointShapes{
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        line c=new line();
+        Line c=new Line();
         c.setProperties(getProperties());
         c.setPosition(getPosition());
         c.setColor(getColor());

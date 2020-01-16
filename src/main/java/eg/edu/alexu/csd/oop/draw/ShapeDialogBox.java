@@ -5,9 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
 import javafx.scene.Scene;
 
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -94,7 +95,7 @@ class ShapeDialogBox {
         }
 
         confirm.setOnAction(e-> {
-            eg.edu.alexu.csd.oop.shapes.Shape l;
+            Shape l;
             try {
                 l = (Shape) shape.clone();
                 int value;

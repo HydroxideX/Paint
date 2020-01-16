@@ -29,7 +29,7 @@ public class Rectangle extends TwoPointShapes  {
     @Override
     public void draw(Graphics canvas) {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
-        Point p3 = Correct(position,p1);
+        Point p3 = correct(position,p1);
         Double l = (double) Math.abs(p1.x - position.x);
         Double w = (double) Math.abs(p1.y - position.y);
         canvas.setColor(getFillColor());

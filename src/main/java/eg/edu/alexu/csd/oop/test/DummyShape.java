@@ -19,9 +19,6 @@ public class DummyShape implements Shape, Cloneable {
     private Color fColor;
     private boolean tryDraw;
 
-    public DummyShape() {
-    }
-
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }

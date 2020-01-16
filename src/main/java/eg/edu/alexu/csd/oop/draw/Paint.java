@@ -1,8 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 import eg.edu.alexu.csd.oop.shapes.Shape;
-import eg.edu.alexu.csd.oop.shapes.Square;
 import eg.edu.alexu.csd.oop.shapes.Triangle;
-import eg.edu.alexu.csd.oop.shapes.line;
 import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -11,9 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
 import javafx.scene.Scene;
 
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -30,6 +30,7 @@ import java.nio.channels.FileChannel;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.jar.JarEntry;
 
 public class Paint extends Application{
     private String current = "select";
@@ -68,7 +69,6 @@ public class Paint extends Application{
         ChooseFile.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save", "*.json", "*.xml"));
         FileChooser JarChooser = new FileChooser();
         JarChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader",  "*.jar"));
-        AtomicReference<Shape> loader = new AtomicReference<>();
         AtomicReference<Point> p = new AtomicReference<>(new Point());
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
         AtomicInteger ct1 = new AtomicInteger();
@@ -98,7 +98,7 @@ public class Paint extends Application{
 
         final AtomicReference<ArrayList<String>>[] ClassNames = new AtomicReference[]{new AtomicReference<>(engine.getClassNames())};
         for (String className : ClassNames[0].get()) {
-            if(className.equals("TwoPointShapes")) continue;
+            if("TwoPointShapes".equals(className)) continue;
            addedShapes.getItems().add(className);
            addedShapes.setValue(className);
         }
@@ -180,7 +180,7 @@ public class Paint extends Application{
             disable(Triangle);
         });
         line.setOnAction(e -> {
-            current = "line";
+            current = "Line";
             disable(line);
         });
         Rectangle.setOnAction(e -> {
@@ -223,14 +223,14 @@ public class Paint extends Application{
                     ex.printStackTrace();
                 }
                 assert jarfile != null;
-                java.util.Enumeration<java.util.jar.JarEntry> enu= jarfile.entries();
+                java.util.Enumeration<JarEntry> enu= jarfile.entries();
                 while(enu.hasMoreElements())
                 {
                     current = selectedFile.getName();
                     current = current.substring(0, current.length() - 4);
                     String destdir = "loaded_data/"+current;     //abc is my destination directory
-                    java.util.jar.JarEntry je = enu.nextElement();
-                    java.io.File fl = new java.io.File(destdir, je.getName());
+                    JarEntry je = enu.nextElement();
+                    File fl = new File(destdir, je.getName());
                     if(!fl.exists())
                     {
                         fl.getParentFile().mkdirs();
@@ -240,7 +240,7 @@ public class Paint extends Application{
                     {
                         continue;
                     }
-                    java.io.InputStream is = null;
+                    InputStream is = null;
                     try {
                         is = jarfile.getInputStream(je);
                     } catch (IOException ex) {
@@ -284,7 +284,6 @@ public class Paint extends Application{
                 current = selectedFile.getName();
                 current = current.substring(0, current.length() - 4);
                 selectedFile=new File("loaded_data/"+current+"/eg/edu/alexu/csd/oop/draw/"+current+".class");
-                ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                 Class d = null;
                 try {
                     current = selectedFile.getName();
@@ -329,8 +328,8 @@ public class Paint extends Application{
             String pack = "eg.edu.alexu.csd.oop.shapes";
             try {
                 Shape shape;
-                if(current.equals("Circle")|| current.equals("Triangle") || current.equals("line")
-                        || current.equals("Square")|| current.equals("Ellipse")|| current.equals("Rectangle")) {
+                if("Circle".equals(current)|| "Triangle".equals(current) || "Line".equals(current)
+                        || "Square".equals(current)|| "Ellipse".equals(current)|| "Rectangle".equals(current)) {
                     Class cl = Class.forName(pack + "." + current);
                     shape = (Shape) cl.newInstance();
                 } else {
@@ -398,7 +397,7 @@ public class Paint extends Application{
                             ex.printStackTrace();
                         }
                         p.set(new Point((int) e.getX(), (int) e.getY()));
-                        if(!current.equals("select")) {
+                        if(!"select".equals(current)) {
                             Map<String, Double> secondPoint = new HashMap<>(newShape[1].getProperties());
                             java.awt.Color temp = newShape[1].getColor();
                             newShape[1].setColor(newShape[1].getFillColor());
@@ -630,7 +629,7 @@ public class Paint extends Application{
                 case "resize":
                 case "move": {
                     if (newShape[1] != null) {
-                        if(newShape[1].getProperties().get("type") == 0d && current.equals("resize")) break;
+                        if(newShape[1].getProperties().get("type") == 0d && "resize".equals(current)) break;
                         Map<String, Double> secondPoint = new HashMap<>(newShape[1].getProperties());
                         java.awt.Color temp=newShape[1].getColor();
                         newShape[1].setColor(newShape[1].getFillColor());

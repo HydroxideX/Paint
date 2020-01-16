@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class FileJson implements File {
-    Engine engine;
+    private Engine engine;
     public FileJson(Engine engine){
         this.engine = engine;
     }

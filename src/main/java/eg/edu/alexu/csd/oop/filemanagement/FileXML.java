@@ -8,7 +8,7 @@ import java.beans.XMLEncoder;
 import java.io.*;
 
 public class FileXML implements File {
-    Engine engine;
+    private Engine engine;
     public FileXML(Engine engine){
         this.engine = engine;
     }

@@ -29,7 +29,7 @@ public class Circle  extends Rectangle implements Shape{
     public void draw(Graphics canvas) {
 
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
-        Point p3 = Correct(position,p1);
+        Point p3 = correct(position,p1);
         Double l;
         Double w;
         Double mn;

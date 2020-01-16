@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.oop.utils;
 
 import java.awt.*;
 
-public class shapesDetector {
+public class ShapesDetector {
     public double[] pointsToLine(Point p1, Point p2) {
         double[] ar = new double[3];
         ar[0] = (double) (p2.y - p1.y) / (p2.x - p1.x);

@@ -1,7 +1,7 @@
 package eg.edu.alexu.csd.oop.draw;
 
 import eg.edu.alexu.csd.oop.shapes.Shape;
-import eg.edu.alexu.csd.oop.utils.shapesDetector;
+import eg.edu.alexu.csd.oop.utils.ShapesDetector;
 import eg.edu.alexu.csd.oop.filemanagement.File;
 import eg.edu.alexu.csd.oop.filemanagement.FileJson;
 import eg.edu.alexu.csd.oop.filemanagement.FileXML;
@@ -18,7 +18,8 @@ public class Engine implements DrawingEngine {
     private int size = 1000;
     private Shape[] arrayOfShapes;
     private Shape[][] UndoArray;
-
+    private List<Class<? extends Shape>> SupportedShapes = null;
+    private ArrayList<String> ClassNames = new ArrayList<>();
     private int index = 0;
     private int UndoIndex = 0;
     private int maxIndex = 0;
@@ -80,10 +81,8 @@ public class Engine implements DrawingEngine {
         return Math.max(a, b);
     }
 
-    private List<Class<? extends Shape>> SupportedShapes = null;
-    private ArrayList<String> ClassNames = new ArrayList<>();
 
-    ArrayList<String> getClassNames(){
+    public ArrayList<String> getClassNames(){
         try {
             SupportedShapes.clear();
             ClassNames.clear();
@@ -105,12 +104,12 @@ public class Engine implements DrawingEngine {
         if (directoryListing != null) {
             for (java.io.File child : directoryListing) {
                 String current = child.getName();
-                if(current.equals("TwoPointShapes.class"))continue;
+                if("TwoPointShapes.class".equals(current))continue;
                 current = current.substring(0, current.length() - 6);
                 String pack = "eg.edu.alexu.csd.oop.shapes";
                 ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                 Class cl = classLoader.loadClass(pack + "." + current);
-                if (Shape.class.isAssignableFrom(cl) && !current.equals("Shape")) {
+                if (Shape.class.isAssignableFrom(cl) && !"Shape".equals(current)) {
                     SupportedShapes.add(cl);
                     ClassNames.add(current);
                 }
@@ -128,7 +127,7 @@ public class Engine implements DrawingEngine {
 
     @Override
     public void refresh (Graphics canvas) {
-        javax.swing.DebugGraphics x = new DebugGraphics(canvas);
+        DebugGraphics x = new DebugGraphics(canvas);
         try{
             canvas.setColor(Color.WHITE);
             ((Graphics2D)canvas).setStroke(new BasicStroke(2.0F));
@@ -152,7 +151,7 @@ public class Engine implements DrawingEngine {
         updateUndo();
     }
 
-    void addTempShape(Shape shape) {
+    public void addTempShape(Shape shape) {
         arrayOfShapes[index] = shape;
         index++;
     }
@@ -175,7 +174,7 @@ public class Engine implements DrawingEngine {
         maxIndex = index;
     }
 
-    void removeLastShape() {
+    public void removeLastShape() {
         index--;
     }
 
@@ -230,8 +229,8 @@ public class Engine implements DrawingEngine {
         }
     }
 
-    Shape checkOnShapes(int x, int y) {
-        shapesDetector shapesDetector = new shapesDetector();
+    public Shape checkOnShapes(int x, int y) {
+        ShapesDetector shapesDetector = new ShapesDetector();
         for (int i = index - 1; i >= 0; i--) {
             Map<String, Double> secondPoint = new HashMap<>(arrayOfShapes[i].getProperties());
             secondPoint.putIfAbsent("type", 0d);

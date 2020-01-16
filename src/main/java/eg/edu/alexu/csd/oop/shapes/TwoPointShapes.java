@@ -56,7 +56,7 @@ public class TwoPointShapes implements Shape {
     public Object clone() throws CloneNotSupportedException {
         return null;
     }
-    protected Point Correct(Point p1, Point p2){
+    protected Point correct(Point p1, Point p2){
         Point p3 = new Point();
         p3.x = min(p1.x,p2.x);
         p3.y = min(p1.y,p2.y);
