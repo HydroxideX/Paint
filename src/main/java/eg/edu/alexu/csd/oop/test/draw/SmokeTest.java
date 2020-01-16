@@ -1,15 +1,11 @@
 package eg.edu.alexu.csd.oop.test.draw;
 
 import eg.edu.alexu.csd.oop.draw.DrawingEngine;
-import eg.edu.alexu.csd.oop.Shapes.Shape;
 import eg.edu.alexu.csd.oop.test.DummyShape;
 import eg.edu.alexu.csd.oop.test.TestRunner;
-
-import java.util.List;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
-
-
 
 public class SmokeTest {
     
@@ -17,13 +13,13 @@ public class SmokeTest {
         return DrawingEngine.class;
     }
     
-    @org.junit.Test
+    @Test
     public void testAddShape() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         instance.addShape(new DummyShape());
     }
     
-    @org.junit.Test
+    @Test
     public void testRemoveShape() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         try {
@@ -33,7 +29,7 @@ public class SmokeTest {
         }
     }
     
-    @org.junit.Test
+    @Test
     public void testUpdateShape() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         try {
@@ -43,7 +39,7 @@ public class SmokeTest {
         }
     }
     
-    @org.junit.Test
+    @Test
     public void testUndoRedo() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         try {
@@ -58,7 +54,7 @@ public class SmokeTest {
         }
     }
     
-    @org.junit.Test
+    @Test
     public void testGetShapes(){
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         instance.addShape(new DummyShape());
@@ -67,7 +63,7 @@ public class SmokeTest {
         assertEquals("Wrong number of returned shapes", 3, instance.getShapes().length);
     }
     
-    @org.junit.Test
+    @Test
     public void testGetShapesAfterDelete(){
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         DummyShape shape = new DummyShape();

@@ -1,9 +1,10 @@
 package eg.edu.alexu.csd.oop.test.draw;
 
 import eg.edu.alexu.csd.oop.draw.DrawingEngine;
-import eg.edu.alexu.csd.oop.Shapes.Shape;
+import eg.edu.alexu.csd.oop.shapes.Shape;
 import eg.edu.alexu.csd.oop.test.DummyShape;
 import eg.edu.alexu.csd.oop.test.TestRunner;
+import org.junit.Test;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,13 +20,13 @@ public class IntegrationTest {
         return DrawingEngine.class;
     }
     
-    @org.junit.Test
+    @Test
     public void testCreation() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         assertNotNull("Failed to create Engine using '" + getSpecifications().getName() + "' !", instance);
     }
 
-    @org.junit.Test
+    @Test
     public void testGraphics() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         try {
@@ -42,7 +43,7 @@ public class IntegrationTest {
         }
     }
     
-    @org.junit.Test
+    @Test
     public void testCreateShapes() throws ClassNotFoundException {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         List<Class<? extends Shape>> supportedShapes = instance.getSupportedShapes();

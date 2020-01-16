@@ -1,6 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import eg.edu.alexu.csd.oop.Shapes.Shape;
+import eg.edu.alexu.csd.oop.shapes.Shape;
 
 public interface DrawingEngine {
 

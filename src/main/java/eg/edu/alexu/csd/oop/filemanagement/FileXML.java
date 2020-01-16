@@ -1,15 +1,15 @@
-package eg.edu.alexu.csd.oop.fileManagement;
+package eg.edu.alexu.csd.oop.filemanagement;
 
 import eg.edu.alexu.csd.oop.draw.Engine;
-import eg.edu.alexu.csd.oop.Shapes.Shape;
+import eg.edu.alexu.csd.oop.shapes.Shape;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
 
-public class saveXML implements saveAndLoad {
+public class FileXML implements File {
     Engine engine;
-    public saveXML(Engine engine){
+    public FileXML(Engine engine){
         this.engine = engine;
     }
 

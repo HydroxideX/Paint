@@ -1,14 +1,13 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import eg.edu.alexu.csd.oop.Shapes.Shape;
-import eg.edu.alexu.csd.oop.Utils.shapesDetector;
-import eg.edu.alexu.csd.oop.fileManagement.saveAndLoad;
-import eg.edu.alexu.csd.oop.fileManagement.saveJSON;
-import eg.edu.alexu.csd.oop.fileManagement.saveXML;
+import eg.edu.alexu.csd.oop.shapes.Shape;
+import eg.edu.alexu.csd.oop.utils.shapesDetector;
+import eg.edu.alexu.csd.oop.filemanagement.File;
+import eg.edu.alexu.csd.oop.filemanagement.FileJson;
+import eg.edu.alexu.csd.oop.filemanagement.FileXML;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
 import java.util.*;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,8 +16,8 @@ import java.util.List;
 
 public class Engine implements DrawingEngine {
     private int size = 1000;
-    private eg.edu.alexu.csd.oop.Shapes.Shape[] arrayOfShapes;
-    private eg.edu.alexu.csd.oop.Shapes.Shape[][] UndoArray;
+    private Shape[] arrayOfShapes;
+    private Shape[][] UndoArray;
 
     private int index = 0;
     private int UndoIndex = 0;
@@ -64,24 +63,24 @@ public class Engine implements DrawingEngine {
         return size;
     }
 
-    public eg.edu.alexu.csd.oop.Shapes.Shape[] getArrayOfShapes(){
+    public Shape[] getArrayOfShapes(){
         return arrayOfShapes;
     }
 
-    public void setArrayOfShapes(eg.edu.alexu.csd.oop.Shapes.Shape[] newArray){
+    public void setArrayOfShapes(Shape[] newArray){
         arrayOfShapes = newArray;
     }
 
     Engine(){
-        arrayOfShapes = new eg.edu.alexu.csd.oop.Shapes.Shape[size];
-        UndoArray = new eg.edu.alexu.csd.oop.Shapes.Shape[1000][size];
+        arrayOfShapes = new Shape[size];
+        UndoArray = new Shape[1000][size];
     }
 
     private int max(int a, int b) {
         return Math.max(a, b);
     }
 
-    private List<Class<? extends eg.edu.alexu.csd.oop.Shapes.Shape>> SupportedShapes = null;
+    private List<Class<? extends Shape>> SupportedShapes = null;
     private ArrayList<String> ClassNames = new ArrayList<>();
 
     ArrayList<String> getClassNames(){
@@ -99,19 +98,19 @@ public class Engine implements DrawingEngine {
     }
 
     @Override
-    public List<Class<? extends eg.edu.alexu.csd.oop.Shapes.Shape>> getSupportedShapes() throws ClassNotFoundException {
+    public List<Class<? extends Shape>> getSupportedShapes() throws ClassNotFoundException {
         SupportedShapes = new ArrayList<>();
-        File dir = new File("target/classes/eg/edu/alexu/csd/oop/Shapes");
-        File[] directoryListing = dir.listFiles();
+        java.io.File dir = new java.io.File("target/classes/eg/edu/alexu/csd/oop/shapes");
+        java.io.File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
-            for (File child : directoryListing) {
+            for (java.io.File child : directoryListing) {
                 String current = child.getName();
                 if(current.equals("TwoPointShapes.class"))continue;
                 current = current.substring(0, current.length() - 6);
-                String pack = "eg.edu.alexu.csd.oop.Shapes";
+                String pack = "eg.edu.alexu.csd.oop.shapes";
                 ClassLoader classLoader = ClassLoader.getSystemClassLoader();
                 Class cl = classLoader.loadClass(pack + "." + current);
-                if (eg.edu.alexu.csd.oop.Shapes.Shape.class.isAssignableFrom(cl) && !current.equals("Shape")) {
+                if (Shape.class.isAssignableFrom(cl) && !current.equals("Shape")) {
                     SupportedShapes.add(cl);
                     ClassNames.add(current);
                 }
@@ -121,8 +120,8 @@ public class Engine implements DrawingEngine {
     }
 
     @Override
-    public eg.edu.alexu.csd.oop.Shapes.Shape[] getShapes() {
-        eg.edu.alexu.csd.oop.Shapes.Shape[] newarrayOfShapes = new Shape[index];
+    public Shape[] getShapes() {
+        Shape[] newarrayOfShapes = new Shape[index];
         System.arraycopy(arrayOfShapes, 0, newarrayOfShapes, 0, index);
         return newarrayOfShapes;
     }
@@ -146,20 +145,20 @@ public class Engine implements DrawingEngine {
     }
 
     @Override
-    public void addShape(eg.edu.alexu.csd.oop.Shapes.Shape shape) {
+    public void addShape(Shape shape) {
         arrayOfShapes[index] = shape;
         index++;
         maxIndex = index;
         updateUndo();
     }
 
-    void addTempShape(eg.edu.alexu.csd.oop.Shapes.Shape shape) {
+    void addTempShape(Shape shape) {
         arrayOfShapes[index] = shape;
         index++;
     }
 
     @Override
-    public void removeShape(eg.edu.alexu.csd.oop.Shapes.Shape shape) {
+    public void removeShape(Shape shape) {
         boolean removed = false;
         for (int i = 0; i < index; i++) {
             if (arrayOfShapes[i] == shape) {
@@ -176,12 +175,12 @@ public class Engine implements DrawingEngine {
         maxIndex = index;
     }
 
-    void RemoveLastShape() {
+    void removeLastShape() {
         index--;
     }
 
     @Override
-    public void updateShape(eg.edu.alexu.csd.oop.Shapes.Shape oldShape, eg.edu.alexu.csd.oop.Shapes.Shape newShape) {
+    public void updateShape(Shape oldShape, Shape newShape) {
         for (int i = 0; i < index; i++) {
             if (arrayOfShapes[i] == oldShape) {
                 arrayOfShapes[i] = newShape;
@@ -231,7 +230,7 @@ public class Engine implements DrawingEngine {
         }
     }
 
-    eg.edu.alexu.csd.oop.Shapes.Shape checkOnShapes(int x, int y) {
+    Shape checkOnShapes(int x, int y) {
         shapesDetector shapesDetector = new shapesDetector();
         for (int i = index - 1; i >= 0; i--) {
             Map<String, Double> secondPoint = new HashMap<>(arrayOfShapes[i].getProperties());
@@ -253,7 +252,7 @@ public class Engine implements DrawingEngine {
                     return arrayOfShapes[i];
                 }
             } else if (arrayOfShapes[i].getProperties().get("type") == 6d) {
-                if (eg.edu.alexu.csd.oop.Utils.shapesDetector.isInside(arrayOfShapes[i].getPosition().x, arrayOfShapes[i].getPosition().y,
+                if (shapesDetector.isInside(arrayOfShapes[i].getPosition().x, arrayOfShapes[i].getPosition().y,
                         arrayOfShapes[i].getProperties().get("x2").intValue(), arrayOfShapes[i].getProperties().get("y2").intValue(),
                         arrayOfShapes[i].getProperties().get("x3").intValue(), arrayOfShapes[i].getProperties().get("y3").intValue(),
                         x, y)) {
@@ -275,31 +274,27 @@ public class Engine implements DrawingEngine {
     }
 
     public void save(String path) {
-        saveAndLoad saveAndLoad;
+        File saveAndLoad;
         if (path.contains(".xml")||path.contains(".XmL")||path.contains("Xml")) {
-            saveAndLoad = new saveXML(this);
+            saveAndLoad = new FileXML(this);
             saveAndLoad.save(arrayOfShapes,path);
 
 
-        } else if (path.contains(".json") || path.contains(".JsOn")) {
-            saveAndLoad = new saveJSON(this);
-            saveAndLoad.save(arrayOfShapes,path);
         } else {
-            throw new RuntimeException();
+            saveAndLoad = new FileJson(this);
+            saveAndLoad.save(arrayOfShapes,path);
         }
     }
 
     @Override
     public void load(String path) {
-        saveAndLoad fileSaveAndLoad;
+        File fileSaveAndLoad;
         if (path.contains(".xml")||path.contains(".XmL")||path.contains("Xml")) {
-            fileSaveAndLoad = new saveXML(this);
-            fileSaveAndLoad.load(path);
-        } else if (path.contains(".json") || path.contains(".JsOn")) {
-            fileSaveAndLoad = new saveJSON(this);
+            fileSaveAndLoad = new FileXML(this);
             fileSaveAndLoad.load(path);
         } else {
-            throw new RuntimeException();
+            fileSaveAndLoad = new FileJson(this);
+            fileSaveAndLoad.load(path);
         }
     }
 }

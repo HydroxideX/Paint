@@ -1,8 +1,8 @@
 package eg.edu.alexu.csd.oop.draw;
-import eg.edu.alexu.csd.oop.Shapes.Shape;
+import eg.edu.alexu.csd.oop.shapes.Shape;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class newShapeDialogBox {
-    newShapeDialogBox(eg.edu.alexu.csd.oop.Shapes.Shape shape, Engine engine, Graphics graphics) {
+class ShapeDialogBox {
+    ShapeDialogBox(Shape shape, Engine engine, Graphics graphics) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Resize");
@@ -94,7 +94,7 @@ class newShapeDialogBox {
         }
 
         confirm.setOnAction(e-> {
-            eg.edu.alexu.csd.oop.Shapes.Shape l;
+            eg.edu.alexu.csd.oop.shapes.Shape l;
             try {
                 l = (Shape) shape.clone();
                 int value;

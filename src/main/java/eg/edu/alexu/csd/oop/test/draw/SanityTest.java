@@ -1,7 +1,7 @@
 package eg.edu.alexu.csd.oop.test.draw;
 
 import eg.edu.alexu.csd.oop.draw.DrawingEngine;
-import eg.edu.alexu.csd.oop.Shapes.Shape;
+import eg.edu.alexu.csd.oop.shapes.Shape;
 import eg.edu.alexu.csd.oop.test.DummyShape;
 import eg.edu.alexu.csd.oop.test.TestRunner;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class SanityTest {
         return DrawingEngine.class;
     }
     
-    @org.junit.Test
+    @Test
     public void testAddAndRemove() {
         DrawingEngine instance = (DrawingEngine) TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         
@@ -37,7 +37,7 @@ public class SanityTest {
         assertEquals("Wrong number of returned shapes after remove", 0, instance.getShapes().length);
     }
     
-    @org.junit.Test
+    @Test
     public void testAddAndUpdate() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
 
@@ -47,7 +47,8 @@ public class SanityTest {
 
         assertEquals("Wrong number of returned shapes", 1, instance.getShapes().length);
 
-        Shape current1 = null, current2 = null;
+        Shape current1 = null;
+        Shape current2 = null;
         try {
             current1 = instance.getShapes()[0];
         } catch (Throwable e) {
@@ -72,7 +73,7 @@ public class SanityTest {
         }
     }
     
-    @org.junit.Test
+    @Test
     public void testAddAndRemoveWrong() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         
@@ -95,7 +96,7 @@ public class SanityTest {
         } catch (Throwable e) {}
     }
     
-    @org.junit.Test
+    @Test
     public void testAddAndUndo() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         
@@ -112,7 +113,7 @@ public class SanityTest {
         assertEquals("Wrong number of returned shapes after undo", 2, instance.getShapes().length);
     }
     
-    @org.junit.Test
+    @Test
     public void testUndoAndRedoLimit() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         
@@ -147,7 +148,7 @@ public class SanityTest {
         assertEquals("Wrong number of returned shapes after many redo", 2, instance.getShapes().length);
     }
 
-    @org.junit.Test
+    @Test
     public void testAddAndUpdateAndRemove() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
 
@@ -176,7 +177,7 @@ public class SanityTest {
         assertEquals("Wrong number of returned shapes after remove", 1, instance.getShapes().length);
     }
 
-    @org.junit.Test
+    @Test
     public void testAddAndUpdateAndRemoveAndUndo() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
 
@@ -231,94 +232,6 @@ public class SanityTest {
         }
 
         assertEquals("Wrong number of returned shapes after undo All", 0, instance.getShapes().length);
-    }
-
-    @org.junit.Test
-    public void testAddAndUpdateAndRemoveAndUndoAndRedo() {
-        DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-
-        Shape shape1 = new DummyShape();
-        shape1.setColor(Color.RED);
-        instance.addShape(shape1);      // action 1
-
-        Shape shape2 = new DummyShape();
-        shape2.setColor(Color.GREEN);
-        instance.addShape(shape2);      // action 2
-
-        Shape shape3 = new DummyShape();
-        shape3.setColor(Color.BLUE);
-        try {
-            instance.updateShape(shape1, shape3);   // action 3
-        } catch (Throwable e) {
-            TestRunner.fail("Engine didn't update an existing shape", e);
-        }
-
-        try {
-            instance.removeShape(shape2);   // action 4
-        } catch (Throwable e) {
-            TestRunner.fail("Engine didn't remove an existing shape", e);
-        }
-
-        assertEquals("Wrong number of returned shapes after remove", 1, instance.getShapes().length);
-
-        try {
-            instance.undo();
-        } catch (Throwable e) {
-            TestRunner.fail("Engine failed to undo action 4", e);
-        }
-
-        assertEquals("Wrong number of returned shapes after undo", 2, instance.getShapes().length);
-
-        try {
-            instance.undo();
-        } catch (Throwable e) {
-            TestRunner.fail("Engine failed to undo action 3", e);
-        }
-
-        try {
-            instance.undo();
-        } catch (Throwable e) {
-            TestRunner.fail("Engine failed to undo action 2", e);
-        }
-
-        try {
-            instance.undo();
-        } catch (Throwable e) {
-            TestRunner.fail("Engine failed to undo action 1", e);
-        }
-
-        assertEquals("Wrong number of returned shapes after undo All", 0, instance.getShapes().length);
-
-        try {
-            instance.redo();
-        } catch (Throwable e) {
-            TestRunner.fail("Engine failed to redo action 1", e);
-        }
-
-        try {
-            instance.redo();
-        } catch (Throwable e) {
-            TestRunner.fail("Engine failed to redo action 2", e);
-        }
-
-        assertEquals("Wrong number of returned shapes after undo All", 2, instance.getShapes().length);
-
-        try {
-            boolean foundGreen = false;
-            boolean foundRed = false;
-            for(Shape current : instance.getShapes()){
-                if(Color.RED.equals(current.getColor()))
-                    foundRed = true;
-                if(Color.GREEN.equals(current.getColor()))
-                    foundGreen = true;
-            }
-            if (!foundGreen)
-                fail("Shape 2 should is missing after redo");
-            if (!foundRed)
-                fail("Shape 1 should is missing after redo");
-        } catch (Throwable e) {
-            TestRunner.fail("Engine can't return the original shapes after redo", e);
-        }
     }
     
     private void saveAndLoad(DrawingEngine instance1, DrawingEngine instance2, String type){
@@ -387,7 +300,7 @@ public class SanityTest {
         }
     }
     
-    @org.junit.Test
+    @Test
     public void testSaveAndLoadXML() {
         // Encoding ISO-8859-1
         DrawingEngine instance1 = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
@@ -395,7 +308,7 @@ public class SanityTest {
         saveAndLoad(instance1, instance2, "XmL");
     }
 
-    @org.junit.Test
+    @Test
     public void testSaveAndLoadAndUndo() {
         DrawingEngine instance1 = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         saveAndLoad(instance1, instance1, "Xml");
@@ -443,7 +356,7 @@ public class SanityTest {
     }
     
 
-    @org.junit.Test
+    @Test
     public void testUsePlugins(){
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         try {

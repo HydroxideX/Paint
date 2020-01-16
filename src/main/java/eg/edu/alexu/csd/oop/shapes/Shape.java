@@ -1,6 +1,5 @@
-package eg.edu.alexu.csd.oop.Shapes;
+package eg.edu.alexu.csd.oop.shapes;
 
-import java.util.concurrent.atomic.AtomicReference;
 
 public interface Shape{
 

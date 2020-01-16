@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.Shapes;
+package eg.edu.alexu.csd.oop.shapes;
 
 import java.awt.*;
 import java.util.HashMap;

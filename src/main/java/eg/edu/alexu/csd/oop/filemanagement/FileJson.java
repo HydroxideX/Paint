@@ -1,7 +1,7 @@
-package eg.edu.alexu.csd.oop.fileManagement;
+package eg.edu.alexu.csd.oop.filemanagement;
 
 import eg.edu.alexu.csd.oop.draw.Engine;
-import eg.edu.alexu.csd.oop.Shapes.Shape;
+import eg.edu.alexu.csd.oop.shapes.Shape;
 
 import java.awt.*;
 import java.io.*;
@@ -10,15 +10,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
-public class saveJSON implements saveAndLoad {
+public class FileJson implements File {
     Engine engine;
-    public saveJSON(Engine engine){
+    public FileJson(Engine engine){
         this.engine = engine;
     }
 
     @Override
     public void save(Shape[] arrayOfShapes, String path) {
-        File file2 = new File(path);
+        java.io.File file2 = new java.io.File(path);
         try {
             FileWriter file = new FileWriter(file2);
             file.write('[');
@@ -95,7 +95,7 @@ public class saveJSON implements saveAndLoad {
 
     @Override
     public void load(String path) {
-        File file2 = new File(path);
+        java.io.File file2 = new java.io.File(path);
         try {
             Shape newShape;
             String s;
@@ -118,7 +118,9 @@ public class saveJSON implements saveAndLoad {
                 newShape.setPosition(new Point(Integer.parseInt(parts[2]), Integer.parseInt(parts[4])));
                 Scanner sc = new Scanner(parts[6]);
                 sc.useDelimiter("\\D+");
-                int r, g, b;
+                int r;
+                int g;
+                int b;
                 r = sc.nextInt();
                 sc = new Scanner(parts[7]);
                 sc.useDelimiter("\\D+");
