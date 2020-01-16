@@ -63,7 +63,7 @@ public class Paint extends Application{
     }
 
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
         FileChooser ChooseFile = new FileChooser();
         ChooseFile.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save", "*.json", "*.xml"));
         FileChooser JarChooser = new FileChooser();
@@ -103,38 +103,43 @@ public class Paint extends Application{
            addedShapes.setValue(className);
         }
 
-        Image image = new Image(new FileInputStream("Resources/btn1.png"));
-        line.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn2.png"));
-        Circle.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn3.png"));
-        Ellipse.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn4.png"));
-        Rectangle.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn5.png"));
-        Square.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn6.png"));
-        Triangle.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn8.png"));
-        undo.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn9.png"));
-        redo.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn13.png"));
-        save.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn14.png"));
-        load.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn12.png"));
-        delete.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/mouse.png"));
-        select.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/move.png"));
-        move.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/resize.png"));
-        resize.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/customShape.png"));
-        customShape.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/loadShape.png"));
-        loadClass.setGraphic(new ImageView(image));
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("Resources/btn1.png"));
+            line.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn2.png"));
+            Circle.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn3.png"));
+            Ellipse.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn4.png"));
+            Rectangle.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn5.png"));
+            Square.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn6.png"));
+            Triangle.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn8.png"));
+            undo.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn9.png"));
+            redo.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn13.png"));
+            save.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn14.png"));
+            load.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/btn12.png"));
+            delete.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/mouse.png"));
+            select.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/move.png"));
+            move.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/resize.png"));
+            resize.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/customShape.png"));
+            customShape.setGraphic(new ImageView(image));
+            image = new Image(new FileInputStream("Resources/loadShape.png"));
+            loadClass.setGraphic(new ImageView(image));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         customShape.setPrefHeight(29);
         customShape.setMinHeight(29);
@@ -162,7 +167,11 @@ public class Paint extends Application{
         primaryStage.setScene(new Scene(root, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE));
         primaryStage.setTitle("Paint");
         primaryStage.setResizable(false);
-        image = new Image(new FileInputStream("Resources/paint.png"));
+        try {
+            image = new Image(new FileInputStream("Resources/paint.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         primaryStage.getIcons().add(image);
         primaryStage.show();
 
@@ -247,7 +256,7 @@ public class Paint extends Application{
                     {
                         try {
                             assert is != null;
-                            if (!(is.available()>0)) break;
+                            if (is.available()<0) break;
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }

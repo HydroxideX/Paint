@@ -108,7 +108,6 @@ public class FileJson implements File {
                     parts[i] = parts[i].replaceAll("[:,]", "");
                     parts[i] = parts[i].replaceAll("\\}", "");
                     parts[i] = parts[i].replaceAll("\\{", "");
-                    ;
                     parts[i] = parts[i].replaceAll("\\\"", "");
                     parts[i] = parts[i].replaceAll("\\]", "");
                     parts[i] = parts[i].replaceAll("\\[", "");
