@@ -1,11 +1,11 @@
 # Vector Based Drawing Application
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d1f28e6f29644091b24bea1b7cad6670)](https://www.codacy.com/manual/HydroxideX/Paint?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HydroxideX/Paint&amp;utm_campaign=Badge_Grade)
 
-- implemented using Java, JavaFX.
+-implemented using Java, JavaFX.
 
-- Simple Paint Application That is Used To Draw, Color, Resize, Move, Delete Geometric Shapes.
+-Simple Paint Application That is Used To Draw, Color, Resize, Move, Delete Geometric Shapes.
 
-- Check The Application Here [Link](https://github.com/HydroxideX/Paint/releases/tag/1.0) (You Have To Extract Resources and Target Too).
+-Check The Application Here [Link](https://github.com/HydroxideX/Paint/releases/tag/1.0) (You Have To Extract Resources and Target Too).
 
 ## Features ##
 - Draw Basic Shapes With Beautiful Animation.
