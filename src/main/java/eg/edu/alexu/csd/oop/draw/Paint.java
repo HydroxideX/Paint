@@ -46,38 +46,61 @@ public class Paint extends Application{
     private Button Rectangle = new Button();
     private Button Square = new Button();
     private Button Triangle = new Button();
-    private Button customShape = new Button("Custom");
-    private Button resize = new Button("Resize");
+    private Button customShape = new Button();
+    private Button resize = new Button();
+    private Button loadClass = new Button();
+    private Button delete = new Button();
+    private Button move = new Button();
+
+    private ChoiceBox addedShapes = new ChoiceBox();
+
+    private ColorPicker colorPicker = new ColorPicker(Color.BLACK);
+    private ColorPicker colorPicker2 = new ColorPicker(Color.WHITE);
+
+    private Label Border = new Label(" Color: ");
+    private Label Fill = new Label(" Fill: ");
 
     public void start(Stage primaryStage) throws Exception {
+        FileChooser ChooseFile = new FileChooser();
+        ChooseFile.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save", "*.json", "*.xml"));
+        FileChooser JarChooser = new FileChooser();
+        JarChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader",  "*.jar"));
+        AtomicReference<eg.edu.alexu.csd.oop.Shapes.Shape> loader = new AtomicReference<>();
+        AtomicReference<Point> p = new AtomicReference<>(new Point());
+        AtomicReference<Point> t2 = new AtomicReference<>(new Point());
+        AtomicInteger ct1 = new AtomicInteger();
+        eg.edu.alexu.csd.oop.Shapes.Shape[] newShape = new eg.edu.alexu.csd.oop.Shapes.Shape[3];
+        AtomicInteger ct2 = new AtomicInteger();
+        Engine engine = new Engine();
+
+
         VBox root = new VBox();
         root.setSpacing(5);
+        
         HBox menu = new HBox();
-        HBox shapes = new HBox();
-        HBox can = new HBox();
         menu.setSpacing(3);
+        menu.getChildren().addAll(save, load, undo, redo, addedShapes, loadClass);
+        
+        HBox shapes = new HBox();
         shapes.setSpacing(3);
-        Image image = new Image(new FileInputStream("Resources/btn13.png"));
-        ChoiceBox addedShapes = new ChoiceBox();
-        Engine engine = new Engine();
+        shapes.getChildren().addAll(select,move , line, Circle, Ellipse, Rectangle, Square, Triangle, customShape, Border, colorPicker, Fill, colorPicker2, delete, resize);
+
+        HBox can = new HBox();
+        Canvas canvas = new Canvas(1000, 600);
+        FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
+        can.setStyle("-fx-background-color: WHITE");
+        can.getChildren().add(canvas);
+
+        root.getChildren().addAll(menu, shapes, can);
+
         final AtomicReference<ArrayList<String>>[] ClassNames = new AtomicReference[]{new AtomicReference<>(engine.getClassNames())};
         for (String className : ClassNames[0].get()) {
             if(className.equals("TwoPointShapes")) continue;
            addedShapes.getItems().add(className);
            addedShapes.setValue(className);
         }
-        save.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn14.png"));
-        load.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn8.png"));
-        undo.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/btn9.png"));
-        redo.setGraphic(new ImageView(image));
-        undo.setMinHeight(31);
-        redo.setMinHeight(31);
-        addedShapes.setMinHeight(31);
-        addedShapes.setMinWidth(200);
-        image = new Image(new FileInputStream("Resources/btn1.png"));
+
+        Image image = new Image(new FileInputStream("Resources/btn1.png"));
         line.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn2.png"));
         Circle.setGraphic(new ImageView(image));
@@ -89,8 +112,57 @@ public class Paint extends Application{
         Square.setGraphic(new ImageView(image));
         image = new Image(new FileInputStream("Resources/btn6.png"));
         Triangle.setGraphic(new ImageView(image));
-        Button loadClass = new Button("Load Shape");
+        image = new Image(new FileInputStream("Resources/btn8.png"));
+        undo.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/btn9.png"));
+        redo.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/btn13.png"));
+        save.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/btn14.png"));
+        load.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/btn12.png"));
+        delete.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/mouse.png"));
+        select.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/move.png"));
+        move.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/resize.png"));
+        resize.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/customShape.png"));
+        customShape.setGraphic(new ImageView(image));
+        image = new Image(new FileInputStream("Resources/loadShape.png"));
+        loadClass.setGraphic(new ImageView(image));
+
+        customShape.setPrefHeight(29);
+        customShape.setMinHeight(29);
+        loadClass.setPrefHeight(29);
+        loadClass.setMinHeight(29);
+        select.setPrefHeight(29);
+        select.setMinHeight(29);
+        move.setPrefHeight(29);
+        move.setMinHeight(29);
+        resize.setPrefHeight(29);
+        resize.setMinHeight(29);
+        customShape.setMinHeight(29);
+        colorPicker.setMinHeight(29);
+        colorPicker2.setMinHeight(29);
+        undo.setMinHeight(31);
+        redo.setMinHeight(31);
+        addedShapes.setMinHeight(31);
         loadClass.setMinHeight(31);
+        addedShapes.setMinWidth(200);
+
+        Fill.setFont(new Font("Arial", 20));
+        Border.setFont(new Font("Arial", 20));
+        Border.setCenterShape(true);
+
+        primaryStage.setScene(new Scene(root, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE));
+        primaryStage.setTitle("Paint");
+        primaryStage.setResizable(false);
+        image = new Image(new FileInputStream("Resources/paint.png"));
+        primaryStage.getIcons().add(image);
+        primaryStage.show();
+
         Triangle.setOnAction(e -> {
             current = "Triangle";
             disable(Triangle);
@@ -119,16 +191,16 @@ public class Paint extends Application{
             current = "select";
             disable(select);
         });
+        move.setOnAction(e -> {
+            current = "move";
+            disable(move);
+        });
         resize.setOnAction(e -> {
             current = "resize";
             disable(resize);
         });
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader",  "*.jar"));
-        AtomicReference<eg.edu.alexu.csd.oop.Shapes.Shape> loader = new AtomicReference<>();
         loadClass.setOnAction(e -> {
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            File selectedFile = JarChooser.showOpenDialog(primaryStage);
             if(selectedFile!=null)
             {
 
@@ -213,8 +285,8 @@ public class Paint extends Application{
                     }
                     String path = System.getProperty("user.dir");
                     String pack = "eg.edu.alexu.csd.oop.draw";
-                    String p = path+"/target/classes/Hybrid";
-                    URL[] a = new URL[]{new File(p).toURI().toURL()};
+                    String Hybridpack = path+"/target/classes/Hybrid";
+                    URL[] a = new URL[]{new File(Hybridpack).toURI().toURL()};
                     URLClassLoader c = new URLClassLoader(a);
                     d = c.loadClass(pack+ "." + current);
                 } catch (ClassNotFoundException | NoClassDefFoundError ex) {
@@ -236,44 +308,10 @@ public class Paint extends Application{
                 }
             }
         });
-
-
-        Label Border = new Label(" Color: ");
-        Border.setFont(new Font("Arial", 20));
-        Border.setCenterShape(true);
-        Label Fill = new Label(" Fill: ");
-        Fill.setFont(new Font("Arial", 20));
-        ColorPicker colorPicker = new ColorPicker(Color.BLACK);
-        ColorPicker colorPicker2 = new ColorPicker(Color.WHITE);
-        colorPicker.setMinHeight(29);
-        colorPicker2.setMinHeight(29);
-        image = new Image(new FileInputStream("Resources/btn12.png"));
-        Button delete = new Button();
-        delete.setGraphic(new ImageView(image));
-        image = new Image(new FileInputStream("Resources/mouse.png"));
-        select.setGraphic(new ImageView(image));
-        select.setMaxHeight(29);
-        select.setPrefHeight(29);
-        select.setMinHeight(29);
-        resize.setMinHeight(29);
-        customShape.setMinHeight(29);
         addedShapes.setOnAction(e->{
             select.fire();
             current="select";
         });
-        menu.getChildren().addAll(save, load, undo, redo, addedShapes, loadClass);
-        shapes.getChildren().addAll(select, line, Circle, Ellipse, Rectangle, Square, Triangle, customShape, Border, colorPicker, Fill, colorPicker2, delete, resize);
-        Canvas canvas = new Canvas(1000, 600);
-        FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
-        can.setStyle("-fx-background-color: WHITE");
-        can.getChildren().add(canvas);
-        root.getChildren().addAll(menu, shapes, can);
-        primaryStage.setScene(new Scene(root, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE));
-        primaryStage.setTitle("Paint");
-        primaryStage.setResizable(false);
-        image = new Image(new FileInputStream("Resources/paint.png"));
-        primaryStage.getIcons().add(image);
-        primaryStage.show();
         customShape.setOnAction(e -> {
             current= (String) addedShapes.getValue();
             String pack = "eg.edu.alexu.csd.oop.Shapes";
@@ -298,12 +336,6 @@ public class Paint extends Application{
             customShape.setDisable(false);
             select.fire();
         });
-        AtomicReference<Point> p = new AtomicReference<>(new Point());
-        AtomicReference<Point> t2 = new AtomicReference<>(new Point());
-        AtomicInteger ct1 = new AtomicInteger();
-
-        eg.edu.alexu.csd.oop.Shapes.Shape[] newShape = new eg.edu.alexu.csd.oop.Shapes.Shape[3];
-        AtomicInteger ct2 = new AtomicInteger();
         undo.setOnAction(e -> {
             engine.undo();
             engine.refresh(graphics);
@@ -312,16 +344,14 @@ public class Paint extends Application{
             engine.redo();
             engine.refresh(graphics);
         });
-        FileChooser fileChooser2 = new FileChooser();
-        fileChooser2.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save", "*.json", "*.xml"));
         save.setOnAction(e -> {
-            File selectedFile = fileChooser2.showOpenDialog(primaryStage);
+            File selectedFile = ChooseFile.showOpenDialog(primaryStage);
             if (selectedFile != null) {
                 engine.save(selectedFile.getPath());
             }
         });
         load.setOnAction(e -> {
-            File selectedFile = fileChooser2.showOpenDialog(primaryStage);
+            File selectedFile = ChooseFile.showOpenDialog(primaryStage);
             if (selectedFile != null) {
                 engine.load(selectedFile.getPath());
                 engine.refresh(graphics);
@@ -339,7 +369,8 @@ public class Paint extends Application{
         canvas.setOnMousePressed(e -> {
             switch (current) {
                 case "select":
-                case "resize": {
+                case "resize":
+                case "move": {
                     newShape[0] = engine.checkOnShapes((int) e.getX(), (int) e.getY());
                     if (newShape[0] != null) {
                         if (newShape[0].getProperties().get("type") == 0d && current.equals("resize")) {
@@ -355,11 +386,13 @@ public class Paint extends Application{
                             ex.printStackTrace();
                         }
                         p.set(new Point((int) e.getX(), (int) e.getY()));
-                        Map<String, Double> secondPoint = new HashMap<>(newShape[1].getProperties());
-                        java.awt.Color temp=newShape[1].getColor();
-                        newShape[1].setColor(newShape[1].getFillColor());
-                        newShape[1].setFillColor(temp);
-                        newShape[1].setProperties(secondPoint);
+                        if(!current.equals("select")) {
+                            Map<String, Double> secondPoint = new HashMap<>(newShape[1].getProperties());
+                            java.awt.Color temp = newShape[1].getColor();
+                            newShape[1].setColor(newShape[1].getFillColor());
+                            newShape[1].setFillColor(temp);
+                            newShape[1].setProperties(secondPoint);
+                        }
                         engine.removeShape(newShape[0]);
                         ct2.getAndIncrement();
                     }
@@ -444,7 +477,7 @@ public class Paint extends Application{
                     }
                     break;
                 }
-                case "select": {
+                case "move": {
                     if (newShape[1] != null) {
                         eg.edu.alexu.csd.oop.Shapes.Shape l = null;
                         if (newShape[1].getProperties().get("type") == 6d) {
@@ -583,7 +616,7 @@ public class Paint extends Application{
         canvas.setOnMouseReleased(e -> {
             switch (current) {
                 case "resize":
-                case "select": {
+                case "move": {
                     if (newShape[1] != null) {
                         if(newShape[1].getProperties().get("type") == 0d && current.equals("resize")) break;
                         Map<String, Double> secondPoint = new HashMap<>(newShape[1].getProperties());
@@ -649,6 +682,7 @@ public class Paint extends Application{
         select.setDisable(false);
         customShape.setDisable(false);
         resize.setDisable(false);
+        move.setDisable(false);
         x.setDisable(true);
     }
 
