@@ -1,2 +1,9 @@
-*.xml
-*.class
+/*
+/*/
+!/src/
+/src/out/*
+/src/.idea/*
+!.gitignore
+!LICENSE
+!README.md
+!/Resources/
