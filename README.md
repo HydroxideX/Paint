@@ -21,6 +21,3 @@ This project is public, Feel free to create pull requests.
 ![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_1.png)
 ![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_2.png)
 ![picture alt](https://github.com/HydroxideX/Paint/blob/master/screenshots/screenshot_3.png)
-
-### GIF ###
-![picture alt](https://github.com/HydroxideX/FindThePair/blob/master/screenshots/firstGif.gif)
