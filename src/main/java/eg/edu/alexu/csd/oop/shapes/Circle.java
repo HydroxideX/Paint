@@ -1,9 +1,11 @@
 package eg.edu.alexu.csd.oop.shapes;
 
+import eg.edu.alexu.csd.oop.draw.Shape;
+
 import java.awt.*;
 import java.util.Map;
 
-public class Circle  extends Rectangle implements Shape{
+public class Circle  extends Rectangle implements Shape {
     public Circle(){
         position = new Point(0,0);
         color = Color.black;

@@ -1,9 +1,11 @@
 package eg.edu.alexu.csd.oop.shapes;
 
+import eg.edu.alexu.csd.oop.draw.Shape;
+
 import java.awt.*;
 import java.util.Map;
 
-public class Ellipse extends Rectangle implements Shape  {
+public class Ellipse extends Rectangle implements Shape {
     public Ellipse(){
         position = new Point(0,0);
         color = Color.black;

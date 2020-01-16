@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.shapes;
+package eg.edu.alexu.csd.oop.draw;
 
 
 public interface Shape{

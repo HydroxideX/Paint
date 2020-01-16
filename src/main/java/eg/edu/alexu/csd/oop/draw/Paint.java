@@ -1,5 +1,4 @@
 package eg.edu.alexu.csd.oop.draw;
-import eg.edu.alexu.csd.oop.shapes.Shape;
 import eg.edu.alexu.csd.oop.shapes.Triangle;
 import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
@@ -337,7 +336,9 @@ public class Paint extends Application{
                     String path1 = System.getProperty("user.dir");
                     path1 = path1.replace('\\', '/');
                     URLClassLoader x = new URLClassLoader(new URL[]{new File(path1+"/target/classes/Hybrid/").toURI().toURL()});
+                    pack = "eg.edu.alexu.csd.oop.draw";
                     Class cl = x.loadClass(pack + "." + current);
+                    pack = "eg.edu.alexu.csd.oop.shapes";
                     shape = (Shape) cl.newInstance();
                 }
                 ShapeDialogBox shapeDiaglogBox = new ShapeDialogBox(shape,engine,graphics);

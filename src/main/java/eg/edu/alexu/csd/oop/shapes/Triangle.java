@@ -1,10 +1,12 @@
 package eg.edu.alexu.csd.oop.shapes;
 
+import eg.edu.alexu.csd.oop.draw.Shape;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Triangle implements Shape  {
+public class Triangle implements Shape {
     private Point position;
     private Map<String, Double> properties= new HashMap<String, Double>();
     private Color color;

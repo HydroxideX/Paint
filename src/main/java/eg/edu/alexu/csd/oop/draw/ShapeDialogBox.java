@@ -1,5 +1,4 @@
 package eg.edu.alexu.csd.oop.draw;
-import eg.edu.alexu.csd.oop.shapes.Shape;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;

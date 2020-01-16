@@ -5,7 +5,7 @@
 
 package eg.edu.alexu.csd.oop.test;
 
-import eg.edu.alexu.csd.oop.shapes.Shape;
+import eg.edu.alexu.csd.oop.draw.Shape;
 
 import java.awt.Color;
 import java.awt.Graphics;

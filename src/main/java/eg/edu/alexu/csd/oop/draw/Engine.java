@@ -1,6 +1,5 @@
 package eg.edu.alexu.csd.oop.draw;
 
-import eg.edu.alexu.csd.oop.shapes.Shape;
 import eg.edu.alexu.csd.oop.utils.ShapesDetector;
 import eg.edu.alexu.csd.oop.filemanagement.File;
 import eg.edu.alexu.csd.oop.filemanagement.FileJson;
