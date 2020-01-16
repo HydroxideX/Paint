@@ -256,7 +256,7 @@ public class Paint extends Application{
                     {
                         try {
                             assert is != null;
-                            if (is.available()<0) break;
+                            if (is.available()<=0) break;
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -299,7 +299,8 @@ public class Paint extends Application{
                     String Hybridpack = path+"/target/classes/Hybrid";
                     URL[] a = new URL[]{new File(Hybridpack).toURI().toURL()};
                     URLClassLoader c = new URLClassLoader(a);
-                    d = c.loadClass(pack+ "." + current);
+                    String yahia = pack+"."+current;
+                    d = c.loadClass(yahia);
                 } catch (ClassNotFoundException | NoClassDefFoundError ex) {
                     ex.printStackTrace();
                 } catch (MalformedURLException ex) {
