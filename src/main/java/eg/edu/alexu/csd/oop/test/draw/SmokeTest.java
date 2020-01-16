@@ -1,7 +1,7 @@
 package eg.edu.alexu.csd.oop.test.draw;
 
 import eg.edu.alexu.csd.oop.draw.DrawingEngine;
-import eg.edu.alexu.csd.oop.draw.Shape;
+import eg.edu.alexu.csd.oop.Shapes.Shape;
 import eg.edu.alexu.csd.oop.test.DummyShape;
 import eg.edu.alexu.csd.oop.test.TestRunner;
 
@@ -76,25 +76,6 @@ public class SmokeTest {
         instance.addShape(new DummyShape());
         instance.removeShape(shape);
         assertEquals("Wrong number of returned shapes after delete", 2, instance.getShapes().length);
-    }
-    
-    @org.junit.Test
-    public void testShapeProperties() throws ClassNotFoundException {
-        DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-        List<Class<? extends Shape>> supportedShapes = instance.getSupportedShapes();
-        assertNotNull("No supported shapes returned, check getSupportedShapes function!", supportedShapes);
-        assertFalse("No supported shapes returned, check getSupportedShapes function!", supportedShapes.isEmpty());
-        for(Class<? extends Shape> shapeClass : supportedShapes){
-            if (!shapeClass.getName().contains("Dummy"))
-                try {
-                    Shape shape = shapeClass.newInstance();
-                    assertNotNull("Failed to create shape", shape);
-                    if (shape.getProperties() == null || shape.getProperties().size() == 0)
-                        fail("Your shapes must have at least one property in the map!");
-                } catch (Exception e) {
-                    TestRunner.fail("Failed to create shape", e);
-                }
-        }
     }
 
 }

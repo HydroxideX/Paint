@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.draw;
+package eg.edu.alexu.csd.oop.Shapes;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -83,5 +83,6 @@ public class Triangle implements Shape  {
         c.setPosition(getPosition());
         c.setColor(getColor());
         c.setFillColor(getFillColor());
-        return c;    }
+        return c;
+    }
 }

@@ -1,7 +1,7 @@
 package eg.edu.alexu.csd.oop.test.draw;
 
 import eg.edu.alexu.csd.oop.draw.DrawingEngine;
-import eg.edu.alexu.csd.oop.draw.Shape;
+import eg.edu.alexu.csd.oop.Shapes.Shape;
 import eg.edu.alexu.csd.oop.test.DummyShape;
 import eg.edu.alexu.csd.oop.test.TestRunner;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class SanityTest {
     public void testAddAndRemove() {
         DrawingEngine instance = (DrawingEngine) TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         
-        eg.edu.alexu.csd.oop.draw.Shape shape = new DummyShape();
+        Shape shape = new DummyShape();
         instance.addShape(shape);
         
         assertEquals("Wrong number of returned shapes", 1, instance.getShapes().length);
@@ -40,30 +40,30 @@ public class SanityTest {
     @org.junit.Test
     public void testAddAndUpdate() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape1 = new DummyShape();
+
+        Shape shape1 = new DummyShape();
         shape1.setColor(Color.RED);
         instance.addShape(shape1);
-        
+
         assertEquals("Wrong number of returned shapes", 1, instance.getShapes().length);
-        
-        eg.edu.alexu.csd.oop.draw.Shape current1 = null, current2 = null;
+
+        Shape current1 = null, current2 = null;
         try {
             current1 = instance.getShapes()[0];
         } catch (Throwable e) {
             //TestRunner.fail("Engine can't return the first shape after update", e);
         }
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape2 = new DummyShape();
+
+        Shape shape2 = new DummyShape();
         shape2.setColor(Color.BLUE);
         try {
             instance.updateShape(shape1, shape2);
         } catch (Throwable e) {
             //TestRunner.fail("Engine didn't update an existing shape", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after update", 1, instance.getShapes().length);
-        
+
         try {
             current2 = instance.getShapes()[0];
             assertNotEquals("You should clone the shape then apply the update", current1, current2);
@@ -76,7 +76,7 @@ public class SanityTest {
     public void testAddAndRemoveWrong() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         
-        eg.edu.alexu.csd.oop.draw.Shape shape = new DummyShape();
+        Shape shape = new DummyShape();
         instance.addShape(shape);
         
         assertEquals("Wrong number of returned shapes", 1, instance.getShapes().length);
@@ -146,167 +146,167 @@ public class SanityTest {
         } catch (Throwable e) {}
         assertEquals("Wrong number of returned shapes after many redo", 2, instance.getShapes().length);
     }
-    
+
     @org.junit.Test
     public void testAddAndUpdateAndRemove() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape1 = new DummyShape();
+
+        Shape shape1 = new DummyShape();
         shape1.setColor(Color.RED);
         instance.addShape(shape1);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape2 = new DummyShape();
+
+        Shape shape2 = new DummyShape();
         shape2.setColor(Color.RED);
         instance.addShape(shape2);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape3 = new DummyShape();
+
+        Shape shape3 = new DummyShape();
         shape3.setColor(Color.BLUE);
         try {
             instance.updateShape(shape1, shape3);
         } catch (Throwable e) {
             TestRunner.fail("Engine didn't update an existing shape", e);
         }
-        
+
         try {
             instance.removeShape(shape2);
         } catch (Throwable e) {
             TestRunner.fail("Engine didn't remove an existing shape", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after remove", 1, instance.getShapes().length);
     }
 
     @org.junit.Test
     public void testAddAndUpdateAndRemoveAndUndo() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape1 = new DummyShape();
+
+        Shape shape1 = new DummyShape();
         shape1.setColor(Color.RED);
         instance.addShape(shape1);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape2 = new DummyShape();
+
+        Shape shape2 = new DummyShape();
         shape2.setColor(Color.RED);
         instance.addShape(shape2);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape3 = new DummyShape();
+
+        Shape shape3 = new DummyShape();
         shape3.setColor(Color.BLUE);
         try {
             instance.updateShape(shape1, shape3);
         } catch (Throwable e) {
             TestRunner.fail("Engine didn't update an existing shape", e);
         }
-        
+
         try {
             instance.removeShape(shape2);
         } catch (Throwable e) {
             TestRunner.fail("Engine didn't remove an existing shape", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after remove", 1, instance.getShapes().length);
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 1", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after undo", 2, instance.getShapes().length);
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 2", e);
         }
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 3", e);
         }
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 4", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after undo All", 0, instance.getShapes().length);
     }
-    
+
     @org.junit.Test
     public void testAddAndUpdateAndRemoveAndUndoAndRedo() {
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape1 = new DummyShape();
+
+        Shape shape1 = new DummyShape();
         shape1.setColor(Color.RED);
         instance.addShape(shape1);      // action 1
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape2 = new DummyShape();
+
+        Shape shape2 = new DummyShape();
         shape2.setColor(Color.GREEN);
         instance.addShape(shape2);      // action 2
-        
-        eg.edu.alexu.csd.oop.draw.Shape shape3 = new DummyShape();
+
+        Shape shape3 = new DummyShape();
         shape3.setColor(Color.BLUE);
         try {
             instance.updateShape(shape1, shape3);   // action 3
         } catch (Throwable e) {
             TestRunner.fail("Engine didn't update an existing shape", e);
         }
-        
+
         try {
             instance.removeShape(shape2);   // action 4
         } catch (Throwable e) {
             TestRunner.fail("Engine didn't remove an existing shape", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after remove", 1, instance.getShapes().length);
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 4", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after undo", 2, instance.getShapes().length);
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 3", e);
         }
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 2", e);
         }
-        
+
         try {
             instance.undo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to undo action 1", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after undo All", 0, instance.getShapes().length);
-        
+
         try {
             instance.redo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to redo action 1", e);
         }
-        
+
         try {
             instance.redo();
         } catch (Throwable e) {
             TestRunner.fail("Engine failed to redo action 2", e);
         }
-        
+
         assertEquals("Wrong number of returned shapes after undo All", 2, instance.getShapes().length);
-        
+
         try {
             boolean foundGreen = false;
             boolean foundRed = false;
-            for(eg.edu.alexu.csd.oop.draw.Shape current : instance.getShapes()){
+            for(Shape current : instance.getShapes()){
                 if(Color.RED.equals(current.getColor()))
                     foundRed = true;
                 if(Color.GREEN.equals(current.getColor()))
@@ -323,11 +323,11 @@ public class SanityTest {
     
     private void saveAndLoad(DrawingEngine instance1, DrawingEngine instance2, String type){
         try {
-            List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> supportedShapes = instance1.getSupportedShapes();
+            List<Class<? extends Shape>> supportedShapes = instance1.getSupportedShapes();
             assertFalse("No supported shapes returned", supportedShapes.isEmpty());
-            for(Class<? extends eg.edu.alexu.csd.oop.draw.Shape> shapeClass : supportedShapes){
+            for(Class<? extends Shape> shapeClass : supportedShapes){
                 try {
-                    instance1.addShape((eg.edu.alexu.csd.oop.draw.Shape)shapeClass.newInstance());
+                    instance1.addShape((Shape)shapeClass.newInstance());
                 } catch (Throwable e) {
                     TestRunner.fail("Failed to create shape of type: " + shapeClass, e);
                 }
@@ -336,7 +336,7 @@ public class SanityTest {
             TestRunner.fail("No supported shapes returned", e);
         }
         try {
-            eg.edu.alexu.csd.oop.draw.Shape shape1 = new DummyShape();
+            Shape shape1 = new DummyShape();
             shape1.setColor(Color.RED);
             instance1.addShape(shape1);
         } catch (Throwable e) {
@@ -358,11 +358,11 @@ public class SanityTest {
         }
 
         try {
-            List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> supportedShapes = instance1.getSupportedShapes();
+            List<Class<? extends Shape>> supportedShapes = instance1.getSupportedShapes();
             assertFalse("No supported shapes returned", supportedShapes.isEmpty());
-            for(Class<? extends eg.edu.alexu.csd.oop.draw.Shape> shapeClass : supportedShapes){
+            for(Class<? extends Shape> shapeClass : supportedShapes){
                 try {
-                    instance1.addShape((eg.edu.alexu.csd.oop.draw.Shape)shapeClass.newInstance());
+                    instance1.addShape((Shape)shapeClass.newInstance());
                 } catch (Throwable e) {
                     TestRunner.fail("Failed to create shape of type: " + shapeClass, e);
                 }
@@ -393,13 +393,6 @@ public class SanityTest {
         DrawingEngine instance1 = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         DrawingEngine instance2 = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         saveAndLoad(instance1, instance2, "XmL");
-    }
-
-    @org.junit.Test
-    public void testSaveAndLoadJSON() {
-        DrawingEngine instance1 = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-        DrawingEngine instance2 = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
-        saveAndLoad(instance1, instance2, "JsOn");
     }
 
     @org.junit.Test
@@ -435,8 +428,8 @@ public class SanityTest {
     public void testGetPlugins(){
         DrawingEngine instance = (DrawingEngine)TestRunner.getImplementationInstanceForInterface(DrawingEngine.class);
         try {
-        	List<Class<? extends eg.edu.alexu.csd.oop.draw.Shape>> list = instance.getSupportedShapes();
-            for(Class<? extends eg.edu.alexu.csd.oop.draw.Shape> c: list){
+        	List<Class<? extends Shape>> list = instance.getSupportedShapes();
+            for(Class<? extends Shape> c: list){
                 System.out.println(c);
                 System.out.println(c.getName());
                 if(c.getName().equals("eg.edu.alexu.csd.oop.draw.RoundRectangle")){

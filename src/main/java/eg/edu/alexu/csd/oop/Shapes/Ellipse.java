@@ -1,14 +1,10 @@
-package eg.edu.alexu.csd.oop.draw;
+package eg.edu.alexu.csd.oop.Shapes;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Ellipse implements Shape  {
-    private Point position;
-    private Map<String, Double> properties= new HashMap<>();
-    private Color color;
-    private Color fillColor;
+public class Ellipse extends Rectangle implements Shape  {
     public Ellipse(){
         position = new Point(0,0);
         color = Color.black;
@@ -19,14 +15,8 @@ public class Ellipse implements Shape  {
         this.properties.putIfAbsent("x2", (double) position.x);
         this.properties.putIfAbsent("y2", (double) position.y);
     }
-    public void setPosition(Point position) {
-        this.position=position;
-    }
 
-    public Point getPosition() {
-        return position;
-    }
-
+    @Override
     public void setProperties(Map<String, Double> properties) {
         this.properties=properties;
         this.properties.put("type",4d);
@@ -36,26 +26,7 @@ public class Ellipse implements Shape  {
         this.properties.putIfAbsent("y2", (double) position.y);
     }
 
-    public Map<String, Double> getProperties() {
-        return properties;
-    }
-
-    public void setColor(Color color) {
-        this.color=color;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setFillColor(Color color) {
-        this.fillColor=color;
-    }
-
-    public Color getFillColor() {
-        return fillColor;
-    }
-
+    @Override
     public void draw(Graphics canvas) {
         Point p1 = new Point(getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
         Point p3 = Correct(position,p1);
@@ -67,6 +38,7 @@ public class Ellipse implements Shape  {
         canvas.drawOval(p3.x,p3.y, (int) l, (int) w);
     }
 
+    @Override
     public Object clone() throws CloneNotSupportedException {
         Ellipse c = new Ellipse();
         c.setProperties(getProperties());
@@ -74,15 +46,5 @@ public class Ellipse implements Shape  {
         c.setColor(getColor());
         c.setFillColor(getFillColor());
         return c;
-    }
-
-    private Point Correct(Point p1, Point p2){
-        Point p3 = new Point();
-        p3.x = min(p1.x,p2.x);
-        p3.y = min(p1.y,p2.y);
-        return p3;
-    }
-    private int min(int a, int b){
-        return Math.min(a, b);
     }
 }

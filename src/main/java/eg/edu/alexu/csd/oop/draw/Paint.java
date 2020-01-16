@@ -1,4 +1,6 @@
 package eg.edu.alexu.csd.oop.draw;
+import eg.edu.alexu.csd.oop.Shapes.Shape;
+import eg.edu.alexu.csd.oop.Shapes.Triangle;
 import javafx.application.Application;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -26,8 +28,6 @@ import java.nio.channels.FileChannel;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 public class Paint extends Application{
     private String current = "select";
@@ -62,6 +62,7 @@ public class Paint extends Application{
         Engine engine = new Engine();
         final AtomicReference<ArrayList<String>>[] ClassNames = new AtomicReference[]{new AtomicReference<>(engine.getClassNames())};
         for (String className : ClassNames[0].get()) {
+            if(className.equals("TwoPointShapes")) continue;
            addedShapes.getItems().add(className);
            addedShapes.setValue(className);
         }
@@ -125,7 +126,7 @@ public class Paint extends Application{
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("ClassLoader",  "*.jar"));
-        AtomicReference<eg.edu.alexu.csd.oop.draw.Shape> loader = new AtomicReference<>();
+        AtomicReference<eg.edu.alexu.csd.oop.Shapes.Shape> loader = new AtomicReference<>();
         loadClass.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             if(selectedFile!=null)
@@ -222,7 +223,7 @@ public class Paint extends Application{
                     ex.printStackTrace();
                 }
                 assert d != null;
-                if(eg.edu.alexu.csd.oop.draw.Shape.class.isAssignableFrom(d)){
+                if(eg.edu.alexu.csd.oop.Shapes.Shape.class.isAssignableFrom(d)){
                     addedShapes.getItems().add(current);
                     addedShapes.setValue(current);
                     current="select";
@@ -275,19 +276,19 @@ public class Paint extends Application{
         primaryStage.show();
         customShape.setOnAction(e -> {
             current= (String) addedShapes.getValue();
-            String pack = "eg.edu.alexu.csd.oop.draw";
+            String pack = "eg.edu.alexu.csd.oop.Shapes";
             try {
-                Shape shape;
+                eg.edu.alexu.csd.oop.Shapes.Shape shape;
                 if(current.equals("Circle")|| current.equals("Triangle") || current.equals("line")
                         || current.equals("Square")|| current.equals("Ellipse")|| current.equals("Rectangle")) {
                     Class cl = Class.forName(pack + "." + current);
-                    shape = (Shape) cl.newInstance();
+                    shape = (eg.edu.alexu.csd.oop.Shapes.Shape) cl.newInstance();
                 } else {
                     String path1 = System.getProperty("user.dir");
                     path1 = path1.replace('\\', '/');
                     URLClassLoader x = new URLClassLoader(new URL[]{new File(path1+"/target/classes/Hybrid/").toURI().toURL()});
                     Class cl = x.loadClass(pack + "." + current);
-                    shape = (Shape) cl.newInstance();
+                    shape = (eg.edu.alexu.csd.oop.Shapes.Shape) cl.newInstance();
                 }
                 newShapeDialogBox shapeDiaglogBox = new newShapeDialogBox(shape,engine,graphics);
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | MalformedURLException ex) {
@@ -301,7 +302,7 @@ public class Paint extends Application{
         AtomicReference<Point> t2 = new AtomicReference<>(new Point());
         AtomicInteger ct1 = new AtomicInteger();
 
-        eg.edu.alexu.csd.oop.draw.Shape[] newShape = new eg.edu.alexu.csd.oop.draw.Shape[3];
+        eg.edu.alexu.csd.oop.Shapes.Shape[] newShape = new eg.edu.alexu.csd.oop.Shapes.Shape[3];
         AtomicInteger ct2 = new AtomicInteger();
         undo.setOnAction(e -> {
             engine.undo();
@@ -329,6 +330,7 @@ public class Paint extends Application{
         delete.setOnAction(e -> {
             if (current.equals("select") && newShape[2] != null) {
                 engine.removeShape(newShape[2]);
+                engine.updateUndo();
                 engine.refresh(graphics);
                 newShape[2] = null;
                 ct2.set(0);
@@ -348,7 +350,7 @@ public class Paint extends Application{
                             break;
                         }
                         try {
-                            newShape[1] = (Shape) newShape[0].clone();
+                            newShape[1] = (eg.edu.alexu.csd.oop.Shapes.Shape) newShape[0].clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -358,7 +360,7 @@ public class Paint extends Application{
                         newShape[1].setColor(newShape[1].getFillColor());
                         newShape[1].setFillColor(temp);
                         newShape[1].setProperties(secondPoint);
-                        engine.removeShape2(newShape[0]);
+                        engine.removeShape(newShape[0]);
                         ct2.getAndIncrement();
                     }
                     break;
@@ -382,11 +384,11 @@ public class Paint extends Application{
             switch (current) {
                 case "resize": {
                     if (newShape[1] != null) {
-                        eg.edu.alexu.csd.oop.draw.Shape l = null;
+                        eg.edu.alexu.csd.oop.Shapes.Shape l = null;
                         if (newShape[1].getProperties().get("type") == 6d) {
                             l = new Triangle();
                             try {
-                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
+                                l = (eg.edu.alexu.csd.oop.Shapes.Shape) newShape[1].clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -400,7 +402,7 @@ public class Paint extends Application{
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
-                                newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                                newShape[1] = (eg.edu.alexu.csd.oop.Shapes.Shape) l.clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -417,7 +419,7 @@ public class Paint extends Application{
                             }
                         }
                         try {
-                            l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
+                            l = (eg.edu.alexu.csd.oop.Shapes.Shape) newShape[1].clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -433,7 +435,7 @@ public class Paint extends Application{
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
                         try {
-                            newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                            newShape[1] = (eg.edu.alexu.csd.oop.Shapes.Shape) l.clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -444,11 +446,11 @@ public class Paint extends Application{
                 }
                 case "select": {
                     if (newShape[1] != null) {
-                        eg.edu.alexu.csd.oop.draw.Shape l = null;
+                        eg.edu.alexu.csd.oop.Shapes.Shape l = null;
                         if (newShape[1].getProperties().get("type") == 6d) {
                             l = new Triangle();
                             try {
-                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
+                                l = (eg.edu.alexu.csd.oop.Shapes.Shape) newShape[1].clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -465,7 +467,7 @@ public class Paint extends Application{
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
-                                newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                                newShape[1] = (eg.edu.alexu.csd.oop.Shapes.Shape) l.clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -480,7 +482,7 @@ public class Paint extends Application{
                                 ex.printStackTrace();
                             }
                             try {
-                                l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
+                                l = (eg.edu.alexu.csd.oop.Shapes.Shape) newShape[1].clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -495,7 +497,7 @@ public class Paint extends Application{
                             engine.refresh(graphics);
                             engine.RemoveLastShape();
                             try {
-                                newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                                newShape[1] = (eg.edu.alexu.csd.oop.Shapes.Shape) l.clone();
                             } catch (CloneNotSupportedException ex) {
                                 ex.printStackTrace();
                             }
@@ -510,7 +512,7 @@ public class Paint extends Application{
                             }
                         }
                         try {
-                            l = (eg.edu.alexu.csd.oop.draw.Shape) newShape[1].clone();
+                            l = (eg.edu.alexu.csd.oop.Shapes.Shape) newShape[1].clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -526,7 +528,7 @@ public class Paint extends Application{
                         engine.refresh(graphics);
                         engine.RemoveLastShape();
                         try {
-                            newShape[1] = (eg.edu.alexu.csd.oop.draw.Shape) l.clone();
+                            newShape[1] = (eg.edu.alexu.csd.oop.Shapes.Shape) l.clone();
                         } catch (CloneNotSupportedException ex) {
                             ex.printStackTrace();
                         }
@@ -550,15 +552,16 @@ public class Paint extends Application{
                     r.setProperties(length);
                     engine.addTempShape(r);
                     engine.refresh(graphics);
-                    engine.removeShape2(r);
+                    engine.removeShape(r);
+                    engine.updateUndo();
                     break;
                 }
                 default: {
-                    eg.edu.alexu.csd.oop.draw.Shape l;
-                    String pack = "eg.edu.alexu.csd.oop.draw";
+                    eg.edu.alexu.csd.oop.Shapes.Shape l;
+                    String pack = "eg.edu.alexu.csd.oop.Shapes";
                     try {
                         Class cl = Class.forName(pack + "." + current);
-                        l = (Shape) cl.newInstance();
+                        l = (eg.edu.alexu.csd.oop.Shapes.Shape) cl.newInstance();
                         l.setPosition(p.get());
                         Map<String, Double> length = new HashMap<>();
                         length.put("x2", e.getX());

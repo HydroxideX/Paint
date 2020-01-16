@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.oop.draw;
 
+import eg.edu.alexu.csd.oop.Shapes.Shape;
+
 public interface DrawingEngine {
 
     /* redraw all shapes on the canvas */

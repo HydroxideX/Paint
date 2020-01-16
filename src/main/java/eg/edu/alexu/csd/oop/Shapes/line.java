@@ -1,14 +1,10 @@
-package eg.edu.alexu.csd.oop.draw;
+package eg.edu.alexu.csd.oop.Shapes;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class line implements Shape {
-    private Point position;
-    private Map<String, Double> properties= new HashMap<String, Double>();
-    private Color color;
-
+public class line extends TwoPointShapes{
     public line(){
         position = new Point(0,0);
         color = Color.black;
@@ -20,14 +16,6 @@ public class line implements Shape {
         this.properties.putIfAbsent("y2", (double) position.y);
     }
 
-    public void setPosition(Point position) {
-        this.position = position;
-    }
-
-    public Point getPosition() {
-        return position;
-    }
-
     public void setProperties(Map<String, Double> properties) {
         this.properties = properties;
         this.properties.put("type",1d);
@@ -37,22 +25,12 @@ public class line implements Shape {
         this.properties.putIfAbsent("y2", (double) position.y);
     }
 
-    public Map<String, Double> getProperties() {
-        return properties;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
+    @Override
     public void setFillColor(Color color) {
         this.color = color;
     }
 
+    @Override
     public Color getFillColor() {
         return getColor();
     }
@@ -62,6 +40,7 @@ public class line implements Shape {
         canvas.drawLine(getPosition().x,getPosition().y,getProperties().get("x2").intValue(),getProperties().get("y2").intValue());
     }
 
+    @Override
     public Object clone() throws CloneNotSupportedException {
         line c=new line();
         c.setProperties(getProperties());
